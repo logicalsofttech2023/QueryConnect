@@ -1094,3 +1094,523 @@ body.menu-open {
     margin-left: 5.7rem;
   }
 }
+
+
+
+
+
+
+/* Multiple Files Preview Popup Styles */
+.previewPopupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.previewPopup {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 100vh;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+.previewPopupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  background: #f8f9fa;
+}
+
+.previewTitleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.previewTitleSection h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.filesCounter {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.closePopup {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #666;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.closePopup:hover {
+  background: #e9ecef;
+  color: #333;
+}
+
+/* Files Thumbnails */
+.filesThumbnails {
+  display: flex;
+  gap: 8px;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  overflow-x: auto;
+  background: #f8f9fa;
+}
+
+.thumbnail {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.thumbnail.active {
+  border-color: #007bff;
+}
+
+.thumbnailImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnailIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9ecef;
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+
+.thumbnailOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.8rem;
+}
+
+/* Main Preview Content */
+.previewPopupContent {
+  position: relative;
+  padding: 30px;
+  max-height: 400px;
+  min-height: 200px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+
+.popupPreviewImg {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.popupPreviewVideo {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+}
+
+/* Navigation Arrows */
+.navArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.navArrow:hover:not(:disabled) {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.navArrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.navArrowLeft {
+  left: 20px;
+}
+
+.navArrowRight {
+  right: 20px;
+}
+
+/* Files Summary */
+.filesSummary {
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  background: #f8f9fa;
+}
+
+.totalFiles {
+  text-align: center;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.totalFiles strong {
+  color: #007bff;
+}
+
+/* Preview Popup Actions */
+.previewPopupActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background: #f8f9fa;
+}
+
+.cancelBtn, .sendBtn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.cancelBtn {
+  background: #6c757d;
+  color: white;
+}
+
+.cancelBtn:hover {
+  background: #5a6268;
+}
+
+.sendBtn {
+  background: #007bff;
+  color: white;
+}
+
+.sendBtn:hover {
+  background: #0056b3;
+}
+
+/* Multiple Files Preview in Chat */
+.multipleFilesPreview {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  margin: 10px 20px;
+  overflow: hidden;
+}
+
+.filesPreviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: #e9ecef;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.filesPreviewTitle {
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.removeAllFiles {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.removeAllFiles:hover {
+  background: #dc3545;
+  color: white;
+}
+
+.filesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 15px;
+}
+
+.filePreviewItem {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.filePreviewItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filePreviewContent {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  position: relative;
+}
+
+.filePreviewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoPreview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filePreviewVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoIcon {
+  position: absolute;
+  color: white;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.filePreviewGeneric {
+  text-align: center;
+  padding: 10px;
+}
+
+.filePreviewGeneric .fileIcon {
+  font-size: 2rem;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+.filePreviewGeneric .fileName {
+  font-size: 0.7rem;
+  color: #495057;
+  word-break: break-all;
+}
+
+.filePreviewFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: white;
+  border-top: 1px solid #f8f9fa;
+}
+
+.fileInfoMini {
+  flex: 1;
+  min-width: 0;
+}
+
+.fileNameMini {
+  display: block;
+  font-size: 0.7rem;
+  color: #495057;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileSizeMini {
+  font-size: 0.65rem;
+  color: #6c757d;
+}
+
+.removeSingleFile {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  transition: all 0.3s ease;
+}
+
+.removeSingleFile:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* Generic File Preview in Popup */
+.popupFilePreviewGeneric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 30px;
+  text-align: center;
+  background: white;
+  border-radius: 8px;
+}
+
+.popupFileIcon {
+  font-size: 4rem;
+  color: #6c757d;
+  margin-bottom: 20px;
+}
+
+.popupFileInfo {
+  text-align: center;
+}
+
+.popupFileName {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  word-break: break-all;
+  font-size: 1.1rem;
+}
+
+.popupFileSize {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.popupFileType {
+  color: #6c757d;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .previewPopup {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .previewPopupContent {
+    max-height: 300px;
+    padding: 20px;
+  }
+  
+  .popupPreviewImg,
+  .popupPreviewVideo {
+    max-height: 250px;
+  }
+  
+  .previewPopupActions {
+    flex-direction: column;
+  }
+  
+  .cancelBtn, .sendBtn {
+    width: 100%;
+  }
+  
+  .filesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .filePreviewContent {
+    height: 80px;
+  }
+  
+  .navArrow {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+  
+  .navArrowLeft {
+    left: 10px;
+  }
+  
+  .navArrowRight {
+    right: 10px;
+  }
+}
