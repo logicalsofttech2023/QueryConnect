@@ -11,9 +11,9 @@ const Header = () => {
             <div className="row align-items-center">
               <div className="col-lg-2">
                 <div className="temp-logo">
-                  <a href="index.html">
+                  <Link to="/">
                     <img src="media/logo.png" alt="Logo" />
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="col-xl-6 col-lg-7 col-sm-7 col-8 d-flex justify-content-xl-start justify-content-center">

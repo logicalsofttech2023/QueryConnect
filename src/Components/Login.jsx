@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { FaPhone, FaEnvelope, FaUser, FaLock, FaArrowLeft, FaCheckCircle } from "react-icons/fa";
+import {
+  FaPhone,
+  FaEnvelope,
+  FaUser,
+  FaLock,
+  FaArrowLeft,
+  FaCheckCircle,
+} from "react-icons/fa";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 
@@ -14,14 +21,14 @@ const Login = () => {
     email: "",
     password: "",
     cpassword: "",
-    terms: false
+    terms: false,
   });
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -61,7 +68,7 @@ const Login = () => {
       email: "",
       password: "",
       cpassword: "",
-      terms: false
+      terms: false,
     });
   };
 
@@ -69,7 +76,6 @@ const Login = () => {
     e.preventDefault();
     console.log("Login data:", formData);
     navigate("/dashboard");
-    
   };
 
   return (
@@ -81,12 +87,14 @@ const Login = () => {
               <img src="media/logo_large.png" alt="logo" />
             </a>
           </div>
-          
+
           <div className="login-form-wrap">
             <ul className="nav nav-tabs" role="tablist">
               <li className="nav-item">
                 <button
-                  className={`nav-link ${activeTab === "login" ? "active" : ""}`}
+                  className={`nav-link ${
+                    activeTab === "login" ? "active" : ""
+                  }`}
                   onClick={() => setActiveTab("login")}
                 >
                   <i className="icofont-users-alt-4" /> Sign In
@@ -94,7 +102,9 @@ const Login = () => {
               </li>
               <li className="nav-item">
                 <button
-                  className={`nav-link ${activeTab === "registration" ? "active" : ""}`}
+                  className={`nav-link ${
+                    activeTab === "registration" ? "active" : ""
+                  }`}
                   onClick={() => {
                     setActiveTab("registration");
                     resetRegistration();
@@ -108,27 +118,26 @@ const Login = () => {
             <div className="tab-content">
               {/* LOGIN TAB */}
               <div
-                className={`tab-pane login-tab fade ${activeTab === "login" ? "show active" : ""}`}
+                className={`tab-pane login-tab fade ${
+                  activeTab === "login" ? "show active" : ""
+                }`}
                 id="login-tab"
                 role="tabpanel"
               >
                 <h3 className="item-title">
                   Sign Into <span>Your Account</span>
                 </h3>
-                
+
                 <div className="google-signin">
                   <a href="#">
                     <img src="media/figure/google-icon.png" alt="Google" />
                     Continue with Google
                   </a>
                 </div>
-                
-                
 
                 <form onSubmit={handleLogin}>
                   <div className="form-group">
                     <div className="input-with-icon">
-                      
                       <input
                         type="tel"
                         className="form-control"
@@ -141,7 +150,6 @@ const Login = () => {
 
                   <div className="form-group">
                     <div className="input-with-icon">
-                      
                       <input
                         type="password"
                         className="form-control"
@@ -166,21 +174,29 @@ const Login = () => {
 
               {/* REGISTRATION TAB */}
               <div
-                className={`tab-pane registration-tab fade ${activeTab === "registration" ? "show active" : ""}`}
+                className={`tab-pane registration-tab fade ${
+                  activeTab === "registration" ? "show active" : ""
+                }`}
                 id="registration-tab"
                 role="tabpanel"
               >
                 {/* Registration Progress Steps */}
                 <div className="registration-steps">
-                  <div className={`step ${registrationStep >= 1 ? 'active' : ''}`}>
+                  <div
+                    className={`step ${registrationStep >= 1 ? "active" : ""}`}
+                  >
                     <div className="step-number">1</div>
                     <span>Mobile</span>
                   </div>
-                  <div className={`step ${registrationStep >= 2 ? 'active' : ''}`}>
+                  <div
+                    className={`step ${registrationStep >= 2 ? "active" : ""}`}
+                  >
                     <div className="step-number">2</div>
                     <span>OTP</span>
                   </div>
-                  <div className={`step ${registrationStep >= 3 ? 'active' : ''}`}>
+                  <div
+                    className={`step ${registrationStep >= 3 ? "active" : ""}`}
+                  >
                     <div className="step-number">3</div>
                     <span>Details</span>
                   </div>
@@ -192,17 +208,20 @@ const Login = () => {
                   {registrationStep === 3 && "Complete Your Profile"}
                 </h3>
 
-                <form onSubmit={
-                  registrationStep === 1 ? handleSendOTP :
-                  registrationStep === 2 ? handleVerifyOTP :
-                  handleRegistration
-                }>
+                <form
+                  onSubmit={
+                    registrationStep === 1
+                      ? handleSendOTP
+                      : registrationStep === 2
+                      ? handleVerifyOTP
+                      : handleRegistration
+                  }
+                >
                   {/* STEP 1: Mobile Number */}
                   {registrationStep === 1 && (
                     <div className="step-content">
                       <div className="form-group">
                         <div className="input-with-icon">
-                          
                           <input
                             type="tel"
                             name="mobile"
@@ -232,10 +251,9 @@ const Login = () => {
                   {registrationStep === 2 && (
                     <div className="step-content">
                       <div className="otp-info">
-                        
                         <p>OTP sent to +91 {formData.mobile}</p>
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           className="resend-otp"
                           onClick={() => console.log("Resend OTP")}
                         >
@@ -266,8 +284,8 @@ const Login = () => {
                       </div>
 
                       <div className="back-to-mobile">
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           className="back-btn"
                           onClick={() => setRegistrationStep(1)}
                         >
@@ -282,7 +300,6 @@ const Login = () => {
                     <div className="step-content">
                       <div className="form-group">
                         <div className="input-with-icon">
-                          
                           <input
                             type="text"
                             name="name"
@@ -297,7 +314,6 @@ const Login = () => {
 
                       <div className="form-group">
                         <div className="input-with-icon">
-                          
                           <input
                             type="email"
                             name="email"
@@ -312,7 +328,6 @@ const Login = () => {
 
                       <div className="form-group">
                         <div className="input-with-icon">
-                          
                           <input
                             type="password"
                             name="password"
@@ -327,7 +342,6 @@ const Login = () => {
 
                       <div className="form-group">
                         <div className="input-with-icon">
-                          
                           <input
                             type="password"
                             name="cpassword"
@@ -338,16 +352,18 @@ const Login = () => {
                             required
                           />
                         </div>
-                        {formData.password && formData.cpassword && formData.password !== formData.cpassword && (
-                          <div className="password-error">Passwords don't match</div>
-                        )}
+                        {formData.password &&
+                          formData.cpassword &&
+                          formData.password !== formData.cpassword && (
+                            <div className="password-error">
+                              Passwords don't match
+                            </div>
+                          )}
                       </div>
 
-                      
-
                       <div className="form-group">
-                        <button 
-                          type="submit" 
+                        <button
+                          type="submit"
                           className="submit-btn"
                           disabled={formData.password !== formData.cpassword}
                         >
@@ -365,10 +381,18 @@ const Login = () => {
         <div className="map-line">
           <img src="media/banner/map_line.png" alt="map" />
           <ul className="map-marker">
-            <li><img src="media/banner/marker_1.png" alt="marker" /></li>
-            <li><img src="media/banner/marker_2.png" alt="marker" /></li>
-            <li><img src="media/banner/marker_3.png" alt="marker" /></li>
-            <li><img src="media/banner/marker_4.png" alt="marker" /></li>
+            <li>
+              <img src="media/banner/marker_1.png" alt="marker" />
+            </li>
+            <li>
+              <img src="media/banner/marker_2.png" alt="marker" />
+            </li>
+            <li>
+              <img src="media/banner/marker_3.png" alt="marker" />
+            </li>
+            <li>
+              <img src="media/banner/marker_4.png" alt="marker" />
+            </li>
           </ul>
         </div>
       </div>
