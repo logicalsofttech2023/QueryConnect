@@ -128,7 +128,7 @@ const Login = () => {
                 <form onSubmit={handleLogin}>
                   <div className="form-group">
                     <div className="input-with-icon">
-                      <FaPhone className="input-icon" />
+                      
                       <input
                         type="tel"
                         className="form-control"
@@ -141,7 +141,7 @@ const Login = () => {
 
                   <div className="form-group">
                     <div className="input-with-icon">
-                      <FaLock className="input-icon" />
+                      
                       <input
                         type="password"
                         className="form-control"
@@ -202,7 +202,7 @@ const Login = () => {
                     <div className="step-content">
                       <div className="form-group">
                         <div className="input-with-icon">
-                          <FaPhone className="input-icon" />
+                          
                           <input
                             type="tel"
                             name="mobile"
@@ -232,7 +232,7 @@ const Login = () => {
                   {registrationStep === 2 && (
                     <div className="step-content">
                       <div className="otp-info">
-                        <FaCheckCircle className="otp-success-icon" />
+                        
                         <p>OTP sent to +91 {formData.mobile}</p>
                         <button 
                           type="button" 
@@ -282,7 +282,7 @@ const Login = () => {
                     <div className="step-content">
                       <div className="form-group">
                         <div className="input-with-icon">
-                          <FaUser className="input-icon" />
+                          
                           <input
                             type="text"
                             name="name"
@@ -297,7 +297,7 @@ const Login = () => {
 
                       <div className="form-group">
                         <div className="input-with-icon">
-                          <FaEnvelope className="input-icon" />
+                          
                           <input
                             type="email"
                             name="email"
@@ -312,7 +312,7 @@ const Login = () => {
 
                       <div className="form-group">
                         <div className="input-with-icon">
-                          <FaLock className="input-icon" />
+                          
                           <input
                             type="password"
                             name="password"
@@ -327,7 +327,7 @@ const Login = () => {
 
                       <div className="form-group">
                         <div className="input-with-icon">
-                          <FaLock className="input-icon" />
+                          
                           <input
                             type="password"
                             name="cpassword"
