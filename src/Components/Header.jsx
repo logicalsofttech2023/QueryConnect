@@ -48,16 +48,6 @@ const Header = () => {
                       </a>
                     </li>
                     <li className="header-nav-item">
-                      <a href="services.html" className="menu-link">
-                        Services
-                      </a>
-                    </li>
-                    <li className="header-nav-item">
-                      <a href="blog.html" className="menu-link">
-                        Blog
-                      </a>
-                    </li>
-                    <li className="header-nav-item">
                       <a href="contact.html" className="menu-link">
                         Contact Us
                       </a>

@@ -424,7 +424,7 @@ select.form-control {
 /* Responsive Design */
 @media (max-width: 768px) {
   .wrapper {
-    padding: 20px 0;
+    padding: 0px 0;
   }
   
   .container {
