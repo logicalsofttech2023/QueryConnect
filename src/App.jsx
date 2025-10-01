@@ -1,0 +1,121 @@
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./Components/Header";
+import Banner from "./Components/Banner";
+import Footer from "./Components/Footer";
+import WhyChooseUs from "./Components/WhyChooseUs";
+import Team from "./Components/Team";
+import WhyChooseFluid from "./Components/WhyChooseFluid";
+import BannerApps from "./Components/BannerApps";
+import Login from "./Components/Login";
+import Profile from "./Components/Dashbaord/Profile";
+import PHeader from "./Components/Dashbaord/PHeader";
+import Sidebar from "./Components/Dashbaord/Sidebar";
+import MyQueries from "./Components/Dashbaord/MyQueries";
+import NewQueries from "./Components/Dashbaord/NewQueries";
+import Dashboard from "./Components/Dashbaord/Dashbaord";
+import Messages from "./Components/Dashbaord/Messages";
+
+// Layout for pages where Header & Footer are shown
+function MainLayout({ children }) {
+  return (
+    <div id="wrapper" className="wrapper overflow-hidden">
+      <Header />
+      {children}
+      <Footer />
+    </div>
+  );
+}
+
+function ProfileLayout({ children }) {
+  return (
+    <>
+      <PHeader />
+      <Sidebar />
+      {children}
+      <Footer />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Home Page with Layout */}
+        <Route
+          path="/"
+          element={
+            <MainLayout>
+              <Banner />
+              <WhyChooseUs />
+              <Team />
+              <WhyChooseFluid />
+              <BannerApps />
+            </MainLayout>
+          }
+        />
+
+        {/* Team Page with Layout */}
+        <Route
+          path="/team"
+          element={
+            <MainLayout>
+              <Team />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProfileLayout>
+              <Dashboard />
+            </ProfileLayout>
+          }
+        />
+
+        <Route
+          path="/messages"
+          element={
+            <ProfileLayout>
+              <Messages />
+            </ProfileLayout>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProfileLayout>
+              <Profile />
+            </ProfileLayout>
+          }
+        />
+
+        <Route
+          path="/myQueries"
+          element={
+            <ProfileLayout>
+              <MyQueries />
+            </ProfileLayout>
+          }
+        />
+
+        <Route
+          path="/newQueries"
+          element={
+            <ProfileLayout>
+              <NewQueries />
+            </ProfileLayout>
+          }
+        />
+
+        {/* Login Page without Header & Footer */}
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
