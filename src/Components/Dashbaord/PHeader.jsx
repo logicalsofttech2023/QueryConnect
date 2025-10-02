@@ -39,7 +39,7 @@ const PHeader = () => {
                     <div className="item-body">
                       <Link to="#" className="media">
                         <div className="item-img">
-                          <img src="media/figure/notifiy_1.png" alt="Notify" />
+                          <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
                           <h6 className="item-title">Diana Jameson</h6>
@@ -51,7 +51,7 @@ const PHeader = () => {
                       </Link>
                       <Link to="#" className="media">
                         <div className="item-img">
-                          <img src="media/figure/notifiy_2.png" alt="Notify" />
+                          <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
                           <h6 className="item-title">Quirty</h6>
@@ -63,7 +63,7 @@ const PHeader = () => {
                       </Link>
                       <Link to="#" className="media">
                         <div className="item-img">
-                          <img src="media/figure/notifiy_3.png" alt="Notify" />
+                          <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
                           <h6 className="item-title">Zinia Jessy</h6>
@@ -104,7 +104,7 @@ const PHeader = () => {
                     <div className="item-body">
                       <Link to="#" className="media">
                         <div className="item-img">
-                          <img src="media/figure/notifiy_1.png" alt="Notify" />
+                          <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
                           <h6 className="item-title">Diana Jameson</h6>
@@ -116,7 +116,7 @@ const PHeader = () => {
                       </Link>
                       <Link to="#" className="media">
                         <div className="item-img">
-                          <img src="media/figure/notifiy_2.png" alt="Notify" />
+                          <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
                           <h6 className="item-title">Quirty</h6>
@@ -128,7 +128,7 @@ const PHeader = () => {
                       </Link>
                       <Link to="#" className="media">
                         <div className="item-img">
-                          <img src="media/figure/notifiy_3.png" alt="Notify" />
+                          <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
                           <h6 className="item-title">Zinia Jessy</h6>
