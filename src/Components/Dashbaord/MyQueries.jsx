@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './MyQueries.css';
+import { Link } from 'react-router-dom';
 
 const MyQueries = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -17,7 +18,7 @@ const MyQueries = () => {
       queryType: "technical",
       status: "active",
       user: {
-        name: "John Doe",
+        name: "Test test",
         avatar: "media/figure/chat_5.jpg"
       },
       timestamp: "2 mins ago",
@@ -230,7 +231,7 @@ const MyQueries = () => {
                       </div>
                       <div className="media-body">
                         <div className="user-title">
-                          <a href="#">{query.user.name}</a>
+                          <Link to="/myQueryDetail">{query.user.name}</Link>
                         </div>
                         <ul className="entry-meta">
                           <li className="meta-privacy">
@@ -254,10 +255,10 @@ const MyQueries = () => {
                         ...
                       </button>
                       <div className="dropdown-menu dropdown-menu-right">
-                        <a className="dropdown-item" href="#">
+                        <a className="dropdown-item" >
                           Edit
                         </a>
-                        <a className="dropdown-item" href="#">
+                        <a className="dropdown-item" >
                           Delete
                         </a>
                       </div>
@@ -343,43 +344,43 @@ const MyQueries = () => {
                   <div className="post-footer">
                     <ul>
                       <li className="post-react">
-                        <a href="#">
+                        <a >
                           <i className="icofont-thumbs-up" />
                           React!
                         </a>
                         <ul className="react-list">
                           <li>
-                            <a href="#">
+                            <a >
                               <img src="media/figure/reaction_1.png" alt="Like" />
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a >
                               <img src="media/figure/reaction_3.png" alt="Like" />
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a >
                               <img src="media/figure/reaction_4.png" alt="Like" />
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a >
                               <img src="media/figure/reaction_2.png" alt="Like" />
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a >
                               <img src="media/figure/reaction_7.png" alt="Like" />
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a >
                               <img src="media/figure/reaction_6.png" alt="Like" />
                             </a>
                           </li>
                           <li>
-                            <a href="#">
+                            <a >
                               <img src="media/figure/reaction_5.png" alt="Like" />
                             </a>
                           </li>
@@ -387,7 +388,7 @@ const MyQueries = () => {
                       </li>
                       <li>
                         <a 
-                          href="#" 
+                           
                           onClick={(e) => {
                             e.preventDefault();
                             handleQueryClick(query);
@@ -398,33 +399,33 @@ const MyQueries = () => {
                         </a>
                       </li>
                       <li className="post-share">
-                        <a href="#" className="share-btn">
+                        <a  className="share-btn">
                           <i className="icofont-share" />
                           Share
                         </a>
                         <ul className="share-list">
                           <li>
-                            <a href="#" className="color-fb">
+                            <a  className="color-fb">
                               <i className="icofont-facebook" />
                             </a>
                           </li>
                           <li>
-                            <a href="#" className="color-messenger">
+                            <a  className="color-messenger">
                               <i className="icofont-facebook-messenger" />
                             </a>
                           </li>
                           <li>
-                            <a href="#" className="color-instagram">
+                            <a  className="color-instagram">
                               <i className="icofont-instagram" />
                             </a>
                           </li>
                           <li>
-                            <a href="#" className="color-whatsapp">
+                            <a  className="color-whatsapp">
                               <i className="icofont-brand-whatsapp" />
                             </a>
                           </li>
                           <li>
-                            <a href="#" className="color-twitter">
+                            <a  className="color-twitter">
                               <i className="icofont-twitter" />
                             </a>
                           </li>
@@ -437,7 +438,7 @@ const MyQueries = () => {
 
               {/* Load More Button */}
               <div className="block-box load-more-btn">
-                <a href="#" className="item-btn">
+                <a  className="item-btn">
                   <i className="icofont-refresh" />
                   Load More Queries
                 </a>

@@ -10,7 +10,7 @@ const WhyChooseUs = () => {
               <div className="why-choose-box">
                 <div className="item-subtitle">What We Do</div>
                 <h2 className="item-title">
-                  <span>Why Join Our</span> Cirkle from Social Network ?
+                  <span>Why Join Our</span> QueryConnect from Social Network ?
                 </h2>
                 <p>
                   Social hen an unknown printer took a galley of type and
@@ -18,7 +18,7 @@ const WhyChooseUs = () => {
                   five centuries but also the leap into electronic typesetting,
                   remaining essentialunchanged they popularised with release.
                 </p>
-                <a href="login.html" className="button-slide">
+                <a className="button-slide">
                   <span className="btn-text">Join Our Community</span>
                   <span className="btn-icon">
                     <svg

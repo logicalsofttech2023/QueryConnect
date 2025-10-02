@@ -15,6 +15,9 @@ import MyQueries from "./Components/Dashbaord/MyQueries";
 import NewQueries from "./Components/Dashbaord/NewQueries";
 import Dashboard from "./Components/Dashbaord/Dashbaord";
 import Messages from "./Components/Dashbaord/Messages";
+import Notifications from "./Components/Dashbaord/Notifications";
+import Support from "./Components/Dashbaord/Support";
+import MyQueryDetail from "./Components/Dashbaord/MyQueryDetail";
 
 // Layout for pages where Header & Footer are shown
 function MainLayout({ children }) {
@@ -107,6 +110,33 @@ function App() {
           element={
             <ProfileLayout>
               <NewQueries />
+            </ProfileLayout>
+          }
+        />
+
+        <Route
+          path="/notifications"
+          element={
+            <ProfileLayout>
+              <Notifications />
+            </ProfileLayout>
+          }
+        />
+
+        <Route
+          path="/support"
+          element={
+            <ProfileLayout>
+              <Support />
+            </ProfileLayout>
+          }
+        />
+
+        <Route
+          path="/myQueryDetail"
+          element={
+            <ProfileLayout>
+              <MyQueryDetail />
             </ProfileLayout>
           }
         />

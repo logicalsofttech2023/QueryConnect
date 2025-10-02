@@ -10,14 +10,14 @@ const WhyChooseFluid = () => {
               <div className="why-choose-content">
                 <div className="content-box">
                   <h2 className="item-title">
-                    Cirkle Makes Your Life Easier &amp; Simple
+                    QueryConnect Makes Your Life Easier &amp; Simple
                   </h2>
                   <p>
                     Aliquam lorem ante dapibus in viverra quis feugiat atellu
                     Peaselus vierra nullaut metus varius laoreet unknown printer
                     took scrambled make.
                   </p>
-                  <a href="about-us.html" className="button-slide">
+                  <a className="button-slide">
                     <span className="btn-text">Read More</span>
                     <span className="btn-icon">
                       <svg

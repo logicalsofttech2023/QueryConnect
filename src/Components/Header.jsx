@@ -31,7 +31,7 @@ const Header = () => {
               <div className="col-lg-2">
                 <div className="temp-logo">
                   <Link to="/">
-                    <img src="media/logo.png" alt="Logo" />
+                    <img src="media/newLogo.png" alt="Logo" />
                   </Link>
                 </div>
               </div>
@@ -43,8 +43,8 @@ const Header = () => {
                     </button>
                   </div>
                   <div className="mobile-logo">
-                    <a href="index.html">
-                      <img src="media/mobile_logo.png" alt="Logo" />
+                    <a>
+                      <img src="media/newLogo.png" alt="Logo" />
                     </a>
                   </div>
                 </div>
@@ -58,17 +58,17 @@ const Header = () => {
                   </button>
                   <ul className="menu-content">
                     <li className="header-nav-item">
-                      <a href="index.html" className="menu-link active">
+                      <a className="menu-link active">
                         Home
                       </a>
                     </li>
                     <li className="header-nav-item">
-                      <a href="about.html" className="menu-link">
+                      <a className="menu-link">
                         About Us
                       </a>
                     </li>
                     <li className="header-nav-item">
-                      <a href="contact.html" className="menu-link">
+                      <a className="menu-link">
                         Contact Us
                       </a>
                     </li>
@@ -79,19 +79,19 @@ const Header = () => {
                 <div className="header-action">
                   <ul>
                     <li className="header-social">
-                      <a href="#">
+                      <a >
                         <i className="icofont-facebook" />
                       </a>
-                      <a href="#">
+                      <a >
                         <i className="icofont-twitter" />
                       </a>
-                      <a href="#">
+                      <a >
                         <i className="icofont-linkedin" />
                       </a>
-                      <a href="#">
+                      <a >
                         <i className="icofont-pinterest" />
                       </a>
-                      <a href="#">
+                      <a >
                         <i className="icofont-skype" />
                       </a>
                     </li>

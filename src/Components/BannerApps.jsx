@@ -9,7 +9,7 @@ const BannerApps = () => {
             <div className="col-lg-6 d-flex align-items-center">
               <div className="banner-content">
                 <h2 className="item-title">
-                  Fully Responsive Cirkle WordPress Theme
+                  Fully Responsive QueryConnect WordPress Theme
                 </h2>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
@@ -17,7 +17,7 @@ const BannerApps = () => {
                   Ut enim ad minim veniam, quis nostrud exercitation.
                 </p>
                 <a
-                  href="https://themeforest.net/user/radiustheme/portfolio"
+                 
                   className="button-slide"
                 >
                   <span className="btn-text">Purchase Now</span>

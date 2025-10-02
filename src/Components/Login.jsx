@@ -22,6 +22,9 @@ const Login = () => {
     password: "",
     cpassword: "",
     terms: false,
+    day: "",
+    time: "",
+    test: "",
   });
 
   const handleInputChange = (e) => {
@@ -50,12 +53,21 @@ const Login = () => {
     }
   };
 
+  const handleStep3Submit = (e) => {
+    e.preventDefault();
+    // Validate passwords match
+    if (formData.password === formData.cpassword) {
+      console.log("Step 3 data:", formData);
+      setRegistrationStep(4);
+    }
+  };
+
   const handleRegistration = (e) => {
     e.preventDefault();
-    if (formData.password === formData.cpassword && formData.terms) {
-      console.log("Registration data:", formData);
+    if (formData.password === formData.cpassword) {
+      console.log("Final Registration data:", formData);
+      // Here you would typically send data to your backend
       navigate("/dashboard");
-      // Handle registration logic here
     }
   };
 
@@ -69,6 +81,9 @@ const Login = () => {
       password: "",
       cpassword: "",
       terms: false,
+      day: "",
+      time: "",
+      test: "",
     });
   };
 
@@ -83,8 +98,8 @@ const Login = () => {
       <div className="content-wrap">
         <div className="login-content">
           <div className="item-logo">
-            <a href="#">
-              <img src="media/logo_large.png" alt="logo" />
+            <a >
+              <img src="media/newLogo.png" alt="logo" style={{ maxWidth: "190px"}} />
             </a>
           </div>
 
@@ -129,7 +144,7 @@ const Login = () => {
                 </h3>
 
                 <div className="google-signin">
-                  <a href="#">
+                  <a >
                     <img src="media/figure/google-icon.png" alt="Google" />
                     Continue with Google
                   </a>
@@ -143,6 +158,8 @@ const Login = () => {
                         className="form-control"
                         name="mobile"
                         placeholder="Mobile Number"
+                        value={formData.mobile}
+                        onChange={handleInputChange}
                         required
                       />
                     </div>
@@ -155,13 +172,15 @@ const Login = () => {
                         className="form-control"
                         name="password"
                         placeholder="Password"
+                        value={formData.password}
+                        onChange={handleInputChange}
                         required
                       />
                     </div>
                   </div>
 
                   <div className="form-group reset-password">
-                    <a href="#">Forgot Password?</a>
+                    <a >Forgot Password?</a>
                   </div>
 
                   <div className="form-group">
@@ -200,12 +219,19 @@ const Login = () => {
                     <div className="step-number">3</div>
                     <span>Details</span>
                   </div>
+                  <div
+                    className={`step ${registrationStep >= 4 ? "active" : ""}`}
+                  >
+                    <div className="step-number">4</div>
+                    <span>Scheduler</span>
+                  </div>
                 </div>
 
                 <h3 className="item-title">
                   {registrationStep === 1 && "Enter Your Mobile Number"}
                   {registrationStep === 2 && "Verify OTP"}
                   {registrationStep === 3 && "Complete Your Profile"}
+                  {registrationStep === 4 && "Optional: Schedule a Test"}
                 </h3>
 
                 <form
@@ -214,6 +240,8 @@ const Login = () => {
                       ? handleSendOTP
                       : registrationStep === 2
                       ? handleVerifyOTP
+                      : registrationStep === 3
+                      ? handleStep3Submit
                       : handleRegistration
                   }
                 >
@@ -362,13 +390,89 @@ const Login = () => {
                       </div>
 
                       <div className="form-group">
+                        <label className="terms-checkbox">
+                          <input
+                            type="checkbox"
+                            name="terms"
+                            checked={formData.terms}
+                            onChange={handleInputChange}
+                            required
+                            style={{ height: "12px" , marginRight: "9px" }}
+                          />
+                          <span>I agree to the Terms and Conditions</span>
+                        </label>
+                      </div>
+
+                      <div className="form-group">
                         <button
                           type="submit"
                           className="submit-btn"
-                          disabled={formData.password !== formData.cpassword}
+                          disabled={
+                            formData.password !== formData.cpassword ||
+                            !formData.terms
+                          }
+                        >
+                          Continue to Schedule
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* STEP 4: Scheduler (Optional) */}
+                  {registrationStep === 4 && (
+                    <div className="step-content">
+                      <div className="scheduler-optional">
+                        <p className="optional-note">
+                          <FaCheckCircle /> Schedule a test now or skip to complete registration
+                        </p>
+                      </div>
+
+                      <div className="form-group">
+                        <label>Select Day (optional)</label>
+                        <input
+                          type="date"
+                          name="day"
+                          className="form-control"
+                          value={formData.day}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>Select Time (optional)</label>
+                        <input
+                          type="time"
+                          name="time"
+                          className="form-control"
+                          value={formData.time}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>Select Test (optional)</label>
+                        <select
+                          name="test"
+                          className="form-control"
+                          value={formData.test}
+                          onChange={handleInputChange}
+                        >
+                          <option value="">-- Select Test --</option>
+                          <option value="eye-test">Eye Test</option>
+                          <option value="vision-test">Vision Test</option>
+                          <option value="color-blind-test">Color Blind Test</option>
+                        </select>
+                      </div>
+
+                      <div className="form-group button-group">
+                        <button 
+                          type="button" 
+                          className="submit-btn"
+                          onClick={handleRegistration}
                         >
                           Complete Registration
                         </button>
+                        
                       </div>
                     </div>
                   )}

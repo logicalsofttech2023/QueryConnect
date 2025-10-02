@@ -77,7 +77,7 @@ const Sidebar = () => {
           <div className="sidebar-toggle">
             <div className="sidebar-logo">
               <Link to="/" onClick={() => handleLinkClick("/")}>
-                <img src="media/logo2.png" alt="Logo" />
+                <img src="media/newLogo.png" alt="Logo" style={{ maxWidth: "100px"}} />
               </Link>
             </div>
             <button

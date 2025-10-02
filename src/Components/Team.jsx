@@ -102,7 +102,7 @@ const Team = () => {
                         </div>
                         <div className="item-content">
                           <h3 className="item-title">
-                            <a href="user-timeline.html">Ketty Rio</a>
+                            <a >Ketty Rio</a>
                           </h3>
                           <div className="group-count">
                             <span>25</span> - Fashion
@@ -117,7 +117,7 @@ const Team = () => {
                         </div>
                         <div className="item-content">
                           <h3 className="item-title">
-                            <a href="user-timeline.html">Johnson John</a>
+                            <a >Johnson John</a>
                           </h3>
                           <div className="group-count">
                             <span>25</span> - Fashion
@@ -132,7 +132,7 @@ const Team = () => {
                         </div>
                         <div className="item-content">
                           <h3 className="item-title">
-                            <a href="user-timeline.html">Fahim Rahman</a>
+                            <a >Fahim Rahman</a>
                           </h3>
                           <div className="group-count">
                             <span>25</span> - Fashion
@@ -147,7 +147,7 @@ const Team = () => {
                         </div>
                         <div className="item-content">
                           <h3 className="item-title">
-                            <a href="user-timeline.html">Mamunur Rashid</a>
+                            <a >Mamunur Rashid</a>
                           </h3>
                           <div className="group-count">
                             <span>25</span> - Fashion
@@ -162,7 +162,7 @@ const Team = () => {
                         </div>
                         <div className="item-content">
                           <h3 className="item-title">
-                            <a href="user-timeline.html">Ketty Rio</a>
+                            <a >Ketty Rio</a>
                           </h3>
                           <div className="group-count">
                             <span>25</span> - Fashion
@@ -177,7 +177,7 @@ const Team = () => {
                         </div>
                         <div className="item-content">
                           <h3 className="item-title">
-                            <a href="user-timeline.html">Ketty Rio</a>
+                            <a >Ketty Rio</a>
                           </h3>
                           <div className="group-count">
                             <span>25</span> - Fashion
@@ -217,7 +217,7 @@ const Team = () => {
             </div>
           </div>
           <div className="see-all-btn">
-            <a href="forums-members.html" className="button-slide">
+            <a className="button-slide">
               <span className="btn-text">Discover All Member</span>
               <span className="btn-icon">
                 <svg

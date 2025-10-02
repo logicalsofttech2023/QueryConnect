@@ -7,10 +7,10 @@ const PHeader = () => {
       <header className="fixed-header">
         <div className="header-menu">
           <div className="navbar">
-            <div className="nav-item d-none d-sm-block">
+            <div className="nav-item d-sm-block">
               <div className="header-logo">
                 <Link to="/">
-                  <img src="media/logo.png" alt="Cirkle" />
+                  <img src="media/newLogo.png" alt="QueryConnect" style={{ maxWidth: "140px"}} />
                 </Link>
               </div>
             </div>

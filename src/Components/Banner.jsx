@@ -10,14 +10,14 @@ const Banner = () => {
             data-sal="zoom-out"
             data-sal-duration={1000}
           >
-            <h1 className="item-title">Cirkle Community</h1>
+            <h1 className="item-title">QueryConnect Community</h1>
             <p>
               Having real social contacts can sometimes be difficult FUN,
               everything becomes much simpler!
             </p>
             <div className="item-number">10,95,219</div>
             <div className="conn-people">Connected People</div>
-            <a href="newsfeed.html" className="button-slide">
+            <a className="button-slide">
               <span className="btn-text">Discover Now</span>
               <span className="btn-icon">
                 <svg
