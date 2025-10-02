@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+
+    // initial state set
+    setIsMobile(mq.matches);
+
+    const handler = (e) => setIsMobile(e.matches);
+
+    if (mq.addEventListener) mq.addEventListener("change", handler);
+    else mq.addListener(handler);
+
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", handler);
+      else mq.removeListener(handler);
+    };
+  }, []);
   return (
-    <div>
+    <div className={`${isMobile ? "sticky-header sal-disabled mobile-menu-wrapper" : ""}`}>
+      <div className={`wrapper overflow-hidden ${isOpen ? "mobile-menu-expand" : ""}`}>
       <header className="header">
         <div id="rt-sticky-placeholder" />
         <div id="header-menu" className="header-menu menu-layout1">
@@ -19,7 +38,7 @@ const Header = () => {
               <div className="col-xl-6 col-lg-7 col-sm-7 col-8 d-flex justify-content-xl-start justify-content-center">
                 <div className="mobile-nav-item hide-on-desktop-menu">
                   <div className="mobile-toggler">
-                    <button type="button" className="mobile-menu-toggle">
+                    <button type="button" className="mobile-menu-toggle" onClick={() => setIsOpen(true)}>
                       <i className="icofont-navigation-menu" />
                     </button>
                   </div>
@@ -33,6 +52,7 @@ const Header = () => {
                   <button
                     type="button"
                     className="mobile-menu-toggle mobile-toggle-close"
+                    onClick={() => setIsOpen(false)}
                   >
                     <i className="icofont-close" />
                   </button>
@@ -75,7 +95,7 @@ const Header = () => {
                         <i className="icofont-skype" />
                       </a>
                     </li>
-                    
+
                     <li className="login-btn">
                       <Link to="/login" className="item-btn">
                         <i className="fas fa-user" />
@@ -89,6 +109,7 @@ const Header = () => {
           </div>
         </div>
       </header>
+      </div>
     </div>
   );
 };
