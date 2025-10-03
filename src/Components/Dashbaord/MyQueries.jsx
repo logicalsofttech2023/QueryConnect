@@ -195,8 +195,8 @@ const MyQueries = () => {
           <div className="row">
             <div className="col-lg-12">
               {/* Filter Section */}
-              <div className="block-box filter-tabs mb-4">
-                <div className="filter-header">
+              <div className="block-box filter-tabs mb-4" style={{ width: "100%"}}>
+                <div className="filter-header" style={{ width: "100%"}} >
                   <h3>My Queries</h3>
                   <div className="filter-buttons">
                     <button 

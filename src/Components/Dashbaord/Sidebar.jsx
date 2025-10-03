@@ -127,6 +127,14 @@ const Sidebar = () => {
                   <span className="menu-title">Messages</span>
                 </Link>
               </li>
+
+              <li>
+                <Link to="/callHistory" className="menu-link" onClick={() => handleLinkClick("/messages")}>
+                  <i className="icofont-phone" />
+                  <span className="menu-title">CallHistory</span>
+                </Link>
+              </li>
+
               <li>
                 <Link to="/support" className="menu-link" onClick={() => handleLinkClick("/support")}>
                   <i className="icofont-support" />

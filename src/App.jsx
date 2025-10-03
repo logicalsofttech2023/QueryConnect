@@ -18,6 +18,8 @@ import Messages from "./Components/Dashbaord/Messages";
 import Notifications from "./Components/Dashbaord/Notifications";
 import Support from "./Components/Dashbaord/Support";
 import MyQueryDetail from "./Components/Dashbaord/MyQueryDetail";
+import MyImageEditor from "./Components/Dashbaord/MyImageEditor";
+import CallHistory from "./Components/Dashbaord/CallHistory";
 
 // Layout for pages where Header & Footer are shown
 function MainLayout({ children }) {
@@ -137,6 +139,24 @@ function App() {
           element={
             <ProfileLayout>
               <MyQueryDetail />
+            </ProfileLayout>
+          }
+        />
+
+        <Route
+          path="/myImageEditor"
+          element={
+            <ProfileLayout>
+              <MyImageEditor />
+            </ProfileLayout>
+          }
+        />
+
+        <Route
+          path="/callHistory"
+          element={
+            <ProfileLayout>
+              <CallHistory />
             </ProfileLayout>
           }
         />

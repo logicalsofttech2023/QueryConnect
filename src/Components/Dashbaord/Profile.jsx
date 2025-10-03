@@ -29,10 +29,10 @@ const Profile = () => {
 
   // Sample user data - in real app, this would come from props or context
   const [userData, setUserData] = useState({
-    name: "Rebeca Powel",
+    name: "Sneha Patel",
     email: "rebeca.powel@example.com",
     mobile: "+1 (555) 123-4567",
-    location: "United State of America",
+    location: "Indore India",
     joinDate: "2024-01-15",
     dateOfBirth: "1990-05-15",
     preferredTime: "14:30",
@@ -197,16 +197,16 @@ const Profile = () => {
                   
                   <div className="user-stats">
                     <div className="stat-item">
-                      <span className="stat-number">30</span>
-                      <span className="stat-label">Query</span>
+                      <span className="stat-number" style={{ color: '#fff' }}>30</span>
+                      <span className="stat-label" style={{ color: '#fff' }}>Query</span>
                     </div>
                     <div className="stat-item">
-                      <span className="stat-number">12</span>
-                      <span className="stat-label">Comments</span>
+                      <span className="stat-number" style={{ color: '#fff' }}>12</span>
+                      <span className="stat-label" style={{ color: '#fff' }}>Comments</span>
                     </div>
                     <div className="stat-item">
-                      <span className="stat-number">1.2k</span>
-                      <span className="stat-label">Views</span>
+                      <span className="stat-number" style={{ color: '#fff' }}>1.2k</span>
+                      <span className="stat-label" style={{ color: '#fff' }}>Views</span>
                     </div>
                     
                   </div>

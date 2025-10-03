@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {
-  FaFilter,
-  FaUserPlus,
-  FaSearch,
-  FaPhone,
-  FaVideo,
-  FaCheck,
-  FaPaperPlane,
+import { 
+  FaFilter, 
+  FaUserPlus, 
+  FaSearch, 
+  FaPhone, 
+  FaVideo, 
+  FaCheck, 
+  FaPaperPlane, 
   FaPaperclip,
   FaTimes,
   FaBars,
   FaArrowLeft,
   FaImages,
-  FaFile,
+  FaFile
 } from "react-icons/fa";
 import "./Messages.css";
-import MyImageEditor from "./MyImageEditor";
 
 const Messages = () => {
   const [message, setMessage] = useState("");
@@ -25,9 +24,6 @@ const Messages = () => {
   const [showPreviewPopup, setShowPreviewPopup] = useState(false);
   const [pendingFiles, setPendingFiles] = useState([]);
   const [currentPreviewIndex, setCurrentPreviewIndex] = useState(0);
-  const [showEditor, setShowEditor] = useState(false);
-  const [imageToEdit, setImageToEdit] = useState(null);
-  const [imageEditIndex, setImageEditIndex] = useState(null);
 
   // Sample chat data with online status
   const chats = [
@@ -37,7 +33,7 @@ const Messages = () => {
       message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
       avatar: "media/figure/chat_5.jpg",
       online: true,
-      lastSeen: "2 min ago",
+      lastSeen: "2 min ago"
     },
     {
       id: 2,
@@ -45,7 +41,7 @@ const Messages = () => {
       message: "Hey there! How are you doing?",
       avatar: "media/figure/chat_5.jpg",
       online: false,
-      lastSeen: "1 hour ago",
+      lastSeen: "1 hour ago"
     },
     {
       id: 3,
@@ -53,8 +49,8 @@ const Messages = () => {
       message: "Let's meet tomorrow for coffee",
       avatar: "media/figure/chat_5.jpg",
       online: true,
-      lastSeen: "just now",
-    },
+      lastSeen: "just now"
+    }
   ];
 
   const currentChat = {
@@ -62,7 +58,7 @@ const Messages = () => {
     name: "David Johnson",
     avatar: "media/figure/chat_5.jpg",
     online: true,
-    lastSeen: "2 min ago",
+    lastSeen: "2 min ago"
   };
 
   // Check if mobile on mount and resize
@@ -70,19 +66,19 @@ const Messages = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
+    
     checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Close menu when clicking on overlay or selecting a chat
   useEffect(() => {
     if (isMobileMenuOpen) {
-      document.body.classList.add("menu-open");
+      document.body.classList.add('menu-open');
     } else {
-      document.body.classList.remove("menu-open");
+      document.body.classList.remove('menu-open');
     }
   }, [isMobileMenuOpen]);
 
@@ -95,47 +91,16 @@ const Messages = () => {
     }
   };
 
-  const handleEditImage = (fileIndex) => {
-    console.log("Editing image at index:", fileIndex);
-    
-    const file = pendingFiles[fileIndex];
-    if (file && file.type.startsWith("image/")) {
-      setImageToEdit(URL.createObjectURL(file));
-      setImageEditIndex(fileIndex);
-      setShowEditor(true);
-    }
+  const removeFile = (index) => {
+    const newFiles = files.filter((_, i) => i !== index);
+    setFiles(newFiles);
   };
 
-  const handleEditedImage = (dataUrl) => {
-    if (dataUrl && imageEditIndex !== null) {
-      // Convert data URL to blob
-      fetch(dataUrl)
-        .then(res => res.blob())
-        .then(blob => {
-          // Create a new file with the edited image
-          const editedFile = new File([blob], `edited-${pendingFiles[imageEditIndex].name}`, {
-            type: 'image/png'
-          });
-          
-          // Update the pending files array with the edited file
-          const updatedFiles = [...pendingFiles];
-          updatedFiles[imageEditIndex] = editedFile;
-          setPendingFiles(updatedFiles);
-        })
-        .catch(error => {
-          console.error('Error converting edited image:', error);
-        });
-    }
-    
-    setShowEditor(false);
-    setImageToEdit(null);
-    setImageEditIndex(null);
-  };
-
-  const cancelEditImage = () => {
-    setShowEditor(false);
-    setImageToEdit(null);
-    setImageEditIndex(null);
+  const removeAllFiles = () => {
+    setFiles([]);
+    setPendingFiles([]);
+    setShowPreviewPopup(false);
+    document.getElementById("fileInput").value = "";
   };
 
   const confirmSendFiles = () => {
@@ -179,13 +144,15 @@ const Messages = () => {
   };
 
   const nextPreview = () => {
-    setCurrentPreviewIndex((prev) =>
+    setCurrentPreviewIndex((prev) => 
       prev < pendingFiles.length - 1 ? prev + 1 : prev
     );
   };
 
   const prevPreview = () => {
-    setCurrentPreviewIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    setCurrentPreviewIndex((prev) => 
+      prev > 0 ? prev - 1 : prev
+    );
   };
 
   const getFileIcon = (fileType) => {
@@ -209,36 +176,17 @@ const Messages = () => {
           {isMobileMenuOpen ? <FaArrowLeft /> : <FaBars />}
         </button>
       )}
-
+      
       {/* Mobile Overlay */}
       {isMobile && (
-        <div
-          className={`mobileOverlay ${isMobileMenuOpen ? "active" : ""}`}
+        <div 
+          className={`mobileOverlay ${isMobileMenuOpen ? 'active' : ''}`}
           onClick={closeMobileMenu}
         />
       )}
 
-      {/* Image Editor Popup */}
-      {showEditor && imageToEdit && (
-        <div className="editorPopupOverlay">
-          <div className="editorPopup">
-            <div className="editorPopupHeader">
-              <h3>Edit Image</h3>
-              <button className="closePopup" onClick={cancelEditImage}>
-                <FaTimes />
-              </button>
-            </div>
-            <MyImageEditor 
-              imageUrl={imageToEdit} 
-              onComplete={handleEditedImage}
-              onCancel={cancelEditImage}
-            />
-          </div>
-        </div>
-      )}
-
       {/* Multiple Files Preview Popup */}
-      {showPreviewPopup && pendingFiles.length > 0 && !showEditor && (
+      {showPreviewPopup && pendingFiles.length > 0 && (
         <div className="previewPopupOverlay">
           <div className="previewPopup">
             <div className="previewPopupHeader">
@@ -252,34 +200,21 @@ const Messages = () => {
                 <FaTimes />
               </button>
             </div>
-
+            
             {/* Files List Thumbnails */}
             <div className="filesThumbnails">
               {pendingFiles.map((file, index) => (
-                <div
+                <div 
                   key={index}
-                  className={`thumbnail ${
-                    index === currentPreviewIndex ? "active" : ""
-                  }`}
+                  className={`thumbnail ${index === currentPreviewIndex ? 'active' : ''}`}
                   onClick={() => setCurrentPreviewIndex(index)}
                 >
                   {file.type.startsWith("image/") ? (
-                    <>
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`preview-${index}`}
-                        className="thumbnailImg"
-                      />
-                      <button
-                        className="editImageBtn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditImage(index);
-                        }}
-                      >
-                        Edit
-                      </button>
-                    </>
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={`preview-${index}`}
+                      className="thumbnailImg"
+                    />
                   ) : (
                     <div className="thumbnailIcon">
                       {getFileIcon(file.type)}
@@ -320,18 +255,18 @@ const Messages = () => {
                   </div>
                 </div>
               )}
-
+              
               {/* Navigation Arrows for multiple files */}
               {pendingFiles.length > 1 && (
                 <>
-                  <button
+                  <button 
                     className="navArrow navArrowLeft"
                     onClick={prevPreview}
                     disabled={currentPreviewIndex === 0}
                   >
                     ‹
                   </button>
-                  <button
+                  <button 
                     className="navArrow navArrowRight"
                     onClick={nextPreview}
                     disabled={currentPreviewIndex === pendingFiles.length - 1}
@@ -345,11 +280,11 @@ const Messages = () => {
             {/* Files Summary */}
             <div className="filesSummary">
               <div className="totalFiles">
-                <strong>{pendingFiles.length}</strong> file(s) selected • Total
-                size: <strong>{getTotalFileSize(pendingFiles)} MB</strong>
+                <strong>{pendingFiles.length}</strong> file(s) selected • 
+                Total size: <strong>{getTotalFileSize(pendingFiles)} MB</strong>
               </div>
             </div>
-
+            
             <div className="previewPopupActions">
               <button className="cancelBtn" onClick={cancelSendFiles}>
                 Cancel All
@@ -364,7 +299,7 @@ const Messages = () => {
 
       <main className="MessagesMain">
         {/* LEFT SIDE NAV */}
-        <div className={`sideNav2 ${isMobileMenuOpen ? "mobileOpen" : ""}`}>
+        <div className={`sideNav2 ${isMobileMenuOpen ? 'mobileOpen' : ''}`}>
           <div className="SideNavhead">
             <h2>Chats</h2>
           </div>
@@ -375,9 +310,9 @@ const Messages = () => {
           </div>
 
           <div className="chatList">
-            {chats.map((chat) => (
-              <div
-                key={chat.id}
+            {chats.map(chat => (
+              <div 
+                key={chat.id} 
                 className="group"
                 onClick={() => handleChatSelect(chat.id)}
               >
@@ -385,17 +320,13 @@ const Messages = () => {
                   <div className="avatar">
                     <img src={chat.avatar} alt={chat.name} />
                   </div>
-                  <div
-                    className={`statusDot ${
-                      chat.online ? "online" : "offline"
-                    }`}
-                  ></div>
+                  <div className={`statusDot ${chat.online ? 'online' : 'offline'}`}></div>
                 </div>
                 <div className="chatInfo">
                   <div className="chatHeader">
                     <p className="GroupName">{chat.name}</p>
                     <span className="lastSeen">
-                      {chat.online ? "Online" : chat.lastSeen}
+                      {chat.online ? 'Online' : chat.lastSeen}
                     </span>
                   </div>
                   <p className="GroupDescrp">{chat.message}</p>
@@ -406,25 +337,19 @@ const Messages = () => {
         </div>
 
         {/* CHAT SECTION */}
-        <section className={`Chat ${isMobileMenuOpen ? "menuOpen" : ""}`}>
+        <section className={`Chat ${isMobileMenuOpen ? 'menuOpen' : ''}`}>
           <div className="ChatHead">
             <div className="chatUser">
               <div className="avatarContainer">
                 <div className="avatar">
                   <img src={currentChat.avatar} alt={currentChat.name} />
                 </div>
-                <div
-                  className={`statusDot ${
-                    currentChat.online ? "online" : "offline"
-                  }`}
-                ></div>
+                <div className={`statusDot ${currentChat.online ? 'online' : 'offline'}`}></div>
               </div>
               <div className="userInfo">
                 <p className="GroupName">{currentChat.name}</p>
                 <span className="userStatus">
-                  {currentChat.online
-                    ? "Online"
-                    : `Last seen ${currentChat.lastSeen}`}
+                  {currentChat.online ? 'Online' : `Last seen ${currentChat.lastSeen}`}
                 </span>
               </div>
             </div>
