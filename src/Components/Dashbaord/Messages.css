@@ -2347,31 +2347,7 @@ body.menu-open {
   background: #0056b3;
 }
 
-/* Editor Popup */
-.editorPopup {
-  background: #fff;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 800px;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
 
-.editorPopupHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.editorPopupHeader h3 {
-  margin: 0;
-  color: #333;
-  font-size: 1.2rem;
-}
 
 /* Call History Popup */
 .callHistoryPopup {
