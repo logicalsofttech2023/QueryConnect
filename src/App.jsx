@@ -166,9 +166,9 @@ function App() {
         <Route
           path="/jitsiCall"
           element={
-            <MainLayout>
+            <ProfileLayout>
               <JitsiCall />
-            </MainLayout>
+            </ProfileLayout>
           }
         />
 
