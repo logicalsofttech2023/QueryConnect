@@ -20,6 +20,7 @@ import Support from "./Components/Dashbaord/Support";
 import MyQueryDetail from "./Components/Dashbaord/MyQueryDetail";
 import MyImageEditor from "./Components/Dashbaord/MyImageEditor";
 import CallHistory from "./Components/Dashbaord/CallHistory";
+import JitsiCall from "./Components/Dashbaord/JitsiCall";
 
 // Layout for pages where Header & Footer are shown
 function MainLayout({ children }) {
@@ -158,6 +159,16 @@ function App() {
             <ProfileLayout>
               <CallHistory />
             </ProfileLayout>
+          }
+        />
+
+        
+        <Route
+          path="/jitsiCall"
+          element={
+            <MainLayout>
+              <JitsiCall />
+            </MainLayout>
           }
         />
 

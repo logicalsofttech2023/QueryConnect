@@ -2349,17 +2349,7 @@ body.menu-open {
 
 
 
-/* Call History Popup */
-.callHistoryPopup {
-  background: #fff;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
+
 
 .popupHeader {
   display: flex;
