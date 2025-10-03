@@ -163,7 +163,7 @@ const PHeader = () => {
                   <div className="dropdown-menu dropdown-menu-right">
                     <ul className="admin-options">
                       <li>
-                        <Link to="/jitsiCall">Log Out</Link>
+                        <Link to="/login">Log Out</Link>
                       </li>
                     </ul>
                   </div>
