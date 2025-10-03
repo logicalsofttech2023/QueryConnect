@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FaFilter,
   FaUserPlus,
@@ -6,6 +6,7 @@ import {
   FaPhone,
   FaVideo,
   FaCheck,
+  FaCheckDouble,
   FaPaperPlane,
   FaPaperclip,
   FaTimes,
@@ -13,6 +14,9 @@ import {
   FaArrowLeft,
   FaImages,
   FaFile,
+  FaEllipsisV,
+  FaTrash,
+  FaBan,
 } from "react-icons/fa";
 import "./Messages.css";
 import MyImageEditor from "./MyImageEditor";
@@ -28,42 +32,100 @@ const Messages = () => {
   const [showEditor, setShowEditor] = useState(false);
   const [imageToEdit, setImageToEdit] = useState(null);
   const [imageEditIndex, setImageEditIndex] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showChatOptions, setShowChatOptions] = useState(false);
+  const [showMessageOptions, setShowMessageOptions] = useState(null);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [showCallHistory, setShowCallHistory] = useState(false);
+  const [messageSearchQuery, setMessageSearchQuery] = useState("");
+  const [showMessageSearch, setShowMessageSearch] = useState(false);
+  const messagesEndRef = useRef(null);
 
   // Sample chat data with online status
-  const chats = [
-    {
-      id: 1,
-      name: "David Johnson",
-      message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      avatar: "media/figure/chat_5.jpg",
-      online: true,
-      lastSeen: "2 min ago",
-    },
-    {
-      id: 2,
-      name: "Sarah Wilson",
-      message: "Hey there! How are you doing?",
-      avatar: "media/figure/chat_5.jpg",
-      online: false,
-      lastSeen: "1 hour ago",
-    },
-    {
-      id: 3,
-      name: "Mike Chen",
-      message: "Let's meet tomorrow for coffee",
-      avatar: "media/figure/chat_5.jpg",
-      online: true,
-      lastSeen: "just now",
-    },
-  ];
-
-  const currentChat = {
+  const [chats, setChats] = useState([
+  {
     id: 1,
-    name: "David Johnson",
+    name: "Amit Sharma",
+    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     avatar: "media/figure/chat_5.jpg",
     online: true,
     lastSeen: "2 min ago",
-  };
+    unread: 3,
+  },
+  {
+    id: 2,
+    name: "Priya Verma",
+    message: "Hey there! How are you doing?",
+    avatar: "media/figure/chat_5.jpg",
+    online: false,
+    lastSeen: "1 hour ago",
+    unread: 0,
+  },
+  {
+    id: 3,
+    name: "Rohit Singh",
+    message: "Let's meet tomorrow for coffee",
+    avatar: "media/figure/chat_5.jpg",
+    online: true,
+    lastSeen: "just now",
+    unread: 1,
+  },
+]);
+
+const [currentChat, setCurrentChat] = useState({
+  id: 1,
+  name: "Amit Sharma",
+  avatar: "media/figure/chat_5.jpg",
+  online: true,
+  lastSeen: "2 min ago",
+});
+
+
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      type: "me",
+      content: "Hello!",
+      time: "3:21 PM",
+      date: "yesterday",
+      read: true,
+      files: [],
+    },
+    {
+      id: 2,
+      type: "you",
+      content: "I'm Fine!",
+      time: "3:30 PM",
+      date: "yesterday",
+      read: true,
+      files: [],
+    },
+    {
+      id: 3,
+      type: "you",
+      content: "Here are Pics!",
+      time: "8:09 AM",
+      date: "today",
+      read: true,
+      files: [
+        { type: "image", url: "https://cdn.pixabay.com/photo/2019/06/26/09/52/shit-image-4300034_1280.jpg", name: "image1.jpg" },
+        { type: "image", url: "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=", name: "image2.jpg" },
+      ],
+    },
+    {
+      id: 4,
+      type: "me",
+      content: "Check this video!",
+      time: "9:15 AM",
+      date: "today",
+      read: false,
+      files: [
+        { type: "video", url: "https://samplelib.com/lib/preview/mp4/sample-5s.mp4", name: "sample.mp4" },
+      ],
+    },
+  ]);
+
+  
 
   // Check if mobile on mount and resize
   useEffect(() => {
@@ -86,6 +148,15 @@ const Messages = () => {
     }
   }, [isMobileMenuOpen]);
 
+  // Scroll to bottom of messages
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     if (selectedFiles.length > 0) {
@@ -96,8 +167,6 @@ const Messages = () => {
   };
 
   const handleEditImage = (fileIndex) => {
-    console.log("Editing image at index:", fileIndex);
-    
     const file = pendingFiles[fileIndex];
     if (file && file.type.startsWith("image/")) {
       setImageToEdit(URL.createObjectURL(file));
@@ -108,25 +177,26 @@ const Messages = () => {
 
   const handleEditedImage = (dataUrl) => {
     if (dataUrl && imageEditIndex !== null) {
-      // Convert data URL to blob
       fetch(dataUrl)
-        .then(res => res.blob())
-        .then(blob => {
-          // Create a new file with the edited image
-          const editedFile = new File([blob], `edited-${pendingFiles[imageEditIndex].name}`, {
-            type: 'image/png'
-          });
-          
-          // Update the pending files array with the edited file
+        .then((res) => res.blob())
+        .then((blob) => {
+          const editedFile = new File(
+            [blob],
+            `edited-${pendingFiles[imageEditIndex].name}`,
+            {
+              type: "image/png",
+            }
+          );
+
           const updatedFiles = [...pendingFiles];
           updatedFiles[imageEditIndex] = editedFile;
           setPendingFiles(updatedFiles);
         })
-        .catch(error => {
-          console.error('Error converting edited image:', error);
+        .catch((error) => {
+          console.error("Error converting edited image:", error);
         });
     }
-    
+
     setShowEditor(false);
     setImageToEdit(null);
     setImageEditIndex(null);
@@ -139,9 +209,31 @@ const Messages = () => {
   };
 
   const confirmSendFiles = () => {
-    setFiles(pendingFiles);
+    const newMessage = {
+      id: messages.length + 1,
+      type: "me",
+      content: message || "Shared files",
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      date: "today",
+      read: false,
+      files: pendingFiles.map((file) => ({
+        type: file.type.startsWith("image/")
+          ? "image"
+          : file.type.startsWith("video/")
+          ? "video"
+          : "file",
+        url: URL.createObjectURL(file),
+        name: file.name,
+      })),
+    };
+
+    setMessages([...messages, newMessage]);
+    setPendingFiles([]);
     setShowPreviewPopup(false);
-    // Auto focus back to message input
+    setMessage("");
     document.getElementById("MessageInput").focus();
   };
 
@@ -154,8 +246,28 @@ const Messages = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message.trim() || files.length > 0) {
-      console.log("Message:", message);
-      console.log("Files:", files);
+      const newMessage = {
+        id: messages.length + 1,
+        type: "me",
+        content: message,
+        time: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        date: "today",
+        read: false,
+        files: files.map((file) => ({
+          type: file.type.startsWith("image/")
+            ? "image"
+            : file.type.startsWith("video/")
+            ? "video"
+            : "file",
+          url: URL.createObjectURL(file),
+          name: file.name,
+        })),
+      };
+
+      setMessages([...messages, newMessage]);
       setMessage("");
       setFiles([]);
       document.getElementById("fileInput").value = "";
@@ -170,12 +282,24 @@ const Messages = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleChatSelect = (chatId) => {
+  const handleChatSelect = (chat) => {
+    setCurrentChat(chat);
     if (isMobile) {
       closeMobileMenu();
     }
-    // Handle chat selection logic here
-    console.log("Selected chat:", chatId);
+
+    // Mark messages as read when opening chat
+    const updatedMessages = messages.map((msg) => ({
+      ...msg,
+      read: true,
+    }));
+    setMessages(updatedMessages);
+
+    // Update unread count in chats
+    const updatedChats = chats.map((c) =>
+      c.id === chat.id ? { ...c, unread: 0 } : c
+    );
+    setChats(updatedChats);
   };
 
   const nextPreview = () => {
@@ -199,10 +323,38 @@ const Messages = () => {
     return (totalBytes / 1024 / 1024).toFixed(2);
   };
 
+  // New Feature Handlers
+  const clearChat = () => {
+    setMessages([]);
+    setShowChatOptions(false);
+  };
+
+  const toggleBlock = () => {
+    setIsBlocked(!isBlocked);
+    setShowChatOptions(false);
+  };
+
+  const deleteMessage = (messageId) => {
+    setMessages(messages.filter((msg) => msg.id !== messageId));
+    setShowMessageOptions(null);
+  };
+
+  const filteredChats = chats.filter((chat) =>
+    chat.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredMessages = messages.filter(
+    (msg) =>
+      msg.content.toLowerCase().includes(messageSearchQuery.toLowerCase()) ||
+      msg.files.some((file) =>
+        file.name.toLowerCase().includes(messageSearchQuery.toLowerCase())
+      )
+  );
+
   const currentFile = pendingFiles[currentPreviewIndex];
 
   return (
-    <div>
+    <div className="messagesContainer">
       {/* Mobile Menu Toggle Button */}
       {isMobile && (
         <button className="mobileMenuToggle" onClick={toggleMobileMenu}>
@@ -228,8 +380,8 @@ const Messages = () => {
                 <FaTimes />
               </button>
             </div>
-            <MyImageEditor 
-              imageUrl={imageToEdit} 
+            <MyImageEditor
+              imageUrl={imageToEdit}
               onComplete={handleEditedImage}
               onCancel={cancelEditImage}
             />
@@ -294,19 +446,19 @@ const Messages = () => {
 
             {/* Main Preview */}
             <div className="previewPopupContent">
-              {currentFile.type.startsWith("image/") ? (
+              {currentFile && currentFile.type.startsWith("image/") ? (
                 <img
                   src={URL.createObjectURL(currentFile)}
                   alt="preview"
                   className="popupPreviewImg"
                 />
-              ) : currentFile.type.startsWith("video/") ? (
+              ) : currentFile && currentFile.type.startsWith("video/") ? (
                 <video
                   src={URL.createObjectURL(currentFile)}
                   controls
                   className="popupPreviewVideo"
                 />
-              ) : (
+              ) : currentFile ? (
                 <div className="popupFilePreviewGeneric">
                   <div className="popupFileIcon">
                     {getFileIcon(currentFile.type)}
@@ -319,7 +471,7 @@ const Messages = () => {
                     <div className="popupFileType">{currentFile.type}</div>
                   </div>
                 </div>
-              )}
+              ) : null}
 
               {/* Navigation Arrows for multiple files */}
               {pendingFiles.length > 1 && (
@@ -367,19 +519,30 @@ const Messages = () => {
         <div className={`sideNav2 ${isMobileMenuOpen ? "mobileOpen" : ""}`}>
           <div className="SideNavhead">
             <h2>Chats</h2>
+            <div className="chatActions">
+              <FaUserPlus className="icon" title="New Chat" />
+              <FaFilter className="icon" title="Filter" />
+            </div>
           </div>
 
           <div className="SearchInputHolder">
             <FaSearch className="icon" />
-            <input className="searchInput" placeholder="Search For Chat.." />
+            <input
+              className="searchInput"
+              placeholder="Search For Chat.."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
 
           <div className="chatList">
-            {chats.map((chat) => (
+            {filteredChats.map((chat) => (
               <div
                 key={chat.id}
-                className="group"
-                onClick={() => handleChatSelect(chat.id)}
+                className={`group ${
+                  currentChat.id === chat.id ? "active" : ""
+                }`}
+                onClick={() => handleChatSelect(chat)}
               >
                 <div className="avatarContainer">
                   <div className="avatar">
@@ -394,9 +557,9 @@ const Messages = () => {
                 <div className="chatInfo">
                   <div className="chatHeader">
                     <p className="GroupName">{chat.name}</p>
-                    <span className="lastSeen">
-                      {chat.online ? "Online" : chat.lastSeen}
-                    </span>
+                    {chat.unread > 0 && (
+                      <span className="unreadBadge">{chat.unread}</span>
+                    )}
                   </div>
                   <p className="GroupDescrp">{chat.message}</p>
                 </div>
@@ -431,66 +594,167 @@ const Messages = () => {
             <div className="callGroup">
               <FaPhone className="icon" />
               <FaVideo className="icon" />
+              <div className="chatOptions">
+                <button
+                  className="iconBtn"
+                  onClick={() => setShowChatOptions(!showChatOptions)}
+                >
+                  <FaEllipsisV />
+                </button>
+                {showChatOptions && (
+                  <div className="chatOptionsMenu">
+                    <button onClick={() => setShowMessageSearch(true)}>
+                      <FaSearch /> Search Messages
+                    </button>
+                    <button onClick={clearChat}>
+                      <FaTrash /> Clear Chat
+                    </button>
+                    <button onClick={toggleBlock}>
+                      <FaBan /> {isBlocked ? "Unblock" : "Block"}
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+
+          {/* Message Search Bar */}
+          {showMessageSearch && (
+            <div className="messageSearchBar">
+              <FaSearch className="icon" />
+              <input
+                type="text"
+                placeholder="Search in conversation..."
+                value={messageSearchQuery}
+                onChange={(e) => setMessageSearchQuery(e.target.value)}
+                className="messageSearchInput"
+              />
+              <button
+                className="closeSearch"
+                onClick={() => {
+                  setShowMessageSearch(false);
+                  setMessageSearchQuery("");
+                }}
+              >
+                <FaTimes />
+              </button>
+            </div>
+          )}
 
           {/* MESSAGES */}
           <div className="MessageContainer">
-            <div className="messageSeperator">Yesterday</div>
-            <div className="message me">
-              <p className="messageContent">Hello!</p>
-              <div className="messageDetails">
-                <div className="messageTime">3:21 PM</div>
-                <FaCheck className="readReceipt" />
-              </div>
-            </div>
-            <div className="message you">
-              <p className="messageContent">I'm Fine!</p>
-              <div className="messageDetails">
-                <div className="messageTime">3:30 PM</div>
-                <FaCheck className="readReceipt" />
-              </div>
-            </div>
+            {filteredMessages.map((msg, index) => {
+              const showDateSeparator =
+                index === 0 || msg.date !== filteredMessages[index - 1].date;
+              return (
+                <React.Fragment key={msg.id}>
+                  {showDateSeparator && (
+                    <div className="messageSeperator">{msg.date}</div>
+                  )}
+                  <div
+                    className={`message ${msg.type}`}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      setShowMessageOptions(msg.id);
+                    }}
+                  >
+                    {/* Message Files */}
+                    {msg.files && msg.files.length > 0 && (
+                      <div
+                        className={`messageFiles ${
+                          msg.files.length > 1 ? "multiple" : "single"
+                        }`}
+                      >
+                        {msg.files.map((file, fileIndex) => (
+                          <div key={fileIndex} className="messageFile">
+                            {file.type === "image" ? (
+                              <img
+                                src={file.url}
+                                alt={file.name}
+                                className="messageImage"
+                              />
+                            ) : file.type === "video" ? (
+                              <video controls className="messageVideo">
+                                <source src={file.url} type="video/mp4" />
+                              </video>
+                            ) : (
+                              <div className="messageFileGeneric">
+                                <FaFile className="fileIcon" />
+                                <span className="fileName">{file.name}</span>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
-            <div className="messageSeperator">Today</div>
-            <div className="message you">
-              <p className="messageContent">Here are Pics!</p>
-              <div className="messageDetails">
-                <div className="messageTime">8:09 AM</div>
-                <FaCheck className="readReceipt" />
-              </div>
-            </div>
+                    {/* Message Content */}
+                    {msg.content && (
+                      <p className="messageContent">{msg.content}</p>
+                    )}
+
+                    <div className="messageDetails">
+                      <div className="messageTime">{msg.time}</div>
+                      {msg.type === "me" &&
+                        (msg.read ? (
+                          <FaCheckDouble className="readReceipt read" />
+                        ) : (
+                          <FaCheck className="readReceipt" />
+                        ))}
+                    </div>
+
+                    {/* Message Options */}
+                    {showMessageOptions === msg.id && (
+                      <div className="messageOptions">
+                        <button onClick={() => deleteMessage(msg.id)}>
+                          <FaTrash />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </React.Fragment>
+              );
+            })}
+            <div ref={messagesEndRef} />
           </div>
 
+          {/* Blocked Warning */}
+          {isBlocked && (
+            <div className="blockedWarning">
+              You have blocked this user. Unblock to send messages.
+            </div>
+          )}
+
           {/* MESSAGE FORM */}
-          <form id="MessageForm" onSubmit={handleSubmit}>
-            {/* Hidden File Input - Allow multiple */}
-            <input
-              type="file"
-              id="fileInput"
-              style={{ display: "none" }}
-              accept="image/*,video/*,.pdf,.doc,.docx,.txt"
-              onChange={handleFileChange}
-              multiple
-            />
+          {!isBlocked && (
+            <form id="MessageForm" onSubmit={handleSubmit}>
+              <input
+                type="file"
+                id="fileInput"
+                style={{ display: "none" }}
+                accept="image/*,video/*,.pdf,.doc,.docx,.txt"
+                onChange={handleFileChange}
+                multiple
+              />
 
-            {/* File Upload Icon */}
-            <label htmlFor="fileInput" className="iconBtn">
-              <FaPaperclip className="icon" />
-            </label>
+              <label htmlFor="fileInput" className="iconBtn">
+                <FaPaperclip className="icon" />
+              </label>
 
-            <input
-              type="text"
-              id="MessageInput"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type a message..."
-            />
+              <input
+                type="text"
+                id="MessageInput"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type a message..."
+                disabled={isBlocked}
+              />
 
-            <button className="Send" type="submit">
-              <FaPaperPlane />
-            </button>
-          </form>
+              <button className="Send" type="submit" disabled={isBlocked}>
+                <FaPaperPlane />
+              </button>
+            </form>
+          )}
         </section>
       </main>
     </div>

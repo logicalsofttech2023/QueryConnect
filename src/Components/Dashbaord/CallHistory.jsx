@@ -20,79 +20,80 @@ const CallHistory = () => {
 
   // Sample call history data
   const callHistory = [
-    {
-      id: 1,
-      name: 'John Doe',
-      time: '10:30 AM',
-      date: 'Today',
-      type: 'video',
-      duration: '15:23',
-      status: 'outgoing',
-      avatar: 'JD',
-      missed: false,
-      avatarColor: '#4f46e5'
-    },
-    {
-      id: 2,
-      name: 'Sarah Wilson',
-      time: 'Yesterday',
-      date: '09:15 PM',
-      type: 'audio',
-      duration: '08:45',
-      status: 'incoming',
-      avatar: 'SW',
-      missed: false,
-      avatarColor: '#dc2626'
-    },
-    {
-      id: 3,
-      name: 'Mike Johnson',
-      time: 'Yesterday',
-      date: '02:45 PM',
-      type: 'video',
-      duration: '--:--',
-      status: 'incoming',
-      avatar: 'MJ',
-      missed: true,
-      avatarColor: '#059669'
-    },
-    {
-      id: 4,
-      name: 'Emily Davis',
-      time: 'Dec 12',
-      date: '11:20 AM',
-      type: 'audio',
-      duration: '23:12',
-      status: 'outgoing',
-      avatar: 'ED',
-      missed: false,
-      avatarColor: '#7c3aed'
-    },
-    {
-      id: 5,
-      name: 'Alex Thompson',
-      time: 'Dec 11',
-      date: '04:30 PM',
-      type: 'video',
-      duration: '05:34',
-      status: 'incoming',
-      avatar: 'AT',
-      missed: false,
-      avatarColor: '#ea580c'
-    },
-    {
-      id: 6,
-      name: 'Maria Garcia',
-      time: 'Dec 10',
-      date: '03:20 PM',
-      type: 'audio',
-      duration: '--:--',
-      status: 'incoming',
-      avatar: 'MG',
-      missed: true,
-      avatarColor: '#db2777'
-    }
-  ]
+  {
+    id: 1,
+    name: 'Arjun Mehta',
+    time: '10:30 AM',
+    date: 'Today',
+    type: 'video',
+    duration: '15:23',
+    status: 'outgoing',
+    avatar: 'AM',
+    missed: false,
+    avatarColor: '#4f46e5'
+  },
+  {
+    id: 2,
+    name: 'Priya Sharma',
+    time: 'Yesterday',
+    date: '09:15 PM',
+    type: 'audio',
+    duration: '08:45',
+    status: 'incoming',
+    avatar: 'PS',
+    missed: false,
+    avatarColor: '#dc2626'
+  },
+  {
+    id: 3,
+    name: 'Rohit Verma',
+    time: 'Yesterday',
+    date: '02:45 PM',
+    type: 'video',
+    duration: '--:--',
+    status: 'incoming',
+    avatar: 'RV',
+    missed: true,
+    avatarColor: '#059669'
+  },
+  {
+    id: 4,
+    name: 'Neha Gupta',
+    time: 'Dec 12',
+    date: '11:20 AM',
+    type: 'audio',
+    duration: '23:12',
+    status: 'outgoing',
+    avatar: 'NG',
+    missed: false,
+    avatarColor: '#7c3aed'
+  },
+  {
+    id: 5,
+    name: 'Vikram Singh',
+    time: 'Dec 11',
+    date: '04:30 PM',
+    type: 'video',
+    duration: '05:34',
+    status: 'incoming',
+    avatar: 'VS',
+    missed: false,
+    avatarColor: '#ea580c'
+  },
+  {
+    id: 6,
+    name: 'Anita Iyer',
+    time: 'Dec 10',
+    date: '03:20 PM',
+    type: 'audio',
+    duration: '--:--',
+    status: 'incoming',
+    avatar: 'AI',
+    missed: true,
+    avatarColor: '#db2777'
+  }
+];
+
 
   const filters = [
     { key: 'all', label: 'All Calls', icon: <FaFilter /> },

@@ -8,13 +8,14 @@ const MyQueryDetail = () => {
   const [query, setQuery] = useState({
     id: 1,
     title: "How to implement drag and drop in React?",
-    description: "I'm trying to implement a drag and drop feature for file uploads in my React application. I've tried using the HTML5 drag and drop API but facing issues with React's synthetic events. The drag events are not firing properly and I'm having trouble managing the state during drag operations. Can someone help me with the best approach and maybe suggest some good libraries?",
+    description:
+      "I'm trying to implement a drag and drop feature for file uploads in my React application. I've tried using the HTML5 drag and drop API but facing issues with React's synthetic events. The drag events are not firing properly and I'm having trouble managing the state during drag operations. Can someone help me with the best approach and maybe suggest some good libraries?",
     images: ["media/figure/sample1.jpg", "media/figure/sample1.jpg"],
     videos: [],
     queryType: "technical",
     status: "active",
     user: {
-      name: "Test test",
+      name: "Rahul Mehta",
       avatar: "media/figure/chat_5.jpg",
     },
     timestamp: "2 hours ago",
@@ -26,7 +27,7 @@ const MyQueryDetail = () => {
       {
         id: 1,
         user: {
-          name: "Aahat Akter",
+          name: "Neha Sharma",
           avatar: "media/figure/chat_5.jpg",
         },
         text: "You can use react-dnd library for this. It's well maintained and has great documentation. I've used it in multiple projects and it handles most drag and drop scenarios very well.",
@@ -36,7 +37,7 @@ const MyQueryDetail = () => {
           {
             id: 11,
             user: {
-              name: "Test test",
+              name: "Rahul Mehta",
               avatar: "media/figure/chat_5.jpg",
             },
             text: "Thanks! I'll check it out. Did you face any performance issues with large lists?",
@@ -48,7 +49,7 @@ const MyQueryDetail = () => {
       {
         id: 2,
         user: {
-          name: "Mike Johnson",
+          name: "Amit Verma",
           avatar: "media/figure/chat_5.jpg",
         },
         text: "Another good option is react-beautiful-dnd. It's specifically designed for beautiful and accessible drag and drop in React. Works great with lists.",
@@ -59,7 +60,7 @@ const MyQueryDetail = () => {
       {
         id: 3,
         user: {
-          name: "Sarah Wilson",
+          name: "Priya Singh",
           avatar: "media/figure/chat_5.jpg",
         },
         text: "If you want a simpler solution without external libraries, you can use the native HTML5 drag and drop with React refs. But I'd recommend starting with react-dnd as it's more React-friendly.",
@@ -87,7 +88,7 @@ const MyQueryDetail = () => {
       const updatedQuery = {
         ...query,
         commentsList: [...query.commentsList, newComment],
-        comments: query.comments + 1
+        comments: query.comments + 1,
       };
 
       setQuery(updatedQuery);
@@ -108,11 +109,11 @@ const MyQueryDetail = () => {
         reactions: 0,
       };
 
-      const updatedCommentsList = query.commentsList.map(comment => {
+      const updatedCommentsList = query.commentsList.map((comment) => {
         if (comment.id === commentId) {
           return {
             ...comment,
-            replies: [...comment.replies, newReply]
+            replies: [...comment.replies, newReply],
           };
         }
         return comment;
@@ -120,13 +121,13 @@ const MyQueryDetail = () => {
 
       setQuery({
         ...query,
-        commentsList: updatedCommentsList
+        commentsList: updatedCommentsList,
       });
     }
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleAddComment();
     }
   };
@@ -154,7 +155,7 @@ const MyQueryDetail = () => {
               </div>
               <div className="media-body">
                 <div className="user-title">
-                  <a >{comment.user.name}</a>
+                  <a>{comment.user.name}</a>
                 </div>
                 <ul className="entry-meta">
                   <li className="meta-time">{comment.timestamp}</li>
@@ -172,9 +173,9 @@ const MyQueryDetail = () => {
                 ...
               </button>
               <div className="dropdown-menu dropdown-menu-right">
-                <a className="dropdown-item" >Close</a>
-                <a className="dropdown-item" >Edit</a>
-                <a className="dropdown-item" >Delete</a>
+                <a className="dropdown-item">Close</a>
+                <a className="dropdown-item">Edit</a>
+                <a className="dropdown-item">Delete</a>
               </div>
             </div>
           </div>
@@ -184,22 +185,55 @@ const MyQueryDetail = () => {
           <div className="post-footer">
             <ul>
               <li className="post-react">
-                <a >
+                <a>
                   <i className="icofont-thumbs-up" />
                   React!
                 </a>
                 <ul className="react-list">
-                  <li><a ><img src="media/figure/reaction_1.png" alt="Like" /></a></li>
-                  <li><a ><img src="media/figure/reaction_3.png" alt="Like" /></a></li>
-                  <li><a ><img src="media/figure/reaction_4.png" alt="Like" /></a></li>
-                  <li><a ><img src="media/figure/reaction_2.png" alt="Like" /></a></li>
-                  <li><a ><img src="media/figure/reaction_7.png" alt="Like" /></a></li>
-                  <li><a ><img src="media/figure/reaction_6.png" alt="Like" /></a></li>
-                  <li><a ><img src="media/figure/reaction_5.png" alt="Like" /></a></li>
+                  <li>
+                    <a>
+                      <img src="media/figure/reaction_1.png" alt="Like" />
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <img src="media/figure/reaction_3.png" alt="Like" />
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <img src="media/figure/reaction_4.png" alt="Like" />
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <img src="media/figure/reaction_2.png" alt="Like" />
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <img src="media/figure/reaction_7.png" alt="Like" />
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <img src="media/figure/reaction_6.png" alt="Like" />
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <img src="media/figure/reaction_5.png" alt="Like" />
+                    </a>
+                  </li>
                 </ul>
               </li>
               <li>
-                <a  onClick={(e) => { e.preventDefault(); setShowReplyInput(!showReplyInput); }}>
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowReplyInput(!showReplyInput);
+                  }}
+                >
                   <i className="icofont-reply" />
                   Reply
                 </a>
@@ -210,7 +244,10 @@ const MyQueryDetail = () => {
 
         {/* Reply Input */}
         {showReplyInput && (
-          <div className="comment-reply" style={{ marginLeft: '50px', marginTop: '10px' }}>
+          <div
+            className="comment-reply"
+            style={{ marginLeft: "50px", marginTop: "10px" }}
+          >
             <div className="user-img">
               <img src="media/figure/chat_5.jpg" alt="User" />
             </div>
@@ -221,7 +258,7 @@ const MyQueryDetail = () => {
                 onChange={(e) => setReplyText(e.target.value)}
                 className="form-control"
                 placeholder="Your Reply...."
-                onKeyPress={(e) => e.key === 'Enter' && handleReplySubmit()}
+                onKeyPress={(e) => e.key === "Enter" && handleReplySubmit()}
               />
             </div>
           </div>
@@ -230,7 +267,7 @@ const MyQueryDetail = () => {
         {/* Replies */}
         {comment.replies && comment.replies.length > 0 && (
           <ul className="children">
-            {comment.replies.map(reply => (
+            {comment.replies.map((reply) => (
               <li key={reply.id} className="main-comments">
                 <div className="each-comment">
                   <div className="post-header">
@@ -240,7 +277,7 @@ const MyQueryDetail = () => {
                       </div>
                       <div className="media-body">
                         <div className="user-title">
-                          <a >{reply.user.name}</a>
+                          <a>{reply.user.name}</a>
                         </div>
                         <ul className="entry-meta">
                           <li className="meta-time">{reply.timestamp}</li>
@@ -282,7 +319,7 @@ const MyQueryDetail = () => {
                     </div>
                     <div className="media-body">
                       <div className="user-title">
-                        <a >{query.user.name}</a>
+                        <a>{query.user.name}</a>
                       </div>
                       <ul className="entry-meta">
                         <li className="meta-privacy">
@@ -303,9 +340,9 @@ const MyQueryDetail = () => {
                       ...
                     </button>
                     <div className="dropdown-menu dropdown-menu-right">
-                      <a className="dropdown-item" >Close</a>
-                      <a className="dropdown-item" >Edit</a>
-                      <a className="dropdown-item" >Delete</a>
+                      <a className="dropdown-item">Close</a>
+                      <a className="dropdown-item">Edit</a>
+                      <a className="dropdown-item">Delete</a>
                     </div>
                   </div>
                 </div>
@@ -313,12 +350,17 @@ const MyQueryDetail = () => {
                   <div className="post-no-thumbnail">
                     <h5>{query.title}</h5>
                     <p>{query.description}</p>
-                    
+
                     {/* Display images if any */}
                     {query.images && query.images.length > 0 && (
                       <div className="post-images">
                         {query.images.map((image, index) => (
-                          <img key={index} src={image} alt={`Query ${index + 1}`} className="img-fluid mb-2" />
+                          <img
+                            key={index}
+                            src={image}
+                            alt={`Query ${index + 1}`}
+                            className="img-fluid mb-2"
+                          />
                         ))}
                       </div>
                     )}
@@ -343,37 +385,85 @@ const MyQueryDetail = () => {
                 <div className="post-footer">
                   <ul>
                     <li className="post-react">
-                      <a >
+                      <a>
                         <i className="icofont-thumbs-up" />
                         React!
                       </a>
                       <ul className="react-list">
-                        <li><a ><img src="media/figure/reaction_1.png" alt="Like" /></a></li>
-                        <li><a ><img src="media/figure/reaction_3.png" alt="Like" /></a></li>
-                        <li><a ><img src="media/figure/reaction_4.png" alt="Like" /></a></li>
-                        <li><a ><img src="media/figure/reaction_2.png" alt="Like" /></a></li>
-                        <li><a ><img src="media/figure/reaction_7.png" alt="Like" /></a></li>
-                        <li><a ><img src="media/figure/reaction_6.png" alt="Like" /></a></li>
-                        <li><a ><img src="media/figure/reaction_5.png" alt="Like" /></a></li>
+                        <li>
+                          <a>
+                            <img src="media/figure/reaction_1.png" alt="Like" />
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <img src="media/figure/reaction_3.png" alt="Like" />
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <img src="media/figure/reaction_4.png" alt="Like" />
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <img src="media/figure/reaction_2.png" alt="Like" />
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <img src="media/figure/reaction_7.png" alt="Like" />
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <img src="media/figure/reaction_6.png" alt="Like" />
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <img src="media/figure/reaction_5.png" alt="Like" />
+                          </a>
+                        </li>
                       </ul>
                     </li>
                     <li>
-                      <a >
+                      <a>
                         <i className="icofont-comment" />
                         Comment
                       </a>
                     </li>
                     <li className="post-share">
-                      <a  className="share-btn">
+                      <a className="share-btn">
                         <i className="icofont-share" />
                         Share
                       </a>
                       <ul className="share-list">
-                        <li><a  className="color-fb"><i className="icofont-facebook" /></a></li>
-                        <li><a  className="color-messenger"><i className="icofont-facebook-messenger" /></a></li>
-                        <li><a  className="color-instagram"><i className="icofont-instagram" /></a></li>
-                        <li><a  className="color-whatsapp"><i className="icofont-brand-whatsapp" /></a></li>
-                        <li><a  className="color-twitter"><i className="icofont-twitter" /></a></li>
+                        <li>
+                          <a className="color-fb">
+                            <i className="icofont-facebook" />
+                          </a>
+                        </li>
+                        <li>
+                          <a className="color-messenger">
+                            <i className="icofont-facebook-messenger" />
+                          </a>
+                        </li>
+                        <li>
+                          <a className="color-instagram">
+                            <i className="icofont-instagram" />
+                          </a>
+                        </li>
+                        <li>
+                          <a className="color-whatsapp">
+                            <i className="icofont-brand-whatsapp" />
+                          </a>
+                        </li>
+                        <li>
+                          <a className="color-twitter">
+                            <i className="icofont-twitter" />
+                          </a>
+                        </li>
                       </ul>
                     </li>
                   </ul>
@@ -382,21 +472,21 @@ const MyQueryDetail = () => {
                 {/* Comments Section */}
                 <div className="post-comment">
                   <ul className="comment-list">
-                    {query.commentsList.map(comment => (
-                      <CommentItem 
-                        key={comment.id} 
-                        comment={comment} 
+                    {query.commentsList.map((comment) => (
+                      <CommentItem
+                        key={comment.id}
+                        comment={comment}
                         onReply={handleAddReply}
                       />
                     ))}
                   </ul>
-                  
+
                   <div className="load-more-btn">
-                    <a  className="item-btn">
+                    <a className="item-btn">
                       Load More Comments <span>4+</span>
                     </a>
                   </div>
-                  
+
                   {/* Add Comment Input */}
                   <div className="comment-reply">
                     <div className="user-img">
@@ -412,7 +502,7 @@ const MyQueryDetail = () => {
                         placeholder="Add a comment..."
                       />
                     </div>
-                    <button 
+                    <button
                       className="btn btn-primary ml-2"
                       onClick={handleAddComment}
                       disabled={!commentText.trim()}

@@ -169,7 +169,7 @@ const Profile = () => {
             <div className="banner-content">
               <div className="media">
                 <div className="item-img">
-                  <img src={formData.profileImage} alt="User" />
+                  <img src={formData.profileImage} alt="User"  style={{ width: "150px"}}/>
                   <div className="image-overlay">
                     <label htmlFor="profileImageUpload" className="camera-icon">
                       <FaCamera />

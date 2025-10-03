@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
-import './MyQueries.css';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import "./MyQueries.css";
+import { Link } from "react-router-dom";
 
 const MyQueries = () => {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState("all");
   const [selectedQuery, setSelectedQuery] = useState(null);
-  const [commentText, setCommentText] = useState('');
+  const [commentText, setCommentText] = useState("");
 
   // Sample queries data
   const queries = [
     {
       id: 1,
       title: "How to implement drag and drop in React?",
-      description: "I'm trying to implement a drag and drop feature for file uploads in my React application. Can someone help me with the best approach?",
+      description:
+        "I'm trying to implement a drag and drop feature for file uploads in my React application. Can someone help me with the best approach?",
       images: ["media/figure/sample1.jpg"],
       videos: [],
       queryType: "technical",
       status: "active",
       user: {
-        name: "Test test",
-        avatar: "media/figure/chat_5.jpg"
+        name: "Rajesh Kumar",
+        avatar: "media/figure/chat_5.jpg",
       },
       timestamp: "2 mins ago",
       privacy: "Friends",
@@ -30,57 +31,59 @@ const MyQueries = () => {
         {
           id: 1,
           user: {
-            name: "Aahat Akter",
-            avatar: "media/figure/chat_5.jpg"
+            name: "Neha Gupta",
+            avatar: "media/figure/chat_5.jpg",
           },
           text: "You can use react-dnd library for this. It's well maintained and has great documentation.",
           timestamp: "5 mins ago",
-          reactions: 3
-        }
-      ]
+          reactions: 3,
+        },
+      ],
     },
     {
       id: 2,
       title: "CSS Grid layout issues",
-      description: "Having trouble with CSS Grid responsive layout. The items are not aligning properly on mobile devices.",
+      description:
+        "Having trouble with CSS Grid responsive layout. The items are not aligning properly on mobile devices.",
       images: ["media/figure/sample1.jpg", "media/figure/sample1.jpg"],
       videos: [],
       queryType: "technical",
       status: "active",
       user: {
-        name: "Rebeca Powel",
-        avatar: "media/figure/chat_5.jpg"
+        name: "Priya Sharma",
+        avatar: "media/figure/chat_5.jpg",
       },
       timestamp: "8 mins ago",
       privacy: "Personal",
       reactions: 35,
       comments: 2,
       shares: 5,
-      commentsList: []
+      commentsList: [],
     },
     {
       id: 3,
       title: "Payment gateway integration",
-      description: "Need help integrating Stripe payment gateway with Node.js backend.",
+      description:
+        "Need help integrating Stripe payment gateway with Node.js backend.",
       images: [],
       videos: ["media/figure/sample-video.mp4"],
       queryType: "billing",
       status: "inactive",
       user: {
-        name: "Mike Johnson",
-        avatar: "media/figure/chat_5.jpg"
+        name: "Amit Patel",
+        avatar: "media/figure/chat_5.jpg",
       },
       timestamp: "1 hour ago",
       privacy: "Friends",
       reactions: 15,
       comments: 0,
       shares: 2,
-      commentsList: []
-    }
+      commentsList: [],
+    },
   ];
 
-  const filteredQueries = queries.filter(query => {
-    if (activeFilter === 'all') return true;
+  const filteredQueries = queries.filter((query) => {
+    if (activeFilter === "all") return true;
     return query.status === activeFilter;
   });
 
@@ -90,14 +93,14 @@ const MyQueries = () => {
 
   const handleCloseQuery = () => {
     setSelectedQuery(null);
-    setCommentText('');
+    setCommentText("");
   };
 
   const handleAddComment = () => {
     if (commentText.trim() && selectedQuery) {
       // Add comment logic here
-      console.log('Adding comment:', commentText);
-      setCommentText('');
+      console.log("Adding comment:", commentText);
+      setCommentText("");
     }
   };
 
@@ -107,7 +110,9 @@ const MyQueries = () => {
       <div className="modal-content">
         <div className="modal-header">
           <h3>{query.title}</h3>
-          <button className="close-btn" onClick={onClose}>×</button>
+          <button className="close-btn" onClick={onClose}>
+            ×
+          </button>
         </div>
         <div className="modal-body">
           <div className="query-user-info">
@@ -117,16 +122,20 @@ const MyQueries = () => {
               <span>{query.timestamp}</span>
             </div>
           </div>
-          
+
           <div className="query-content">
             <p>{query.description}</p>
-            
+
             {query.images.length > 0 && (
               <div className="query-images">
                 <h4>Attached Images ({query.images.length})</h4>
                 <div className="image-grid">
                   {query.images.map((img, index) => (
-                    <img key={index} src={img} alt={`Attachment ${index + 1}`} />
+                    <img
+                      key={index}
+                      src={img}
+                      alt={`Attachment ${index + 1}`}
+                    />
                   ))}
                 </div>
               </div>
@@ -156,7 +165,7 @@ const MyQueries = () => {
 
           <div className="comments-section">
             <h4>Comments ({query.commentsList.length})</h4>
-            {query.commentsList.map(comment => (
+            {query.commentsList.map((comment) => (
               <div key={comment.id} className="comment-item">
                 <div className="comment-user">
                   <img src={comment.user.avatar} alt={comment.user.name} />
@@ -195,25 +204,34 @@ const MyQueries = () => {
           <div className="row">
             <div className="col-lg-12">
               {/* Filter Section */}
-              <div className="block-box filter-tabs mb-4" style={{ width: "100%"}}>
-                <div className="filter-header" style={{ width: "100%"}} >
+              <div
+                className="block-box filter-tabs mb-4"
+                style={{ width: "100%" }}
+              >
+                <div className="filter-header" style={{ width: "100%" }}>
                   <h3>My Queries</h3>
                   <div className="filter-buttons">
-                    <button 
-                      className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
-                      onClick={() => setActiveFilter('all')}
+                    <button
+                      className={`filter-btn ${
+                        activeFilter === "all" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveFilter("all")}
                     >
                       All Queries
                     </button>
-                    <button 
-                      className={`filter-btn ${activeFilter === 'active' ? 'active' : ''}`}
-                      onClick={() => setActiveFilter('active')}
+                    <button
+                      className={`filter-btn ${
+                        activeFilter === "active" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveFilter("active")}
                     >
                       Active
                     </button>
-                    <button 
-                      className={`filter-btn ${activeFilter === 'inactive' ? 'active' : ''}`}
-                      onClick={() => setActiveFilter('inactive')}
+                    <button
+                      className={`filter-btn ${
+                        activeFilter === "inactive" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveFilter("inactive")}
                     >
                       Inactive
                     </button>
@@ -222,7 +240,7 @@ const MyQueries = () => {
               </div>
 
               {/* Queries List */}
-              {filteredQueries.map(query => (
+              {filteredQueries.map((query) => (
                 <div key={query.id} className="block-box post-view query-item">
                   <div className="post-header">
                     <div className="media">
@@ -255,31 +273,26 @@ const MyQueries = () => {
                         ...
                       </button>
                       <div className="dropdown-menu dropdown-menu-right">
-                        <a className="dropdown-item" >
-                          Edit
-                        </a>
-                        <a className="dropdown-item" >
-                          Delete
-                        </a>
+                        <a className="dropdown-item">Edit</a>
+                        <a className="dropdown-item">Delete</a>
                       </div>
                     </div>
                   </div>
 
                   <div className="post-body">
                     <div className="query-preview">
-                      <h4 
+                      <h4
                         className="query-title"
                         onClick={() => handleQueryClick(query)}
                       >
                         {query.title}
                       </h4>
                       <p className="query-description">
-                        {query.description.length > 150 
-                          ? `${query.description.substring(0, 150)}...` 
-                          : query.description
-                        }
+                        {query.description.length > 150
+                          ? `${query.description.substring(0, 150)}...`
+                          : query.description}
                         {query.description.length > 150 && (
-                          <span 
+                          <span
                             className="read-more"
                             onClick={() => handleQueryClick(query)}
                           >
@@ -295,12 +308,17 @@ const MyQueries = () => {
                             <div key={index} className="media-preview">
                               <img src={img} alt={`Preview ${index + 1}`} />
                               {index === 2 && query.images.length > 3 && (
-                                <div className="media-count">+{query.images.length - 3}</div>
+                                <div className="media-count">
+                                  +{query.images.length - 3}
+                                </div>
                               )}
                             </div>
                           ))}
                           {query.videos.slice(0, 1).map((video, index) => (
-                            <div key={`video-${index}`} className="media-preview video">
+                            <div
+                              key={`video-${index}`}
+                              className="media-preview video"
+                            >
                               <video>
                                 <source src={video} type="video/mp4" />
                               </video>
@@ -313,7 +331,8 @@ const MyQueries = () => {
                       <div className="query-meta-preview">
                         <span className="query-type">{query.queryType}</span>
                         <span className="attachments-count">
-                          {query.images.length + query.videos.length} attachments
+                          {query.images.length + query.videos.length}{" "}
+                          attachments
                         </span>
                       </div>
                     </div>
@@ -330,7 +349,7 @@ const MyQueries = () => {
                         </div>
                       </div>
                       <div className="post-meta">
-                        <div 
+                        <div
                           className="meta-text clickable"
                           onClick={() => handleQueryClick(query)}
                         >
@@ -344,51 +363,71 @@ const MyQueries = () => {
                   <div className="post-footer">
                     <ul>
                       <li className="post-react">
-                        <a >
+                        <a>
                           <i className="icofont-thumbs-up" />
                           React!
                         </a>
                         <ul className="react-list">
                           <li>
-                            <a >
-                              <img src="media/figure/reaction_1.png" alt="Like" />
+                            <a>
+                              <img
+                                src="media/figure/reaction_1.png"
+                                alt="Like"
+                              />
                             </a>
                           </li>
                           <li>
-                            <a >
-                              <img src="media/figure/reaction_3.png" alt="Like" />
+                            <a>
+                              <img
+                                src="media/figure/reaction_3.png"
+                                alt="Like"
+                              />
                             </a>
                           </li>
                           <li>
-                            <a >
-                              <img src="media/figure/reaction_4.png" alt="Like" />
+                            <a>
+                              <img
+                                src="media/figure/reaction_4.png"
+                                alt="Like"
+                              />
                             </a>
                           </li>
                           <li>
-                            <a >
-                              <img src="media/figure/reaction_2.png" alt="Like" />
+                            <a>
+                              <img
+                                src="media/figure/reaction_2.png"
+                                alt="Like"
+                              />
                             </a>
                           </li>
                           <li>
-                            <a >
-                              <img src="media/figure/reaction_7.png" alt="Like" />
+                            <a>
+                              <img
+                                src="media/figure/reaction_7.png"
+                                alt="Like"
+                              />
                             </a>
                           </li>
                           <li>
-                            <a >
-                              <img src="media/figure/reaction_6.png" alt="Like" />
+                            <a>
+                              <img
+                                src="media/figure/reaction_6.png"
+                                alt="Like"
+                              />
                             </a>
                           </li>
                           <li>
-                            <a >
-                              <img src="media/figure/reaction_5.png" alt="Like" />
+                            <a>
+                              <img
+                                src="media/figure/reaction_5.png"
+                                alt="Like"
+                              />
                             </a>
                           </li>
                         </ul>
                       </li>
                       <li>
-                        <a 
-                           
+                        <a
                           onClick={(e) => {
                             e.preventDefault();
                             handleQueryClick(query);
@@ -399,33 +438,33 @@ const MyQueries = () => {
                         </a>
                       </li>
                       <li className="post-share">
-                        <a  className="share-btn">
+                        <a className="share-btn">
                           <i className="icofont-share" />
                           Share
                         </a>
                         <ul className="share-list">
                           <li>
-                            <a  className="color-fb">
+                            <a className="color-fb">
                               <i className="icofont-facebook" />
                             </a>
                           </li>
                           <li>
-                            <a  className="color-messenger">
+                            <a className="color-messenger">
                               <i className="icofont-facebook-messenger" />
                             </a>
                           </li>
                           <li>
-                            <a  className="color-instagram">
+                            <a className="color-instagram">
                               <i className="icofont-instagram" />
                             </a>
                           </li>
                           <li>
-                            <a  className="color-whatsapp">
+                            <a className="color-whatsapp">
                               <i className="icofont-brand-whatsapp" />
                             </a>
                           </li>
                           <li>
-                            <a  className="color-twitter">
+                            <a className="color-twitter">
                               <i className="icofont-twitter" />
                             </a>
                           </li>
@@ -438,7 +477,7 @@ const MyQueries = () => {
 
               {/* Load More Button */}
               <div className="block-box load-more-btn">
-                <a  className="item-btn">
+                <a className="item-btn">
                   <i className="icofont-refresh" />
                   Load More Queries
                 </a>
@@ -450,10 +489,7 @@ const MyQueries = () => {
 
       {/* Query Detail Modal */}
       {selectedQuery && (
-        <QueryDetailModal 
-          query={selectedQuery} 
-          onClose={handleCloseQuery} 
-        />
+        <QueryDetailModal query={selectedQuery} onClose={handleCloseQuery} />
       )}
     </div>
   );

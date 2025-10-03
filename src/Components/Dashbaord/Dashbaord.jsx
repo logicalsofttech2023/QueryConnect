@@ -33,54 +33,55 @@ const Dashboard = () => {
 
   // Simulate data fetching
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      setStats({
-        totalQueries: 156,
-        activeQueries: 42,
-        inactiveQueries: 114,
-        notifications: 23,
-        unreadQueries: 8,
-        blockedAgents: 3,
-      });
+  const fetchDashboardData = async () => {
+    setStats({
+      totalQueries: 156,
+      activeQueries: 42,
+      inactiveQueries: 114,
+      notifications: 23,
+      unreadQueries: 8,
+      blockedAgents: 3,
+    });
 
-      setRecentQueries([
-        {
-          id: 1,
-          title: "Payment gateway integration issue",
-          user: "John Smith",
-          status: "active",
-          timestamp: "2 mins ago",
-          type: "technical",
-        },
-        {
-          id: 2,
-          title: "Account verification problem",
-          user: "Sarah Johnson",
-          status: "active",
-          timestamp: "15 mins ago",
-          type: "billing",
-        },
-        {
-          id: 3,
-          title: "Feature request - Dark mode",
-          user: "Mike Chen",
-          status: "inactive",
-          timestamp: "1 hour ago",
-          type: "feature",
-        },
-        {
-          id: 4,
-          title: "Bug report - Login page",
-          user: "Emily Davis",
-          status: "active",
-          timestamp: "2 hours ago",
-          type: "bug",
-        },
-      ]);
-    };
+    setRecentQueries([
+      {
+        id: 1,
+        title: "Payment gateway integration issue",
+        user: "Rahul Sharma",
+        status: "active",
+        timestamp: "2 mins ago",
+        type: "technical",
+      },
+      {
+        id: 2,
+        title: "Account verification problem",
+        user: "Priya Verma",
+        status: "active",
+        timestamp: "15 mins ago",
+        type: "billing",
+      },
+      {
+        id: 3,
+        title: "Feature request - Dark mode",
+        user: "Amit Patel",
+        status: "inactive",
+        timestamp: "1 hour ago",
+        type: "feature",
+      },
+      {
+        id: 4,
+        title: "Bug report - Login page",
+        user: "Neha Singh",
+        status: "active",
+        timestamp: "2 hours ago",
+        type: "bug",
+      },
+    ]);
+  };
 
-    fetchDashboardData();
-  }, []);
+  fetchDashboardData();
+}, []);
+
 
   const StatCard = ({ title, value, icon, color, description }) => (
     <div className={`stat-card stat-card-${color}`}>

@@ -10,12 +10,15 @@ const PHeader = () => {
             <div className="nav-item d-sm-block">
               <div className="header-logo">
                 <Link to="/">
-                  <img src="media/newLogo.png" alt="QueryConnect" style={{ maxWidth: "140px"}} />
+                  <img
+                    src="media/newLogo.png"
+                    alt="QueryConnect"
+                    style={{ maxWidth: "140px" }}
+                  />
                 </Link>
               </div>
             </div>
 
-            
             <div className="nav-item header-control">
               <div className="inline-item d-flex align-items-center">
                 {/* Messages Dropdown */}
@@ -42,11 +45,9 @@ const PHeader = () => {
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
-                          <h6 className="item-title">Diana Jameson</h6>
+                          <h6 className="item-title">Rahul Sharma</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>
-                            when are nknowen printer took galley of types ...
-                          </p>
+                          <p>when an unknown printer took galley of types ...</p>
                         </div>
                       </Link>
                       <Link to="#" className="media">
@@ -54,11 +55,9 @@ const PHeader = () => {
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
-                          <h6 className="item-title">Quirty</h6>
+                          <h6 className="item-title">Priya Verma</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>
-                            when are nknowen printer took galley of types ...
-                          </p>
+                          <p>when an unknown printer took galley of types ...</p>
                         </div>
                       </Link>
                       <Link to="#" className="media">
@@ -66,11 +65,9 @@ const PHeader = () => {
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
-                          <h6 className="item-title">Zinia Jessy</h6>
+                          <h6 className="item-title">Amit Patel</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>
-                            when are nknowen printer took galley of types ...
-                          </p>
+                          <p>when an unknown printer took galley of types ...</p>
                         </div>
                       </Link>
                     </div>
@@ -107,11 +104,9 @@ const PHeader = () => {
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
-                          <h6 className="item-title">Diana Jameson</h6>
+                          <h6 className="item-title">Neha Singh</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>
-                            when are nknowen printer took galley of types ...
-                          </p>
+                          <p>when an unknown printer took galley of types ...</p>
                         </div>
                       </Link>
                       <Link to="#" className="media">
@@ -119,11 +114,9 @@ const PHeader = () => {
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
-                          <h6 className="item-title">Quirty</h6>
+                          <h6 className="item-title">Vikram Mehta</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>
-                            when are nknowen printer took galley of types ...
-                          </p>
+                          <p>when an unknown printer took galley of types ...</p>
                         </div>
                       </Link>
                       <Link to="#" className="media">
@@ -131,11 +124,9 @@ const PHeader = () => {
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
-                          <h6 className="item-title">Zinia Jessy</h6>
+                          <h6 className="item-title">Anita Iyer</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>
-                            when are nknowen printer took galley of types ...
-                          </p>
+                          <p>when an unknown printer took galley of types ...</p>
                         </div>
                       </Link>
                     </div>
@@ -165,7 +156,7 @@ const PHeader = () => {
                         </span>
                       </span>
                       <span className="media-body">
-                        <span className="item-title">Rebeca</span>
+                        <span className="item-title">Kiran Rao</span>
                       </span>
                     </span>
                   </button>
