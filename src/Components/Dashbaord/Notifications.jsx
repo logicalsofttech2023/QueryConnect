@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   FaBell, 
   FaCheck, 
@@ -167,6 +167,11 @@ const Notifications = () => {
     };
     return gradients[type] || 'linear-gradient(135deg, #6b7280, #4b5563)';
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+  
 
   return (
     <div className="notifications-container">

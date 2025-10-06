@@ -2310,6 +2310,54 @@ body.menu-open {
 
 
 
+.callGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.callGroup .iconBtn {
+  background: none;
+  border: none;
+  color: #718096;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.callGroup .iconBtn:hover {
+  background: #f7fafc;
+  color: #3182ce;
+}
+
+/* Ensure the chat options button is properly styled */
+.chatOptions {
+  position: relative;
+}
+
+.chatOptions .iconBtn {
+  background: none;
+  border: none;
+  color: #718096;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatOptions .iconBtn:hover {
+  background: #f7fafc;
+  color: #3182ce;
+}
+
+
 
 
 

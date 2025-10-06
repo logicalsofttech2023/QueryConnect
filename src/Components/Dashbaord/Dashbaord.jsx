@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-  FiEye,
-  FiEdit,
   FiActivity,
   FiPause,
-  FiMessageSquare,
   FiUser,
   FiPlus,
   FiInbox
@@ -13,7 +10,6 @@ import {
   FaCheckCircle,
   FaTimesCircle,
   FaComment,
-  FaUserCircle,
 } from "react-icons/fa";
 import { Skeleton, Box } from "@mui/material";
 import "./Dashboard.css";

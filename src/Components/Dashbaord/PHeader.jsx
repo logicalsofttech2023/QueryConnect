@@ -72,7 +72,7 @@ const PHeader = () => {
                       </Link>
                     </div>
                     <div className="item-footer">
-                      <Link to="#" className="view-btn">
+                      <Link to="/messages" className="view-btn">
                         View All Messages
                       </Link>
                     </div>
@@ -131,7 +131,7 @@ const PHeader = () => {
                       </Link>
                     </div>
                     <div className="item-footer">
-                      <Link to="#" className="view-btn">
+                      <Link to="/notifications" className="view-btn">
                         View All Notification
                       </Link>
                     </div>
