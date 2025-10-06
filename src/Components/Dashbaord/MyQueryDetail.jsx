@@ -304,7 +304,7 @@ const MyQueryDetail = () => {
           <div className="row">
             <div className="col-lg-12">
               {/* Filter Section */}
-              <div className="block-box filter-tabs mb-4">
+              <div className="block-box filter-tabs mb-4 justify-content-center" style={{ width: "100%" }}>
                 <div className="filter-header">
                   <h3>Query Detail</h3>
                 </div>

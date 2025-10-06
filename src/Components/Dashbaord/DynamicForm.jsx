@@ -13,7 +13,8 @@ import {
   FaTimes,
   FaCheck,
 } from "react-icons/fa";
-import "./NewQueries.css";
+import "./DynamicForm.css";
+import { useNavigate } from "react-router-dom";
 
 // Enhanced data structure with more sectors
 const data = {
@@ -77,7 +78,7 @@ const data = {
   },
 };
 
-const NewQueries = () => {
+const DynamicForm = () => {
   const [sector, setSector] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
@@ -111,6 +112,7 @@ const NewQueries = () => {
   const [guests, setGuests] = useState("");
 
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   // Enhanced area selection state
   const [availableAreas, setAvailableAreas] = useState([]);
@@ -314,24 +316,23 @@ const NewQueries = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Form submitted successfully!\n\nDescription: " + description);
+    console.log("Form submitted successfully!", description);
+    navigate("/login");
   };
 
-  // Get all sectors from data
   const sectors = Object.keys(data);
 
   return (
-    <div className="form-container">
+    <div className="form-container" style={{ margin: "0px", padding: "0px" }}>
       <div className="form-header">
-        <h2 className="form-title">Create New Query</h2>
-        <p className="form-subtitle">Select a sector and fill in the details</p>
+        <h2 className="form-title" style={{ color: "white" }}>Create Your Query</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="dynamic-form">
         {/* Sector Selection - Now as Dropdown */}
         <div className="form-section">
           <label className="form-label">
-            <FaCity className="input-icon" />
+            
             Select Sector
           </label>
           <div className="sector-dropdown">
@@ -595,7 +596,7 @@ const NewQueries = () => {
 
                   <div className="form-group">
                     <label className="form-label">
-                      <FaUser className="input-icon" />
+                      
                       Monthly Income (₹)
                     </label>
                     <input
@@ -626,7 +627,7 @@ const NewQueries = () => {
 
                 <div className="form-group">
                   <label className="form-label">
-                    <FaCreditCard className="input-icon" />
+                    
                     CIBIL Score
                   </label>
                   <input
@@ -770,7 +771,7 @@ const NewQueries = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">
-                    <FaCalendarAlt className="input-icon" />
+                    
                     Check-in Date
                   </label>
                   <input
@@ -783,7 +784,7 @@ const NewQueries = () => {
 
                 <div className="form-group">
                   <label className="form-label">
-                    <FaCalendarAlt className="input-icon" />
+                    
                     Check-out Date
                   </label>
                   <input
@@ -817,7 +818,7 @@ const NewQueries = () => {
 
                 <div className="form-group">
                   <label className="form-label">
-                    <FaUser className="input-icon" />
+                    
                     Guests
                   </label>
                   <input
@@ -988,4 +989,4 @@ const NewQueries = () => {
   );
 };
 
-export default NewQueries;
+export default DynamicForm;

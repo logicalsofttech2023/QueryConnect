@@ -163,7 +163,7 @@ const Profile = () => {
   return (
     <div id="wrapper" className="wrapper">
       <div className="page-content">
-        <div className="container">
+        <div className="container-fluid">
           {/* Profile Header */}
           <div className="banner-user">
             <div className="banner-content">
@@ -198,26 +198,17 @@ const Profile = () => {
                   <div className="user-stats">
                     <div className="stat-item">
                       <span className="stat-number" style={{ color: '#fff' }}>30</span>
-                      <span className="stat-label" style={{ color: '#fff' }}>Query</span>
+                      <span className="stat-label" style={{ color: '#fff' }}>Active Query</span>
                     </div>
                     <div className="stat-item">
                       <span className="stat-number" style={{ color: '#fff' }}>12</span>
-                      <span className="stat-label" style={{ color: '#fff' }}>Comments</span>
+                      <span className="stat-label" style={{ color: '#fff' }}>Inactive Query</span>
                     </div>
-                    <div className="stat-item">
-                      <span className="stat-number" style={{ color: '#fff' }}>1.2k</span>
-                      <span className="stat-label" style={{ color: '#fff' }}>Views</span>
-                    </div>
+                    
                     
                   </div>
 
-                  <div className="member-since">
-                    Member since {new Date(userData.joinDate).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric' 
-                    })}
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -233,20 +224,7 @@ const Profile = () => {
                 <FaUser />
                 Personal Info
               </button>
-              <button 
-                className={`tab-btn ${activeTab === 'security' ? 'active' : ''}`}
-                onClick={() => setActiveTab('security')}
-              >
-                <FaLock />
-                Security
-              </button>
-              <button 
-                className={`tab-btn ${activeTab === 'scheduler' ? 'active' : ''}`}
-                onClick={() => setActiveTab('scheduler')}
-              >
-                <FaClock />
-                Scheduler
-              </button>
+             
             </div>
 
             <div className="tab-content">
@@ -352,286 +330,6 @@ const Profile = () => {
                         </button>
                       </div>
                     )}
-                  </form>
-                </div>
-              )}
-
-              {/* Security Tab */}
-              {activeTab === 'security' && (
-                <div className="tab-pane active">
-                  <div className="section-header">
-                    <h3>Password & Security</h3>
-                  </div>
-
-                  <div className="security-options">
-                    {!passwordResetMethod ? (
-                      <div className="reset-options">
-                        <h4>Choose how you want to reset your password:</h4>
-                        <div className="option-cards">
-                          <div 
-                            className="option-card"
-                            onClick={() => setPasswordResetMethod("currentPassword")}
-                          >
-                            <div className="card-icon">
-                              <FaLock />
-                            </div>
-                            <h5>I know my current password</h5>
-                            <p>Reset using your existing password</p>
-                            <div className="card-arrow">→</div>
-                          </div>
-                          
-                          <div 
-                            className="option-card"
-                            onClick={() => setPasswordResetMethod("forgotPassword")}
-                          >
-                            <div className="card-icon">
-                              <FaPhone />
-                            </div>
-                            <h5>I forgot my password</h5>
-                            <p>Verify with OTP sent to your mobile</p>
-                            <div className="card-arrow">→</div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="password-reset-flow">
-                        {/* Back Button */}
-                        <button 
-                          className="back-button"
-                          onClick={resetPasswordFlow}
-                        >
-                          <FaArrowLeft />
-                          Back to Options
-                        </button>
-
-                        <form onSubmit={handlePasswordReset}>
-                          {/* Current Password Method */}
-                          {passwordResetMethod === "currentPassword" && (
-                            <div className="method-section">
-                              <h4>Reset with Current Password</h4>
-                              <div className="form-group">
-                                <label>Current Password</label>
-                                <div className="password-input">
-                                  <input
-                                    type={showOldPassword ? "text" : "password"}
-                                    name="currentPassword"
-                                    value={passwordData.currentPassword}
-                                    onChange={handlePasswordChange}
-                                    placeholder="Enter your current password"
-                                    required
-                                    style={{ width: '100%' }}
-                                  />
-                                  <button 
-                                    type="button"
-                                    className="password-toggle"
-                                    onClick={() => setShowOldPassword(!showOldPassword)}
-                                  >
-                                    {showOldPassword ? <FaEyeSlash /> : <FaEye />}
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Forgot Password Method */}
-                          {passwordResetMethod === "forgotPassword" && (
-                            <div className="method-section">
-                              <h4>Reset with OTP Verification</h4>
-                              <div className="otp-info">
-                                <p>We'll send a verification code to your registered mobile number:</p>
-                                <div className="mobile-display">
-                                  <strong>{userData.mobile}</strong>
-                                </div>
-                              </div>
-
-                              {!otpSent ? (
-                                <div className="form-group">
-                                  <button 
-                                    type="button" 
-                                    className="btn btn-send-otp"
-                                    onClick={handleSendOTP}
-                                  >
-                                    Send OTP
-                                  </button>
-                                </div>
-                              ) : (
-                                <>
-                                  <div className="form-group">
-                                    <label>Enter OTP</label>
-                                    <div className="otp-input-section">
-                                      <input
-                                        type="text"
-                                        name="otp"
-                                        value={passwordData.otp}
-                                        onChange={handlePasswordChange}
-                                        placeholder="Enter 6-digit OTP"
-                                        maxLength="6"
-                                        disabled={otpVerified}
-                                      />
-                                      {!otpVerified && (
-                                        <button 
-                                          type="button" 
-                                          className="btn btn-verify-otp"
-                                          onClick={handleVerifyOTP}
-                                          disabled={passwordData.otp.length !== 6}
-                                        >
-                                          Verify OTP
-                                        </button>
-                                      )}
-                                    </div>
-                                    {otpVerified && (
-                                      <div className="verification-success">
-                                        <FaCheckCircle />
-                                        OTP verified successfully!
-                                      </div>
-                                    )}
-                                    <div className="resend-otp">
-                                      Didn't receive OTP?{" "}
-                                      <button type="button" onClick={handleSendOTP}>
-                                        Resend OTP
-                                      </button>
-                                    </div>
-                                  </div>
-                                </>
-                              )}
-                            </div>
-                          )}
-
-                          {/* New Password Section (Common for both methods) */}
-                          {(passwordResetMethod === "currentPassword" || 
-                            (passwordResetMethod === "forgotPassword" && otpVerified)) && (
-                            <div className="new-password-section">
-                              <h4>Set New Password</h4>
-                              <div className="form-group">
-                                <label>New Password</label>
-                                <div className="password-input">
-                                  <input
-                                    type={showNewPassword ? "text" : "password"}
-                                    name="newPassword"
-                                    value={passwordData.newPassword}
-                                    onChange={handlePasswordChange}
-                                    placeholder="Enter new password"
-                                    required
-                                    style={{ width: "100%" }}
-                                  />
-                                  <button 
-                                    type="button"
-                                    className="password-toggle"
-                                    onClick={() => setShowNewPassword(!showNewPassword)}
-                                  >
-                                    {showNewPassword ? <FaEyeSlash /> : <FaEye />}
-                                  </button>
-                                </div>
-                              </div>
-
-                              <div className="form-group">
-                                <label>Confirm New Password</label>
-                                <input
-                                  type="password"
-                                  name="confirmPassword"
-                                  value={passwordData.confirmPassword}
-                                  onChange={handlePasswordChange}
-                                  placeholder="Confirm new password"
-                                  required
-                                />
-                                {passwordData.newPassword && passwordData.confirmPassword && 
-                                passwordData.newPassword !== passwordData.confirmPassword && (
-                                  <div className="password-error">Passwords don't match</div>
-                                )}
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Submit Button */}
-                          <div className="form-actions">
-                            <button 
-                              type="submit" 
-                              className="btn btn-save"
-                              disabled={
-                                !passwordData.newPassword ||
-                                passwordData.newPassword !== passwordData.confirmPassword ||
-                                (passwordResetMethod === "currentPassword" && !passwordData.currentPassword) ||
-                                (passwordResetMethod === "forgotPassword" && !otpVerified)
-                              }
-                            >
-                              <FaLock />
-                              Update Password
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Scheduler Tab */}
-              {activeTab === 'scheduler' && (
-                <div className="tab-pane active">
-                  <div className="section-header">
-                    <h3>Scheduler</h3>
-                  </div>
-
-                  <form>
-                    <div className="form-grid">
-                      <div className="form-group">
-                        <label>
-                          <FaCalendarAlt style={{ marginRight: '9px', marginBottom: '6px' }} />
-                          Day
-                        </label>
-                        <input
-                          type="date"
-                          name="preferredDay"
-                          value={formData.preferredDay || ''}
-                          onChange={handleInputChange}
-                        />
-                        <div className="field-note">
-                          Select your preferred day for scheduling
-                        </div>
-                      </div>
-
-                      <div className="form-group">
-                        <label>
-                          <FaClock style={{ marginRight: '9px', marginBottom: '6px' }} />
-                          Time
-                        </label>
-                        <input
-                          type="time"
-                          name="preferredTime"
-                          value={formData.preferredTime}
-                          onChange={handleInputChange}
-                        />
-                        <div className="field-note">
-                          Select your preferred time slot
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-grid">
-                      <div className="form-group">
-                        <label>Select Test (optional)</label>
-                        <select
-                          name="test"
-                          className="form-control"
-                          value={formData.test || ''}
-                          onChange={handleInputChange}
-                        >
-                          <option value="">-- Select Test --</option>
-                          <option value="eye-test">Eye Test</option>
-                          <option value="vision-test">Vision Test</option>
-                          <option value="color-blind-test">Color Blind Test</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    
-
-                    <div className="form-actions">
-                      <button type="button" className="btn btn-save">
-                        <FaCheckCircle />
-                        Save
-                      </button>
-                    </div>
                   </form>
                 </div>
               )}

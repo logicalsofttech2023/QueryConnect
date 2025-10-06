@@ -21,6 +21,8 @@ import MyQueryDetail from "./Components/Dashbaord/MyQueryDetail";
 import MyImageEditor from "./Components/Dashbaord/MyImageEditor";
 import CallHistory from "./Components/Dashbaord/CallHistory";
 import JitsiCall from "./Components/Dashbaord/JitsiCall";
+import UserProfile from "./Components/Dashbaord/UserProfile";
+import DynamicForm from "./Components/Dashbaord/DynamicForm";
 
 // Layout for pages where Header & Footer are shown
 function MainLayout({ children }) {
@@ -37,7 +39,7 @@ function ProfileLayout({ children }) {
   return (
     <>
       <PHeader />
-      <Sidebar />
+      
       {children}
       <Footer />
     </>
@@ -163,10 +165,20 @@ function App() {
         />
 
         <Route
-          path="/jitsiCall"
+          path="/userProfile"
           element={
             <ProfileLayout>
-              <JitsiCall />
+              <UserProfile />
+            </ProfileLayout>
+          }
+        />
+
+
+        <Route
+          path="/dynamicForm"
+          element={
+            <ProfileLayout>
+              <DynamicForm />
             </ProfileLayout>
           }
         />

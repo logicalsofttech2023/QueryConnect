@@ -467,3 +467,87 @@
   margin-top: 4px;
   text-align: left;
 }
+
+/* Social Login Styles */
+.social-login-divider {
+  position: relative;
+  text-align: center;
+  margin: 20px 0;
+  color: #666;
+}
+
+.social-login-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ddd;
+  z-index: 1;
+}
+
+.social-login-divider span {
+  background: white;
+  padding: 0 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.social-login-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.social-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.facebook-btn {
+  color: #1877F2;
+  border-color: #1877F2;
+}
+
+.facebook-btn:hover {
+  background: #1877F2;
+  color: white;
+}
+
+.google-btn {
+  color: #DB4437;
+  border-color: #DB4437;
+}
+
+.google-btn:hover {
+  background: #DB4437;
+  color: white;
+}
+
+.social-icon {
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .social-login-buttons {
+    flex-direction: column;
+  }
+}

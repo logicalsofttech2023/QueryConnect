@@ -6,7 +6,7 @@ const PHeader = () => {
     <div>
       <header className="fixed-header">
         <div className="header-menu">
-          <div className="navbar">
+          <div className="navbar" style={{ justifyContent: "space-between" }}>
             <div className="nav-item d-sm-block">
               <div className="header-logo">
                 <Link to="/">
@@ -162,6 +162,18 @@ const PHeader = () => {
                   </button>
                   <div className="dropdown-menu dropdown-menu-right">
                     <ul className="admin-options">
+                      <li>
+                        <Link to="/dashboard">Dashboard</Link>
+                      </li>
+                      <li>
+                        <Link to="/profile">Profile</Link>
+                      </li>
+                      <li>
+                        <Link to="/support">Support</Link>
+                      </li>
+                      <li>
+                        <Link to="/messages">Messages</Link>
+                      </li>
                       <li>
                         <Link to="/login">Log Out</Link>
                       </li>

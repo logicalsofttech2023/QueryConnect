@@ -64,7 +64,7 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/logout" className="menu-link" onClick={() => handleLinkClick("/logout")}>
+                <Link to="/login" className="menu-link" onClick={() => handleLinkClick("/login")}>
                   <i className="icofont-logout" />
                 </Link>
               </li>
@@ -142,7 +142,7 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/logout" className="menu-link" onClick={() => handleLinkClick("/logout")}>
+                <Link to="/login" className="menu-link" onClick={() => handleLinkClick("/login")}>
                   <i className="icofont-logout" />
                   <span className="menu-title">Logout</span>
                 </Link>

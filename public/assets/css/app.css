@@ -1945,7 +1945,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
 }
 
 .fixed-header .header-menu {
-    padding: 0px 0px 0px 90px !important;
+    
     background-color: #615dfa;
 }
 
@@ -4134,7 +4134,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
 
 @media only screen and (max-width: 1199px) {
     .hero-banner {
-        padding: 180px 0 100px;
+        padding: 140px 0 100px;
     }
 }
 

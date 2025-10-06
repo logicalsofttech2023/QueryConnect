@@ -98,7 +98,6 @@ const MyQueries = () => {
 
   const handleAddComment = () => {
     if (commentText.trim() && selectedQuery) {
-      // Add comment logic here
       console.log("Adding comment:", commentText);
       setCommentText("");
     }
@@ -208,7 +207,7 @@ const MyQueries = () => {
                 className="block-box filter-tabs mb-4"
                 style={{ width: "100%" }}
               >
-                <div className="filter-header" style={{ width: "100%" }}>
+                <div className="filter-header justify-content-between" style={{ width: "100%" }}>
                   <h3>My Queries</h3>
                   <div className="filter-buttons">
                     <button

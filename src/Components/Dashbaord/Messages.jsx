@@ -8,78 +8,92 @@ import {
   FaCheck,
   FaCheckDouble,
   FaPaperPlane,
-  FaPaperclip,
   FaTimes,
   FaBars,
   FaArrowLeft,
-  FaImages,
-  FaFile,
   FaEllipsisV,
   FaTrash,
   FaBan,
+  FaMobile,
+  FaStar,
+  FaVolumeMute,
+  FaImage,
+  FaFileAlt,
+  FaLink,
+  FaImages,
+  FaDownload,
+  FaEllipsisH,
 } from "react-icons/fa";
 import "./Messages.css";
-import MyImageEditor from "./MyImageEditor";
+import { FaExternalLinkAlt, FaArrowRight } from "react-icons/fa";
 
 const Messages = () => {
   const [message, setMessage] = useState("");
-  const [files, setFiles] = useState([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showPreviewPopup, setShowPreviewPopup] = useState(false);
-  const [pendingFiles, setPendingFiles] = useState([]);
-  const [currentPreviewIndex, setCurrentPreviewIndex] = useState(0);
-  const [showEditor, setShowEditor] = useState(false);
-  const [imageToEdit, setImageToEdit] = useState(null);
-  const [imageEditIndex, setImageEditIndex] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showChatOptions, setShowChatOptions] = useState(false);
-  const [showMessageOptions, setShowMessageOptions] = useState(null);
   const [isBlocked, setIsBlocked] = useState(false);
-  const [showCallHistory, setShowCallHistory] = useState(false);
   const [messageSearchQuery, setMessageSearchQuery] = useState("");
   const [showMessageSearch, setShowMessageSearch] = useState(false);
+  const [showUserDetails, setShowUserDetails] = useState(false);
   const messagesEndRef = useRef(null);
+  const messageContainerRef = useRef(null);
+  const userDetailsRef = useRef(null);
+  const [showMediaGallery, setShowMediaGallery] = useState(false);
+  const [selectedMedia, setSelectedMedia] = useState(null);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
 
   // Sample chat data with online status
   const [chats, setChats] = useState([
-  {
+    {
+      id: 1,
+      name: "Amit Sharma",
+      message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+      avatar: "media/figure/chat_5.jpg",
+      online: true,
+      lastSeen: "2 min ago",
+      unread: 3,
+      phone: "+91 98765 43210",
+      isFavorite: true,
+      isMuted: false,
+    },
+    {
+      id: 2,
+      name: "Priya Verma",
+      message: "Hey there! How are you doing?",
+      avatar: "media/figure/chat_5.jpg",
+      online: false,
+      lastSeen: "1 hour ago",
+      unread: 0,
+      phone: "+91 87654 32109",
+      isFavorite: false,
+      isMuted: true,
+    },
+    {
+      id: 3,
+      name: "Rohit Singh",
+      message: "Let's meet tomorrow for coffee",
+      avatar: "media/figure/chat_5.jpg",
+      online: true,
+      lastSeen: "just now",
+      unread: 1,
+      phone: "+91 76543 21098",
+      isFavorite: false,
+      isMuted: false,
+    },
+  ]);
+
+  const [currentChat, setCurrentChat] = useState({
     id: 1,
     name: "Amit Sharma",
-    message: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     avatar: "media/figure/chat_5.jpg",
     online: true,
     lastSeen: "2 min ago",
-    unread: 3,
-  },
-  {
-    id: 2,
-    name: "Priya Verma",
-    message: "Hey there! How are you doing?",
-    avatar: "media/figure/chat_5.jpg",
-    online: false,
-    lastSeen: "1 hour ago",
-    unread: 0,
-  },
-  {
-    id: 3,
-    name: "Rohit Singh",
-    message: "Let's meet tomorrow for coffee",
-    avatar: "media/figure/chat_5.jpg",
-    online: true,
-    lastSeen: "just now",
-    unread: 1,
-  },
-]);
-
-const [currentChat, setCurrentChat] = useState({
-  id: 1,
-  name: "Amit Sharma",
-  avatar: "media/figure/chat_5.jpg",
-  online: true,
-  lastSeen: "2 min ago",
-});
-
+    phone: "+91 98765 43210",
+    isFavorite: true,
+    isMuted: false,
+  });
 
   const [messages, setMessages] = useState([
     {
@@ -89,7 +103,6 @@ const [currentChat, setCurrentChat] = useState({
       time: "3:21 PM",
       date: "yesterday",
       read: true,
-      files: [],
     },
     {
       id: 2,
@@ -98,7 +111,6 @@ const [currentChat, setCurrentChat] = useState({
       time: "3:30 PM",
       date: "yesterday",
       read: true,
-      files: [],
     },
     {
       id: 3,
@@ -107,10 +119,6 @@ const [currentChat, setCurrentChat] = useState({
       time: "8:09 AM",
       date: "today",
       read: true,
-      files: [
-        { type: "image", url: "https://cdn.pixabay.com/photo/2019/06/26/09/52/shit-image-4300034_1280.jpg", name: "image1.jpg" },
-        { type: "image", url: "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=", name: "image2.jpg" },
-      ],
     },
     {
       id: 4,
@@ -119,13 +127,64 @@ const [currentChat, setCurrentChat] = useState({
       time: "9:15 AM",
       date: "today",
       read: false,
-      files: [
-        { type: "video", url: "https://samplelib.com/lib/preview/mp4/sample-5s.mp4", name: "sample.mp4" },
-      ],
     },
   ]);
 
-  
+  // Sample media files
+  const [mediaFiles, setMediaFiles] = useState([
+    {
+      id: 1,
+      type: "image",
+      name: "beach.jpg",
+      date: "2023-10-15",
+      url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop",
+      preview:
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
+    },
+    {
+      id: 2,
+      type: "image",
+      name: "mountain.png",
+      date: "2023-10-14",
+      url: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=400&h=300&fit=crop",
+      preview:
+        "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=800&h=600&fit=crop",
+    },
+    {
+      id: 3,
+      type: "file",
+      name: "document.pdf",
+      date: "2023-10-13",
+      url: "#",
+      preview: null,
+    },
+    {
+      id: 4,
+      type: "link",
+      name: "project-link",
+      date: "2023-10-12",
+      url: "#",
+      preview: null,
+    },
+    {
+      id: 5,
+      type: "image",
+      name: "forest.jpg",
+      date: "2023-10-11",
+      url: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&h=300&fit=crop",
+      preview:
+        "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&h=600&fit=crop",
+    },
+    {
+      id: 6,
+      type: "image",
+      name: "city.jpg",
+      date: "2023-10-10",
+      url: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&h=300&fit=crop",
+      preview:
+        "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&h=600&fit=crop",
+    },
+  ]);
 
   // Check if mobile on mount and resize
   useEffect(() => {
@@ -148,7 +207,12 @@ const [currentChat, setCurrentChat] = useState({
     }
   }, [isMobileMenuOpen]);
 
-  // Scroll to bottom of messages
+  // Scroll to top when page loads or chat changes
+  useEffect(() => {
+    scrollToTop();
+  }, []);
+
+  // Scroll to bottom when new messages are added
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -157,95 +221,15 @@ const [currentChat, setCurrentChat] = useState({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    if (selectedFiles.length > 0) {
-      setPendingFiles(selectedFiles);
-      setCurrentPreviewIndex(0);
-      setShowPreviewPopup(true);
+  const scrollToTop = () => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = 0;
     }
-  };
-
-  const handleEditImage = (fileIndex) => {
-    const file = pendingFiles[fileIndex];
-    if (file && file.type.startsWith("image/")) {
-      setImageToEdit(URL.createObjectURL(file));
-      setImageEditIndex(fileIndex);
-      setShowEditor(true);
-    }
-  };
-
-  const handleEditedImage = (dataUrl) => {
-    if (dataUrl && imageEditIndex !== null) {
-      fetch(dataUrl)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const editedFile = new File(
-            [blob],
-            `edited-${pendingFiles[imageEditIndex].name}`,
-            {
-              type: "image/png",
-            }
-          );
-
-          const updatedFiles = [...pendingFiles];
-          updatedFiles[imageEditIndex] = editedFile;
-          setPendingFiles(updatedFiles);
-        })
-        .catch((error) => {
-          console.error("Error converting edited image:", error);
-        });
-    }
-
-    setShowEditor(false);
-    setImageToEdit(null);
-    setImageEditIndex(null);
-  };
-
-  const cancelEditImage = () => {
-    setShowEditor(false);
-    setImageToEdit(null);
-    setImageEditIndex(null);
-  };
-
-  const confirmSendFiles = () => {
-    const newMessage = {
-      id: messages.length + 1,
-      type: "me",
-      content: message || "Shared files",
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      date: "today",
-      read: false,
-      files: pendingFiles.map((file) => ({
-        type: file.type.startsWith("image/")
-          ? "image"
-          : file.type.startsWith("video/")
-          ? "video"
-          : "file",
-        url: URL.createObjectURL(file),
-        name: file.name,
-      })),
-    };
-
-    setMessages([...messages, newMessage]);
-    setPendingFiles([]);
-    setShowPreviewPopup(false);
-    setMessage("");
-    document.getElementById("MessageInput").focus();
-  };
-
-  const cancelSendFiles = () => {
-    setPendingFiles([]);
-    setShowPreviewPopup(false);
-    document.getElementById("fileInput").value = "";
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (message.trim() || files.length > 0) {
+    if (message.trim()) {
       const newMessage = {
         id: messages.length + 1,
         type: "me",
@@ -256,21 +240,10 @@ const [currentChat, setCurrentChat] = useState({
         }),
         date: "today",
         read: false,
-        files: files.map((file) => ({
-          type: file.type.startsWith("image/")
-            ? "image"
-            : file.type.startsWith("video/")
-            ? "video"
-            : "file",
-          url: URL.createObjectURL(file),
-          name: file.name,
-        })),
       };
 
       setMessages([...messages, newMessage]);
       setMessage("");
-      setFiles([]);
-      document.getElementById("fileInput").value = "";
     }
   };
 
@@ -300,28 +273,24 @@ const [currentChat, setCurrentChat] = useState({
       c.id === chat.id ? { ...c, unread: 0 } : c
     );
     setChats(updatedChats);
+
+    // Scroll to top when switching chats
+    scrollToTop();
   };
 
-  const nextPreview = () => {
-    setCurrentPreviewIndex((prev) =>
-      prev < pendingFiles.length - 1 ? prev + 1 : prev
-    );
-  };
+  // Close chat options when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showChatOptions && !event.target.closest(".chatOptions")) {
+        setShowChatOptions(false);
+      }
+    };
 
-  const prevPreview = () => {
-    setCurrentPreviewIndex((prev) => (prev > 0 ? prev - 1 : prev));
-  };
-
-  const getFileIcon = (fileType) => {
-    if (fileType.startsWith("image/")) return <FaImages />;
-    if (fileType.startsWith("video/")) return <FaVideo />;
-    return <FaFile />;
-  };
-
-  const getTotalFileSize = (filesArray) => {
-    const totalBytes = filesArray.reduce((total, file) => total + file.size, 0);
-    return (totalBytes / 1024 / 1024).toFixed(2);
-  };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showChatOptions]);
 
   // New Feature Handlers
   const clearChat = () => {
@@ -334,24 +303,82 @@ const [currentChat, setCurrentChat] = useState({
     setShowChatOptions(false);
   };
 
-  const deleteMessage = (messageId) => {
-    setMessages(messages.filter((msg) => msg.id !== messageId));
-    setShowMessageOptions(null);
+  const toggleFavorite = () => {
+    const updatedChats = chats.map((chat) =>
+      chat.id === currentChat.id
+        ? { ...chat, isFavorite: !chat.isFavorite }
+        : chat
+    );
+    setChats(updatedChats);
+    setCurrentChat({ ...currentChat, isFavorite: !currentChat.isFavorite });
+  };
+
+  const toggleMute = () => {
+    const updatedChats = chats.map((chat) =>
+      chat.id === currentChat.id ? { ...chat, isMuted: !chat.isMuted } : chat
+    );
+    setChats(updatedChats);
+    setCurrentChat({ ...currentChat, isMuted: !currentChat.isMuted });
   };
 
   const filteredChats = chats.filter((chat) =>
     chat.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const filteredMessages = messages.filter(
-    (msg) =>
-      msg.content.toLowerCase().includes(messageSearchQuery.toLowerCase()) ||
-      msg.files.some((file) =>
-        file.name.toLowerCase().includes(messageSearchQuery.toLowerCase())
-      )
+  const filteredMessages = messages.filter((msg) =>
+    msg.content.toLowerCase().includes(messageSearchQuery.toLowerCase())
   );
 
-  const currentFile = pendingFiles[currentPreviewIndex];
+  const openMediaGallery = () => {
+    setShowMediaGallery(true);
+  };
+
+  const closeMediaGallery = () => {
+    setShowMediaGallery(false);
+    setSelectedMedia(null);
+    setCurrentMediaIndex(0);
+  };
+
+  const openMediaPreview = (media, index) => {
+    setSelectedMedia(media);
+    setCurrentMediaIndex(index);
+  };
+
+  const closeMediaPreview = () => {
+    setSelectedMedia(null);
+  };
+
+  const navigateMedia = (direction) => {
+    const imagesOnly = mediaFiles.filter((file) => file.type === "image");
+    let newIndex;
+
+    if (direction === "next") {
+      newIndex = (currentMediaIndex + 1) % imagesOnly.length;
+    } else {
+      newIndex =
+        (currentMediaIndex - 1 + imagesOnly.length) % imagesOnly.length;
+    }
+
+    setCurrentMediaIndex(newIndex);
+    setSelectedMedia(imagesOnly[newIndex]);
+  };
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (selectedMedia) {
+        if (e.key === "Escape") {
+          closeMediaPreview();
+        } else if (e.key === "ArrowRight") {
+          navigateMedia("next");
+        } else if (e.key === "ArrowLeft") {
+          navigateMedia("prev");
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => document.removeEventListener("keydown", handleKeyPress);
+  }, [selectedMedia, currentMediaIndex]);
 
   return (
     <div className="messagesContainer">
@@ -368,150 +395,6 @@ const [currentChat, setCurrentChat] = useState({
           className={`mobileOverlay ${isMobileMenuOpen ? "active" : ""}`}
           onClick={closeMobileMenu}
         />
-      )}
-
-      {/* Image Editor Popup */}
-      {showEditor && imageToEdit && (
-        <div className="editorPopupOverlay">
-          <div className="editorPopup">
-            <div className="editorPopupHeader">
-              <h3>Edit Image</h3>
-              <button className="closePopup" onClick={cancelEditImage}>
-                <FaTimes />
-              </button>
-            </div>
-            <MyImageEditor
-              imageUrl={imageToEdit}
-              onComplete={handleEditedImage}
-              onCancel={cancelEditImage}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Multiple Files Preview Popup */}
-      {showPreviewPopup && pendingFiles.length > 0 && !showEditor && (
-        <div className="previewPopupOverlay">
-          <div className="previewPopup">
-            <div className="previewPopupHeader">
-              <div className="previewTitleSection">
-                <h3>Send Files ({pendingFiles.length})</h3>
-                <span className="filesCounter">
-                  {currentPreviewIndex + 1} of {pendingFiles.length}
-                </span>
-              </div>
-              <button className="closePopup" onClick={cancelSendFiles}>
-                <FaTimes />
-              </button>
-            </div>
-
-            {/* Files List Thumbnails */}
-            <div className="filesThumbnails">
-              {pendingFiles.map((file, index) => (
-                <div
-                  key={index}
-                  className={`thumbnail ${
-                    index === currentPreviewIndex ? "active" : ""
-                  }`}
-                  onClick={() => setCurrentPreviewIndex(index)}
-                >
-                  {file.type.startsWith("image/") ? (
-                    <>
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`preview-${index}`}
-                        className="thumbnailImg"
-                      />
-                      <button
-                        className="editImageBtn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditImage(index);
-                        }}
-                      >
-                        Edit
-                      </button>
-                    </>
-                  ) : (
-                    <div className="thumbnailIcon">
-                      {getFileIcon(file.type)}
-                    </div>
-                  )}
-                  <div className="thumbnailOverlay">
-                    {file.type.startsWith("video/") && <FaVideo />}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Main Preview */}
-            <div className="previewPopupContent">
-              {currentFile && currentFile.type.startsWith("image/") ? (
-                <img
-                  src={URL.createObjectURL(currentFile)}
-                  alt="preview"
-                  className="popupPreviewImg"
-                />
-              ) : currentFile && currentFile.type.startsWith("video/") ? (
-                <video
-                  src={URL.createObjectURL(currentFile)}
-                  controls
-                  className="popupPreviewVideo"
-                />
-              ) : currentFile ? (
-                <div className="popupFilePreviewGeneric">
-                  <div className="popupFileIcon">
-                    {getFileIcon(currentFile.type)}
-                  </div>
-                  <div className="popupFileInfo">
-                    <div className="popupFileName">{currentFile.name}</div>
-                    <div className="popupFileSize">
-                      {(currentFile.size / 1024 / 1024).toFixed(2)} MB
-                    </div>
-                    <div className="popupFileType">{currentFile.type}</div>
-                  </div>
-                </div>
-              ) : null}
-
-              {/* Navigation Arrows for multiple files */}
-              {pendingFiles.length > 1 && (
-                <>
-                  <button
-                    className="navArrow navArrowLeft"
-                    onClick={prevPreview}
-                    disabled={currentPreviewIndex === 0}
-                  >
-                    ‹
-                  </button>
-                  <button
-                    className="navArrow navArrowRight"
-                    onClick={nextPreview}
-                    disabled={currentPreviewIndex === pendingFiles.length - 1}
-                  >
-                    ›
-                  </button>
-                </>
-              )}
-            </div>
-
-            {/* Files Summary */}
-            <div className="filesSummary">
-              <div className="totalFiles">
-                <strong>{pendingFiles.length}</strong> file(s) selected • Total
-                size: <strong>{getTotalFileSize(pendingFiles)} MB</strong>
-              </div>
-            </div>
-
-            <div className="previewPopupActions">
-              <button className="cancelBtn" onClick={cancelSendFiles}>
-                Cancel All
-              </button>
-              <button className="sendBtn" onClick={confirmSendFiles}>
-                Send All Files
-              </button>
-            </div>
-          </div>
-        </div>
       )}
 
       <main className="MessagesMain">
@@ -571,7 +454,7 @@ const [currentChat, setCurrentChat] = useState({
         {/* CHAT SECTION */}
         <section className={`Chat ${isMobileMenuOpen ? "menuOpen" : ""}`}>
           <div className="ChatHead">
-            <div className="chatUser">
+            <div className="chatUser" onClick={() => setShowUserDetails(true)}>
               <div className="avatarContainer">
                 <div className="avatar">
                   <img src={currentChat.avatar} alt={currentChat.name} />
@@ -642,7 +525,7 @@ const [currentChat, setCurrentChat] = useState({
           )}
 
           {/* MESSAGES */}
-          <div className="MessageContainer">
+          <div className="MessageContainer" ref={messageContainerRef}>
             {filteredMessages.map((msg, index) => {
               const showDateSeparator =
                 index === 0 || msg.date !== filteredMessages[index - 1].date;
@@ -651,43 +534,7 @@ const [currentChat, setCurrentChat] = useState({
                   {showDateSeparator && (
                     <div className="messageSeperator">{msg.date}</div>
                   )}
-                  <div
-                    className={`message ${msg.type}`}
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      setShowMessageOptions(msg.id);
-                    }}
-                  >
-                    {/* Message Files */}
-                    {msg.files && msg.files.length > 0 && (
-                      <div
-                        className={`messageFiles ${
-                          msg.files.length > 1 ? "multiple" : "single"
-                        }`}
-                      >
-                        {msg.files.map((file, fileIndex) => (
-                          <div key={fileIndex} className="messageFile">
-                            {file.type === "image" ? (
-                              <img
-                                src={file.url}
-                                alt={file.name}
-                                className="messageImage"
-                              />
-                            ) : file.type === "video" ? (
-                              <video controls className="messageVideo">
-                                <source src={file.url} type="video/mp4" />
-                              </video>
-                            ) : (
-                              <div className="messageFileGeneric">
-                                <FaFile className="fileIcon" />
-                                <span className="fileName">{file.name}</span>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
+                  <div className={`message ${msg.type}`}>
                     {/* Message Content */}
                     {msg.content && (
                       <p className="messageContent">{msg.content}</p>
@@ -702,15 +549,6 @@ const [currentChat, setCurrentChat] = useState({
                           <FaCheck className="readReceipt" />
                         ))}
                     </div>
-
-                    {/* Message Options */}
-                    {showMessageOptions === msg.id && (
-                      <div className="messageOptions">
-                        <button onClick={() => deleteMessage(msg.id)}>
-                          <FaTrash />
-                        </button>
-                      </div>
-                    )}
                   </div>
                 </React.Fragment>
               );
@@ -729,19 +567,6 @@ const [currentChat, setCurrentChat] = useState({
           {!isBlocked && (
             <form id="MessageForm" onSubmit={handleSubmit}>
               <input
-                type="file"
-                id="fileInput"
-                style={{ display: "none" }}
-                accept="image/*,video/*,.pdf,.doc,.docx,.txt"
-                onChange={handleFileChange}
-                multiple
-              />
-
-              <label htmlFor="fileInput" className="iconBtn">
-                <FaPaperclip className="icon" />
-              </label>
-
-              <input
                 type="text"
                 id="MessageInput"
                 value={message}
@@ -757,6 +582,242 @@ const [currentChat, setCurrentChat] = useState({
           )}
         </section>
       </main>
+
+      {/* User Details Panel */}
+      <div
+        className={`userDetailsPanel ${showUserDetails ? "show" : ""}`}
+        ref={userDetailsRef}
+      >
+        <div className="userDetailsHeader">
+          <button
+            className="backButton"
+            onClick={() => setShowUserDetails(false)}
+          >
+            <FaArrowLeft />
+          </button>
+          <h3>Contact Info</h3>
+        </div>
+
+        <div className="userDetailsContent">
+          <div className="userProfileSection">
+            <div className="userAvatarLarge">
+              <img src={currentChat.avatar} alt={currentChat.name} />
+            </div>
+            <div className="userNameLarge">{currentChat.name}</div>
+            <div className="userStatusText">
+              {currentChat.online
+                ? "Online"
+                : `Last seen ${currentChat.lastSeen}`}
+            </div>
+          </div>
+
+          <div className="userDetailsSection">
+            <div className="detailItem">
+              <FaMobile className="detailIcon" />
+              <div className="detailInfo">
+                <div className="detailLabel">Phone</div>
+                <div className="detailValue">{currentChat.phone}</div>
+              </div>
+            </div>
+
+            {/* <div className="detailActions">
+              <button
+                className={`actionBtn ${
+                  currentChat.isFavorite ? "active" : ""
+                }`}
+                onClick={toggleFavorite}
+              >
+                <FaStar />
+                <span>
+                  {currentChat.isFavorite
+                    ? "Remove from Favorites"
+                    : "Add to Favorites"}
+                </span>
+              </button>
+
+              <button
+                className={`actionBtn ${currentChat.isMuted ? "active" : ""}`}
+                onClick={toggleMute}
+              >
+                <FaVolumeMute />
+                <span>
+                  {currentChat.isMuted
+                    ? "Unmute Notifications"
+                    : "Mute Notifications"}
+                </span>
+              </button>
+            </div> */}
+          </div>
+
+          <div className="sharedMediaSection">
+            <div className="sectionHeader">
+              <h4>Shared Media, Links and Docs</h4>
+              <button className="viewAllBtn" onClick={openMediaGallery}>
+                View All
+              </button>
+            </div>
+
+            <div className="mediaGrid">
+              {mediaFiles.slice(0, 2).map((file, index) => (
+                <div key={file.id} className="mediaItem">
+                  {file.type === "image" && (
+                    <>
+                      <FaImage className="mediaIcon" />
+                      <img
+                        src={file.url}
+                        style={{ height: "100%", width: "100%" }}
+                        alt=""
+                        onClick={() =>
+                          openMediaPreview(file, index)
+                        }
+                      />
+                    </>
+                  )}
+                </div>
+              ))}
+              {mediaFiles.length > 4 && (
+                <div className="mediaItem moreItems" onClick={openMediaGallery}>
+                  <span>+{mediaFiles.length - 4}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="dangerZone">
+            <button className="dangerBtn" onClick={clearChat}>
+              <FaTrash />
+              <span>Clear Chat</span>
+            </button>
+            <button className="dangerBtn" onClick={toggleBlock}>
+              <FaBan />
+              <span>{isBlocked ? "Unblock User" : "Block User"}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* User Details Overlay */}
+      {showUserDetails && (
+        <div
+          className="userDetailsOverlay"
+          onClick={() => setShowUserDetails(false)}
+        ></div>
+      )}
+
+      {/* Media Gallery */}
+      {showMediaGallery && (
+        <div className="mediaGallery">
+          <div className="galleryHeader">
+            <button className="backButton" onClick={closeMediaGallery}>
+              <FaArrowLeft />
+            </button>
+            <h3>Shared Media</h3>
+            <div className="galleryStats">
+              {mediaFiles.filter((file) => file.type === "image").length} photos
+            </div>
+          </div>
+
+          <div className="galleryContent">
+            <div className="mediaCategories">
+              <button className="categoryBtn active">All</button>
+              <button className="categoryBtn">Photos</button>
+              <button className="categoryBtn">Documents</button>
+              <button className="categoryBtn">Links</button>
+            </div>
+
+            <div className="galleryGrid">
+              {mediaFiles.map((file, index) => (
+                <div
+                  key={file.id}
+                  className={`galleryItem ${file.type}`}
+                  onClick={() =>
+                    file.type === "image" && openMediaPreview(file, index)
+                  }
+                >
+                  {file.type === "image" ? (
+                    <img src={file.url} alt={file.name} />
+                  ) : file.type === "file" ? (
+                    <div className="filePreview">
+                      <FaFileAlt className="fileIcon" />
+                      <span className="fileName">{file.name}</span>
+                    </div>
+                  ) : (
+                    <div className="linkPreview">
+                      <FaLink className="linkIcon" />
+                      <span className="linkName">{file.name}</span>
+                    </div>
+                  )}
+                  <div className="mediaOverlay">
+                    {file.type === "image" && (
+                      <FaImages className="overlayIcon" />
+                    )}
+                    {file.type === "file" && (
+                      <FaDownload className="overlayIcon" />
+                    )}
+                    {file.type === "link" && (
+                      <FaExternalLinkAlt className="overlayIcon" />
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Media Gallery Overlay */}
+      {showMediaGallery && (
+        <div className="galleryOverlay" onClick={closeMediaGallery} />
+      )}
+
+      {/* Single Media Preview */}
+      {selectedMedia && (
+        <div className="mediaPreview">
+          <div className="previewHeader">
+            <button className="closeButton" onClick={closeMediaPreview}>
+              <FaTimes />
+            </button>
+            <div className="previewTitle">{selectedMedia.name}</div>
+            <div className="previewActions">
+              <button className="actionBtn">
+                <FaDownload />
+              </button>
+              <button className="actionBtn">
+                <FaEllipsisH />
+              </button>
+            </div>
+          </div>
+
+          <div className="previewContent">
+            <img src={selectedMedia.preview} alt={selectedMedia.name} />
+
+            <button
+              className="navButton prev"
+              onClick={() => navigateMedia("prev")}
+            >
+              <FaArrowLeft />
+            </button>
+            <button
+              className="navButton next"
+              onClick={() => navigateMedia("next")}
+            >
+              <FaArrowRight />
+            </button>
+          </div>
+
+          <div className="previewFooter">
+            <div className="mediaInfo">
+              <div className="mediaName">{selectedMedia.name}</div>
+              <div className="mediaDate">Shared on {selectedMedia.date}</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Media Preview Overlay */}
+      {selectedMedia && (
+        <div className="previewOverlay" onClick={closeMediaPreview} />
+      )}
     </div>
   );
 };
