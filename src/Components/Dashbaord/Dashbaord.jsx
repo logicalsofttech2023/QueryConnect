@@ -2,16 +2,14 @@ import React, { useState, useEffect } from "react";
 import {
   FiActivity,
   FiPause,
-  FiUser,
   FiPlus,
-  FiInbox
+  FiInbox,
+  FiClock,
+  FiSearch,
+  FiEye,
 } from "react-icons/fi";
-import {
-  FaCheckCircle,
-  FaTimesCircle,
-  FaComment,
-} from "react-icons/fa";
-import { Skeleton, Box } from "@mui/material";
+import { FaCircle } from "react-icons/fa";
+import { Skeleton, Box, Chip } from "@mui/material";
 import "./Dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -26,8 +24,7 @@ const Dashboard = () => {
   });
   const [recentQueries, setRecentQueries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedQuery, setSelectedQuery] = useState(null);
-  const [newComment, setNewComment] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,157 +41,175 @@ const Dashboard = () => {
       setRecentQueries([
         {
           id: 1,
-          title: "Payment gateway integration issue",
+          title: "Payment Gateway Integration Issue",
           status: "active",
-          description: "Unable to process payments through the gateway",
+          description:
+            "Unable to process payments through the gateway. Customers are reporting failed transactions and error messages when trying to complete purchases.",
+          shortDescription: "Unable to process payments through the gateway",
           createdAt: "2024-01-15T10:30:00",
+          activeHours: "6:00 AM - 8:00 PM",
+          priority: "high",
+          category: "Technical",
           agents: [
             {
               id: 1,
               name: "John Doe",
-              profile: "media/figure/chat_5.jpg",
-              lastMessage: "We're looking into the payment gateway issue",
+              profile:
+                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+              lastMessage:
+                "We're looking into the payment gateway issue and will update you shortly.",
+              lastMessageImage:
+                "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop",
               lastMessageTime: "2024-01-15T14:20:00",
               isOnline: true,
+              rating: 4.5,
+              totalReviews: 23,
+              unreadCount: 3,
+              department: "Technical Support",
             },
             {
               id: 2,
               name: "Sarah Wilson",
-              profile: "media/figure/chat_5.jpg",
-              lastMessage: "Can you share the error screenshot?",
+              profile:
+                "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+              lastMessage:
+                "Can you share the error screenshot? This will help us diagnose the issue faster.",
+              lastMessageImage: null,
               lastMessageTime: "2024-01-15T13:45:00",
               isOnline: false,
+              rating: 4.8,
+              totalReviews: 45,
+              unreadCount: 1,
+              department: "Payment Solutions",
             },
           ],
           comments: [
             {
               id: 1,
-              text: "Facing this issue since morning",
+              text: "Facing this issue since morning, urgent resolution needed.",
               timestamp: "2024-01-15T10:30:00",
               type: "user",
             },
           ],
+          totalUnread: 4,
+          total_treads: 2,
+          lastUpdated: "2024-01-15T14:20:00",
         },
         {
           id: 2,
-          title: "Account verification problem",
+          title: "Account Verification Problem",
           status: "active",
-          description: "Documents not getting verified automatically",
+          description:
+            "Documents not getting verified automatically. The system is rejecting valid ID documents and proof of address. Manual verification works but takes 24-48 hours.",
+          shortDescription: "Documents not getting verified automatically",
           createdAt: "2024-01-14T09:15:00",
+          activeHours: "6:00 AM - 8:00 PM",
+          priority: "medium",
+          category: "Account",
           agents: [
             {
               id: 3,
               name: "Mike Johnson",
-              profile: "media/figure/chat_5.jpg",
-              lastMessage: "Your documents are under review",
+              profile:
+                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+              lastMessage:
+                "Your documents are under review. We'll complete verification within 24 hours.",
+              lastMessageImage: null,
               lastMessageTime: "2024-01-15T11:30:00",
               isOnline: true,
+              rating: 4.2,
+              totalReviews: 12,
+              unreadCount: 0,
+              department: "Verification Team",
             },
           ],
           comments: [
             {
               id: 1,
-              text: "Uploaded all required documents",
+              text: "Uploaded all required documents last week but still pending.",
               timestamp: "2024-01-14T09:15:00",
               type: "user",
             },
           ],
+          total_treads: 2,
+          totalUnread: 0,
+          lastUpdated: "2024-01-15T11:30:00",
         },
         {
           id: 3,
-          title: "Feature request - Dark mode",
-          status: "inactive",
-          description: "Request for dark mode theme implementation",
+          title: "Dark Mode Feature Request",
+          status: "active",
+          description:
+            "Request for dark mode theme implementation to reduce eye strain and improve battery life on mobile devices. Many users have requested this feature.",
+          shortDescription: "Request for dark mode theme implementation",
           createdAt: "2024-01-10T16:45:00",
+          activeHours: "6:00 AM - 8:00 PM",
+          priority: "low",
+          category: "Feature Request",
           agents: [
             {
               id: 4,
               name: "Emily Chen",
-              profile: "media/figure/chat_5.jpg",
-              lastMessage: "Feature added to roadmap",
+              profile:
+                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+              lastMessage:
+                "Great suggestion! We've added this to our product roadmap for Q2 2024.",
+              lastMessageImage:
+                "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?w=300&h=200&fit=crop",
               lastMessageTime: "2024-01-12T10:15:00",
               isOnline: true,
+              rating: 4.9,
+              totalReviews: 67,
+              unreadCount: 2,
+              department: "Product Team",
             },
           ],
+          total_treads: 2,
           comments: [],
-        },
-        {
-          id: 4,
-          title: "Bug report - Login page",
-          status: "active",
-          description: "Login button not working on mobile devices",
-          createdAt: "2024-01-15T08:20:00",
-          agents: [
-            {
-              id: 5,
-              name: "David Brown",
-              profile: "media/figure/chat_5.jpg",
-              lastMessage: "We've identified the CSS issue",
-              lastMessageTime: "2024-01-15T15:45:00",
-              isOnline: true,
-            },
-            {
-              id: 6,
-              name: "Lisa Wang",
-              profile: "media/figure/chat_5.jpg",
-              lastMessage: "Fix will be deployed tomorrow",
-              lastMessageTime: "2024-01-15T14:30:00",
-              isOnline: false,
-            },
-          ],
-          comments: [],
+          totalUnread: 2,
+          lastUpdated: "2024-01-12T10:15:00",
         },
       ]);
       setLoading(false);
     }, 2000);
   }, []);
 
-  const toggleQueryStatus = (queryId) => {
-    setRecentQueries((prevQueries) =>
-      prevQueries.map((query) =>
-        query.id === queryId
-          ? {
-              ...query,
-              status: query.status === "active" ? "inactive" : "active",
-            }
-          : query
-      )
-    );
-  };
-
-  const addComment = (queryId) => {
-    if (!newComment.trim()) return;
-
-    const comment = {
-      id: Date.now(),
-      text: newComment,
-      timestamp: new Date().toISOString(),
-      type: "user",
-    };
-
-    setRecentQueries((prevQueries) =>
-      prevQueries.map((query) =>
-        query.id === queryId
-          ? {
-              ...query,
-              comments: [...query.comments, comment],
-            }
-          : query
-      )
-    );
-
-    setNewComment("");
-    setSelectedQuery(null);
-  };
-
-  const formatDateTime = (dateString) => {
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString("en-US", {
+    return date.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      year: "numeric",
     });
+  };
+
+  const getStatusBadge = (status) => {
+    const statusConfig = {
+      active: { class: "status-active", label: "Active", color: "#10b981" },
+      inactive: {
+        class: "status-inactive",
+        label: "Inactive",
+        color: "#6b7280",
+      },
+    };
+
+    const config = statusConfig[status] || statusConfig.inactive;
+    return (
+      <span
+        className={`status-badge ${config.class}`}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "4px",
+          color: config.color,
+          fontSize: "12px",
+          fontWeight: "600",
+        }}
+      >
+        <FaCircle size={8} />
+        {config.label}
+      </span>
+    );
   };
 
   const StatCard = ({ title, value, icon, color, description }) => (
@@ -212,76 +227,35 @@ const Dashboard = () => {
     </div>
   );
 
-  const StatusBadge = ({ status, onClick }) => (
-    <span
-      className={`status-badge ${status} ${onClick ? "clickable" : ""}`}
-      onClick={onClick}
-    >
-      {status === "active" ? <FaCheckCircle /> : <FaTimesCircle />}
-      {status === "active" ? "Active" : "Inactive"}
-    </span>
-  );
-
-  const AgentCard = ({ agent }) => (
-    <div className="agent-card">
-      <div className="agent-profile">
-        <img src={agent.profile} alt={agent.name} />
-        <span
-          className={`online-status ${agent.isOnline ? "online" : "offline"}`}
-        ></span>
-      </div>
-      <div className="agent-info">
-        <h5 className="agent-name">
-          {" "}
-          <Link className="agent-name" to={`/messages`}>
-            {agent.name}
-          </Link>{" "}
-        </h5>
-        <p className="agent-last-message">{agent.lastMessage}</p>
-        <span className="agent-last-time">
-          {formatDateTime(agent.lastMessageTime)}
-        </span>
-      </div>
-    </div>
-  );
-
   const EmptyQueriesState = () => (
     <div className="empty-queries-state">
       <div className="empty-state-icon">
         <FiInbox />
       </div>
-      <h3>No Queries Yet</h3>
-      <p>You haven't created any queries yet. Start by creating your first query to get help from our support team.</p>
-      <button 
+      <h3>No Queries Found</h3>
+      <p>
+        No queries match your current filters. Try adjusting your search or
+        create a new query.
+      </p>
+      <button
         className="btn-primary large"
         onClick={() => navigate("/newQueries")}
       >
         <FiPlus className="icon" />
-        Create Your First Query
+        Create New Query
       </button>
-      <div className="empty-state-features">
-        <div className="feature-item">
-          <FaCheckCircle className="feature-icon" />
-          <span>Get instant support from our agents</span>
-        </div>
-        <div className="feature-item">
-          <FaCheckCircle className="feature-icon" />
-          <span>Track your query progress in real-time</span>
-        </div>
-        <div className="feature-item">
-          <FaCheckCircle className="feature-icon" />
-          <span>Communicate directly with assigned agents</span>
-        </div>
-      </div>
     </div>
   );
+
+  const handleViewQuery = () => {
+    navigate("/myQueryDetail");
+  };
 
   return (
     <div className="dashboard-wrapper">
       <div className="dashboard-header">
         <div className="header-content">
-          <h1>Dashboard Overview</h1>
-          <p>Manage your queries and track their progress</p>
+          <h1 style={{ textAlign: "start" }}>Welcome Suraj</h1>
         </div>
       </div>
 
@@ -292,7 +266,6 @@ const Dashboard = () => {
           value={stats.activeQueries}
           icon={<FiActivity className="stat-icon-svg" />}
           color="green"
-          description="Currently active"
         />
 
         <StatCard
@@ -300,7 +273,6 @@ const Dashboard = () => {
           value={stats.inactiveQueries}
           icon={<FiPause className="stat-icon-svg" />}
           color="orange"
-          description="Resolved queries"
         />
       </div>
 
@@ -308,150 +280,114 @@ const Dashboard = () => {
         {/* Recent Queries Section */}
         <div className="content-section">
           <div className="section-header">
-            <h2>My Active Queries</h2>
+            <div className="section-title">
+              <h2>My Active Queries</h2>
+            </div>
             {recentQueries.length > 0 && (
               <button
-                className="btn-action view"
+                className="btn-primary"
                 onClick={() => navigate("/newQueries")}
-                style={{
-                  marginLeft: "17px",
-                  borderRadius: "25px",
-                  padding: "6px 16px",
-                }}
               >
                 <FiPlus className="icon" />
-                Add New Query
+                New Query
               </button>
             )}
           </div>
 
-          <div className="recent-queries">
+          {/* Filters and Search */}
+          <div className="table-controls">
+            <div className="search-box">
+              <FiSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search queries..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+            </div>
+          </div>
+
+          {/* Queries Table */}
+          <div className="queries-table-container">
             {loading ? (
-              // Loading skeletons
-              Array.from(new Array(3)).map((_, index) => (
-                <Box
-                  key={index}
-                  className="dashboard-query-item"
-                  sx={{ display: "flex", gap: 2, alignItems: "center" }}
-                >
-                  <Skeleton variant="rectangular" width={60} height={60} />
-                  <Box sx={{ flex: 1 }}>
-                    <Skeleton variant="text" width="80%" height={20} />
-                    <Skeleton variant="text" width="40%" height={15} />
-                  </Box>
-                  <Skeleton variant="circular" width={30} height={30} />
-                </Box>
-              ))
+              // Loading skeletons for table
+              <div className="table-skeleton">
+                {Array.from(new Array(5)).map((_, index) => (
+                  <div key={index} className="table-row-skeleton">
+                    <Skeleton variant="text" width="20%" height={20} />
+                    <Skeleton variant="text" width="15%" height={20} />
+                    <Skeleton variant="text" width="15%" height={20} />
+                    <Skeleton variant="text" width="15%" height={20} />
+                    <Skeleton variant="text" width="10%" height={20} />
+                    <Skeleton variant="text" width="15%" height={20} />
+                  </div>
+                ))}
+              </div>
             ) : recentQueries.length > 0 ? (
-              // Queries list
-              recentQueries.map((query) => (
-                <div key={query.id} className="dashboard-query-item">
-                  <div className="query-main">
-                    <div className="query-title-section">
-                      <div className="query-header">
-                        <h4 className="query-title">{query.title}</h4>
-                        <StatusBadge
-                          status={query.status}
-                          onClick={() => toggleQueryStatus(query.id)}
-                        />
-                        <button
-                          className="btn-action view"
-                          onClick={() => setSelectedQuery(query)}
-                          style={{
-                            marginLeft: "17px",
-                            borderRadius: "25px",
-                            padding: "6px 16px",
-                          }}
-                        >
-                          Add Comment
-                        </button>
+              // Queries Table
+              <div className="queries-table">
+                {/* Table Header */}
+                <div className="table-header">
+                  <div className="table-cell">Query</div>
+                  <div className="table-cell">Total Treads</div>
+                  <div className="table-cell">New Messages</div>
+                  <div className="table-cell">Status</div>
+                  <div className="table-cell">Last Updated</div>
+                  <div className="table-cell">Actions</div>
+                </div>
+
+                {/* Table Body */}
+                <div className="table-body">
+                  {recentQueries.map((query) => (
+                    <div
+                      key={query.id}
+                      className="table-row"
+                      onClick={handleViewQuery}
+                    >
+                      <div className="table-cell">
+                        <div className="query-title-cell">
+                          <p className="query-description">
+                            {query.shortDescription}
+                          </p>
+                        </div>
                       </div>
 
-                      {/* Comments Section */}
-                      {query.comments.length > 0 && (
-                        <div className="query-comments">
-                          <h5 className="comments-title">
-                            <FaComment className="icon" />
-                            Your Comments ({query.comments.length})
-                          </h5>
-                          <div className="comments-list">
-                            {query.comments.map((comment) => (
-                              <div key={comment.id} className="comment-item">
-                                <p className="comment-text">{comment.text}</p>
-                                <span className="comment-time">
-                                  {formatDateTime(comment.timestamp)}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                      <div className="table-cell">{query.total_treads}</div>
 
-                      {/* Agents Section */}
-                      <div className="query-agents">
-                        <h5 className="agents-title">
-                          <FiUser className="icon" />
-                          Assigned Agents ({query.agents.length})
-                        </h5>
-                        <div className="agents-list">
-                          {query.agents.map((agent) => (
-                            <AgentCard key={agent.id} agent={agent} />
-                          ))}
+                      <div className="table-cell">{query.totalUnread}</div>
+
+                      <div className="table-cell">
+                        {getStatusBadge(query.status)}
+                      </div>
+
+                      <div className="table-cell">
+                        <div className="date-cell">
+                          <FiClock className="date-icon" />
+                          {formatDate(query.lastUpdated)}
+                        </div>
+                      </div>
+
+                      <div className="table-cell">
+                        <div className="action-buttons">
+                          <button
+                            className="action-btn view-btn"
+                            onClick={handleViewQuery}
+                          >
+                            <FiEye size={16} />
+                          </button>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))
+              </div>
             ) : (
-              // Empty state
               <EmptyQueriesState />
             )}
           </div>
         </div>
       </div>
-
-      {/* Comment Modal */}
-      {selectedQuery && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h3>Add Comment to Query</h3>
-              <button
-                className="close-btn"
-                onClick={() => setSelectedQuery(null)}
-              >
-                ×
-              </button>
-            </div>
-            <div className="modal-body">
-              <p className="query-preview">{selectedQuery.title}</p>
-              <textarea
-                className="comment-textarea"
-                placeholder="Type your comment here..."
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                rows="4"
-              />
-            </div>
-            <div className="modal-footer">
-              <button
-                className="btn-cancel"
-                onClick={() => setSelectedQuery(null)}
-              >
-                Cancel
-              </button>
-              <button
-                className="btn-submit"
-                onClick={() => addComment(selectedQuery.id)}
-                disabled={!newComment.trim()}
-              >
-                Add Comment
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

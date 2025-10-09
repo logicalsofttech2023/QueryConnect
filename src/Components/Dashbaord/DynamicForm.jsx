@@ -12,11 +12,12 @@ import {
   FaCity,
   FaTimes,
   FaCheck,
+  FaPlus,
+  FaMinus
 } from "react-icons/fa";
 import "./DynamicForm.css";
 import { useNavigate } from "react-router-dom";
 
-// Enhanced data structure with more sectors
 const data = {
   realEstate: {
     name: "Real Estate",
@@ -83,6 +84,7 @@ const DynamicForm = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
   const [isSectorDropdownOpen, setIsSectorDropdownOpen] = useState(false);
+  const [showAdditionalFields, setShowAdditionalFields] = useState(false);
 
   // Form states
   const [transactionType, setTransactionType] = useState("buy");
@@ -114,17 +116,16 @@ const DynamicForm = () => {
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
 
-  // Enhanced area selection state
   const [availableAreas, setAvailableAreas] = useState([]);
   const [areaSearch, setAreaSearch] = useState("");
 
   useEffect(() => {
     if (sector) {
       setIsFormVisible(true);
+      setShowAdditionalFields(false); // Reset additional fields when sector changes
     }
   }, [sector]);
 
-  // Update available areas when city changes
   useEffect(() => {
     if (city && data.realEstate.areas[city]) {
       setAvailableAreas(data.realEstate.areas[city]);
@@ -135,24 +136,20 @@ const DynamicForm = () => {
     }
   }, [city]);
 
-  // Filter areas based on search
   const filteredAreas = availableAreas.filter((area) =>
     area.toLowerCase().includes(areaSearch.toLowerCase())
   );
 
-  // Toggle area selection
   const toggleArea = (area) => {
     setSelectedAreas((prev) =>
       prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area]
     );
   };
 
-  // Remove selected area
   const removeArea = (area) => {
     setSelectedAreas((prev) => prev.filter((a) => a !== area));
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".sector-dropdown")) {
@@ -203,12 +200,16 @@ const DynamicForm = () => {
       }.`;
       setDescription(desc);
       setIsDescriptionVisible(true);
-    } else if (sector === "education") {
-      const desc = `Interested in education services.`;
+    } else if (sector === "education" && serviceType) {
+      const desc = `Interested in ${serviceType} education${
+        employmentType ? ` at ${employmentType.toLowerCase()} level` : ""
+      }.`;
       setDescription(desc);
       setIsDescriptionVisible(true);
-    } else if (sector === "healthcare") {
-      const desc = `Looking for healthcare services.`;
+    } else if (sector === "healthcare" && serviceType) {
+      const desc = `Looking for ${serviceType.toLowerCase()} services${
+        employmentType ? ` in ${employmentType.toLowerCase()}` : ""
+      }.`;
       setDescription(desc);
       setIsDescriptionVisible(true);
     } else {
@@ -243,6 +244,7 @@ const DynamicForm = () => {
     setSector("");
     setIsFormVisible(false);
     setIsDescriptionVisible(false);
+    setShowAdditionalFields(false);
     setTransactionType("buy");
     setCity("");
     setSelectedAreas([]);
@@ -274,9 +276,10 @@ const DynamicForm = () => {
     setIsSectorDropdownOpen(false);
     setIsFormVisible(false);
     setIsDescriptionVisible(false);
+    setShowAdditionalFields(false);
     setTransactionType("buy");
     setCity("");
-    setArea([]);
+    setSelectedAreas([]);
     setPropertyType("");
     setFurnishing("");
     setBudget("");
@@ -320,6 +323,10 @@ const DynamicForm = () => {
     navigate("/login");
   };
 
+  const toggleAdditionalFields = () => {
+    setShowAdditionalFields(!showAdditionalFields);
+  };
+
   const sectors = Object.keys(data);
 
   return (
@@ -329,12 +336,9 @@ const DynamicForm = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="dynamic-form">
-        {/* Sector Selection - Now as Dropdown */}
+        {/* Sector Selection */}
         <div className="form-section">
-          <label className="form-label">
-            
-            Select Sector
-          </label>
+          <label className="form-label">Select Sector</label>
           <div className="sector-dropdown">
             <div
               className={`sector-dropdown-toggle ${
@@ -384,165 +388,185 @@ const DynamicForm = () => {
                 Real Estate Requirements
               </h3>
 
-              <div className="radio-group">
-                <label className="radio-label">
-                  <input
-                    type="radio"
-                    name="transactionType"
-                    value="buy"
-                    checked={transactionType === "buy"}
-                    onChange={(e) => setTransactionType(e.target.value)}
-                  />
-                  <span className="radio-custom"></span>
-                  Buy
-                </label>
-                <label className="radio-label">
-                  <input
-                    type="radio"
-                    name="transactionType"
-                    value="rent"
-                    checked={transactionType === "rent"}
-                    onChange={(e) => setTransactionType(e.target.value)}
-                  />
-                  <span className="radio-custom"></span>
-                  Rent
-                </label>
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">City</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="form-select"
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                    >
-                      <option value="">Select City</option>
-                      {data.realEstate.cities.map((c) => (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="select-arrow" />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Property Type</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="form-select"
-                      value={propertyType}
-                      onChange={(e) => setPropertyType(e.target.value)}
-                    >
-                      <option value="">Select Type</option>
-                      {data.realEstate.propertyTypes.map((p) => (
-                        <option key={p} value={p}>
-                          {p}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="select-arrow" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Enhanced Preferred Areas Section */}
-              <div className="form-group">
-                <label className="form-label">Preferred Areas</label>
-
-                {/* Selected Areas Chips */}
-                {selectedAreas.length > 0 && (
-                  <div className="selected-areas">
-                    {selectedAreas.map((area) => (
-                      <span key={area} className="area-chip">
-                        {area}
-                        <button
-                          type="button"
-                          className="area-remove"
-                          onClick={() => removeArea(area)}
-                        >
-                          <FaTimes />
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                {/* Area Search and Selection */}
-                {city && (
-                  <div className="areas-selection">
+              {/* Mandatory Fields */}
+              <div className="mandatory-fields">
+                <div className="radio-group">
+                  <label className="radio-label">
                     <input
-                      type="text"
-                      className="form-input area-search"
-                      placeholder="Search areas..."
-                      value={areaSearch}
-                      onChange={(e) => setAreaSearch(e.target.value)}
+                      type="radio"
+                      name="transactionType"
+                      value="buy"
+                      checked={transactionType === "buy"}
+                      onChange={(e) => setTransactionType(e.target.value)}
                     />
+                    <span className="radio-custom"></span>
+                    Buy
+                  </label>
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="transactionType"
+                      value="rent"
+                      checked={transactionType === "rent"}
+                      onChange={(e) => setTransactionType(e.target.value)}
+                    />
+                    <span className="radio-custom"></span>
+                    Rent
+                  </label>
+                </div>
 
-                    <div className="areas-list">
-                      {filteredAreas.map((area) => (
-                        <div
-                          key={area}
-                          className={`area-option ${
-                            selectedAreas.includes(area) ? "selected" : ""
-                          }`}
-                          onClick={() => toggleArea(area)}
-                        >
-                          <span className="area-checkbox">
-                            {selectedAreas.includes(area) && <FaCheck />}
-                          </span>
-                          <span className="area-name">{area}</span>
-                        </div>
+                <div className="dynamic-form-row">
+                  <div className="form-group">
+                    <label className="form-label">City *</label>
+                    <div className="select-wrapper">
+                      <select
+                        className="form-select"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        required
+                      >
+                        <option value="">Select City</option>
+                        {data.realEstate.cities.map((c) => (
+                          <option key={c} value={c}>
+                            {c}
+                          </option>
+                        ))}
+                      </select>
+                      <FaChevronDown className="select-arrow" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Preferred Areas *</label>
+                  
+                  {/* Selected Areas Chips */}
+                  {selectedAreas.length > 0 && (
+                    <div className="selected-areas">
+                      {selectedAreas.map((area) => (
+                        <span key={area} className="area-chip">
+                          {area}
+                          <button
+                            type="button"
+                            className="area-remove"
+                            onClick={() => removeArea(area)}
+                          >
+                            <FaTimes />
+                          </button>
+                        </span>
                       ))}
                     </div>
+                  )}
 
-                    {filteredAreas.length === 0 && areaSearch && (
-                      <div className="no-areas">No areas found</div>
-                    )}
-                  </div>
-                )}
+                  {/* Area Search and Selection */}
+                  {city && (
+                    <div className="areas-selection">
+                      <input
+                        type="text"
+                        className="form-input area-search"
+                        placeholder="Search areas..."
+                        value={areaSearch}
+                        onChange={(e) => setAreaSearch(e.target.value)}
+                      />
 
-                {!city && (
-                  <div className="area-placeholder">
-                    Please select a city first to see available areas
-                  </div>
-                )}
-              </div>
+                      <div className="areas-list">
+                        {filteredAreas.map((area) => (
+                          <div
+                            key={area}
+                            className={`area-option ${
+                              selectedAreas.includes(area) ? "selected" : ""
+                            }`}
+                            onClick={() => toggleArea(area)}
+                          >
+                            <span className="area-checkbox">
+                              {selectedAreas.includes(area) && <FaCheck />}
+                            </span>
+                            <span className="area-name">{area}</span>
+                          </div>
+                        ))}
+                      </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Furnishing Type</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="form-select"
-                      value={furnishing}
-                      onChange={(e) => setFurnishing(e.target.value)}
-                    >
-                      <option value="">Select Furnishing</option>
-                      {data.realEstate.furnishingTypes.map((f) => (
-                        <option key={f} value={f}>
-                          {f}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="select-arrow" />
-                  </div>
-                </div>
+                      {filteredAreas.length === 0 && areaSearch && (
+                        <div className="no-areas">No areas found</div>
+                      )}
+                    </div>
+                  )}
 
-                <div className="form-group">
-                  <label className="form-label">Budget (₹)</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    placeholder="Enter budget"
-                    value={budget}
-                    onChange={(e) => setBudget(e.target.value)}
-                  />
+                  {!city && (
+                    <div className="area-placeholder">
+                      Please select a city first to see available areas
+                    </div>
+                  )}
                 </div>
               </div>
+
+              {/* Additional Fields Toggle */}
+              <div className="additional-fields-toggle">
+                <button
+                  type="button"
+                  className="toggle-btn"
+                  onClick={toggleAdditionalFields}
+                >
+                  {showAdditionalFields ? <FaMinus /> : <FaPlus />}
+                  <span>{showAdditionalFields ? "Hide" : "Show"} Additional Options</span>
+                </button>
+              </div>
+
+              {/* Additional Optional Fields */}
+              {showAdditionalFields && (
+                <div className="additional-fields">
+                  <div className="dynamic-form-row">
+                    <div className="form-group">
+                      <label className="form-label">Property Type</label>
+                      <div className="select-wrapper">
+                        <select
+                          className="form-select"
+                          value={propertyType}
+                          onChange={(e) => setPropertyType(e.target.value)}
+                        >
+                          <option value="">Select Type</option>
+                          {data.realEstate.propertyTypes.map((p) => (
+                            <option key={p} value={p}>
+                              {p}
+                            </option>
+                          ))}
+                        </select>
+                        <FaChevronDown className="select-arrow" />
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Furnishing Type</label>
+                      <div className="select-wrapper">
+                        <select
+                          className="form-select"
+                          value={furnishing}
+                          onChange={(e) => setFurnishing(e.target.value)}
+                        >
+                          <option value="">Select Furnishing</option>
+                          {data.realEstate.furnishingTypes.map((f) => (
+                            <option key={f} value={f}>
+                              {f}
+                            </option>
+                          ))}
+                        </select>
+                        <FaChevronDown className="select-arrow" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Budget (₹)</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="Enter budget"
+                      value={budget}
+                      onChange={(e) => setBudget(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -554,105 +578,112 @@ const DynamicForm = () => {
                 Financial Services
               </h3>
 
-              <div className="form-group">
-                <label className="form-label">Service Type</label>
-                <div className="select-wrapper">
-                  <select
-                    className="form-select"
-                    value={serviceType}
-                    onChange={(e) => setServiceType(e.target.value)}
-                  >
-                    <option value="">Select Service</option>
-                    {data.finance.serviceTypes.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                  <FaChevronDown className="select-arrow" />
+              {/* Mandatory Fields */}
+              <div className="mandatory-fields">
+                <div className="form-group">
+                  <label className="form-label">Service Type *</label>
+                  <div className="select-wrapper">
+                    <select
+                      className="form-select"
+                      value={serviceType}
+                      onChange={(e) => setServiceType(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Service</option>
+                      {data.finance.serviceTypes.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                    <FaChevronDown className="select-arrow" />
+                  </div>
                 </div>
               </div>
 
-              {serviceType && (
-                <div className="form-row">
-                  <div className="form-group">
-                    <label className="form-label">Employment Type</label>
-                    <div className="select-wrapper">
-                      <select
-                        className="form-select"
-                        value={employmentType}
-                        onChange={(e) => setEmploymentType(e.target.value)}
-                      >
-                        <option value="">Select Employment</option>
-                        {data.finance.employmentTypes.map((eType) => (
-                          <option key={eType} value={eType}>
-                            {eType}
-                          </option>
-                        ))}
-                      </select>
-                      <FaChevronDown className="select-arrow" />
+              {/* Additional Fields Toggle */}
+              <div className="additional-fields-toggle">
+                <button
+                  type="button"
+                  className="toggle-btn"
+                  onClick={toggleAdditionalFields}
+                >
+                  {showAdditionalFields ? <FaMinus /> : <FaPlus />}
+                  <span>{showAdditionalFields ? "Hide" : "Show"} Additional Details</span>
+                </button>
+              </div>
+
+              {/* Additional Optional Fields */}
+              {showAdditionalFields && (
+                <div className="additional-fields">
+                  <div className="dynamic-form-row">
+                    <div className="form-group">
+                      <label className="form-label">Employment Type</label>
+                      <div className="select-wrapper">
+                        <select
+                          className="form-select"
+                          value={employmentType}
+                          onChange={(e) => setEmploymentType(e.target.value)}
+                        >
+                          <option value="">Select Employment</option>
+                          {data.finance.employmentTypes.map((eType) => (
+                            <option key={eType} value={eType}>
+                              {eType}
+                            </option>
+                          ))}
+                        </select>
+                        <FaChevronDown className="select-arrow" />
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Monthly Income (₹)</label>
+                      <input
+                        type="number"
+                        className="form-input"
+                        placeholder="Enter income"
+                        value={income}
+                        onChange={(e) => setIncome(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="dynamic-form-row">
+                    <div className="form-group">
+                      <label className="form-label">Age</label>
+                      <input
+                        type="number"
+                        className="form-input"
+                        placeholder="Enter age"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">CIBIL Score</label>
+                      <input
+                        type="number"
+                        className="form-input"
+                        placeholder="Enter CIBIL"
+                        value={cibil}
+                        onChange={(e) => setCibil(e.target.value)}
+                      />
                     </div>
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">
-                      
-                      Monthly Income (₹)
-                    </label>
+                    <label className="form-label">Mobile Number</label>
                     <input
-                      type="number"
+                      type="tel"
                       className="form-input"
-                      placeholder="Enter income"
-                      value={income}
-                      onChange={(e) => setIncome(e.target.value)}
+                      placeholder="Enter mobile number"
+                      value={mobile}
+                      onChange={(e) => setMobile(e.target.value)}
                     />
                   </div>
                 </div>
               )}
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">
-                    <FaUser className="input-icon" />
-                    Age
-                  </label>
-                  <input
-                    type="number"
-                    className="form-input"
-                    placeholder="Enter age"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">
-                    
-                    CIBIL Score
-                  </label>
-                  <input
-                    type="number"
-                    className="form-input"
-                    placeholder="Enter CIBIL"
-                    value={cibil}
-                    onChange={(e) => setCibil(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">
-                  <FaPhone className="input-icon" />
-                  Mobile Number
-                </label>
-                <input
-                  type="tel"
-                  className="form-input"
-                  placeholder="Enter mobile number"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                />
-              </div>
             </div>
           )}
 
@@ -664,88 +695,110 @@ const DynamicForm = () => {
                 Automobile Services
               </h3>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Action</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="form-select"
-                      value={autoAction}
-                      onChange={(e) => setAutoAction(e.target.value)}
-                    >
-                      <option value="">Select Action</option>
-                      {data.automobile.actions.map((a) => (
-                        <option key={a} value={a}>
-                          {a}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="select-arrow" />
+              {/* Mandatory Fields */}
+              <div className="mandatory-fields">
+                <div className="dynamic-form-row">
+                  <div className="form-group">
+                    <label className="form-label">Action *</label>
+                    <div className="select-wrapper">
+                      <select
+                        className="form-select"
+                        value={autoAction}
+                        onChange={(e) => setAutoAction(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Action</option>
+                        {data.automobile.actions.map((a) => (
+                          <option key={a} value={a}>
+                            {a}
+                          </option>
+                        ))}
+                      </select>
+                      <FaChevronDown className="select-arrow" />
+                    </div>
                   </div>
-                </div>
 
-                <div className="form-group">
-                  <label className="form-label">Vehicle Type</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="form-select"
-                      value={vehicleType}
-                      onChange={(e) => setVehicleType(e.target.value)}
-                    >
-                      <option value="">Select Type</option>
-                      {data.automobile.vehicleTypes.map((v) => (
-                        <option key={v} value={v}>
-                          {v}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="select-arrow" />
+                  <div className="form-group">
+                    <label className="form-label">Vehicle Type *</label>
+                    <div className="select-wrapper">
+                      <select
+                        className="form-select"
+                        value={vehicleType}
+                        onChange={(e) => setVehicleType(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Type</option>
+                        {data.automobile.vehicleTypes.map((v) => (
+                          <option key={v} value={v}>
+                            {v}
+                          </option>
+                        ))}
+                      </select>
+                      <FaChevronDown className="select-arrow" />
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Brand</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="form-select"
-                      value={brand}
-                      onChange={(e) => setBrand(e.target.value)}
-                    >
-                      <option value="">Select Brand</option>
-                      {data.automobile.brands.map((b) => (
-                        <option key={b} value={b}>
-                          {b}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="select-arrow" />
+              {/* Additional Fields Toggle */}
+              <div className="additional-fields-toggle">
+                <button
+                  type="button"
+                  className="toggle-btn"
+                  onClick={toggleAdditionalFields}
+                >
+                  {showAdditionalFields ? <FaMinus /> : <FaPlus />}
+                  <span>{showAdditionalFields ? "Hide" : "Show"} Vehicle Details</span>
+                </button>
+              </div>
+
+              {/* Additional Optional Fields */}
+              {showAdditionalFields && (
+                <div className="additional-fields">
+                  <div className="dynamic-form-row">
+                    <div className="form-group">
+                      <label className="form-label">Brand</label>
+                      <div className="select-wrapper">
+                        <select
+                          className="form-select"
+                          value={brand}
+                          onChange={(e) => setBrand(e.target.value)}
+                        >
+                          <option value="">Select Brand</option>
+                          {data.automobile.brands.map((b) => (
+                            <option key={b} value={b}>
+                              {b}
+                            </option>
+                          ))}
+                        </select>
+                        <FaChevronDown className="select-arrow" />
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Model</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        placeholder="Enter model"
+                        value={model}
+                        onChange={(e) => setModel(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Budget (₹)</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="Enter budget"
+                      value={autoBudget}
+                      onChange={(e) => setAutoBudget(e.target.value)}
+                    />
                   </div>
                 </div>
-
-                <div className="form-group">
-                  <label className="form-label">Model</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    placeholder="Enter model"
-                    value={model}
-                    onChange={(e) => setModel(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Budget (₹)</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  placeholder="Enter budget"
-                  value={autoBudget}
-                  onChange={(e) => setAutoBudget(e.target.value)}
-                />
-              </div>
+              )}
             </div>
           )}
 
@@ -757,79 +810,91 @@ const DynamicForm = () => {
                 Hotel Booking
               </h3>
 
-              <div className="form-group">
-                <label className="form-label">City</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  placeholder="Enter city"
-                  value={hotelCity}
-                  onChange={(e) => setHotelCity(e.target.value)}
-                />
-              </div>
-
-              <div className="form-row">
+              {/* Mandatory Fields */}
+              <div className="mandatory-fields">
                 <div className="form-group">
-                  <label className="form-label">
-                    
-                    Check-in Date
-                  </label>
+                  <label className="form-label">City *</label>
                   <input
-                    type="date"
+                    type="text"
                     className="form-input"
-                    value={checkIn}
-                    onChange={(e) => setCheckIn(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">
-                    
-                    Check-out Date
-                  </label>
-                  <input
-                    type="date"
-                    className="form-input"
-                    value={checkOut}
-                    onChange={(e) => setCheckOut(e.target.value)}
+                    placeholder="Enter city"
+                    value={hotelCity}
+                    onChange={(e) => setHotelCity(e.target.value)}
+                    required
                   />
                 </div>
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Room Type</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="form-select"
-                      value={roomType}
-                      onChange={(e) => setRoomType(e.target.value)}
-                    >
-                      <option value="">Select Room</option>
-                      {data.hotels.roomTypes.map((r) => (
-                        <option key={r} value={r}>
-                          {r}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="select-arrow" />
+              {/* Additional Fields Toggle */}
+              <div className="additional-fields-toggle">
+                <button
+                  type="button"
+                  className="toggle-btn"
+                  onClick={toggleAdditionalFields}
+                >
+                  {showAdditionalFields ? <FaMinus /> : <FaPlus />}
+                  <span>{showAdditionalFields ? "Hide" : "Show"} Booking Details</span>
+                </button>
+              </div>
+
+              {/* Additional Optional Fields */}
+              {showAdditionalFields && (
+                <div className="additional-fields">
+                  <div className="dynamic-form-row">
+                    <div className="form-group">
+                      <label className="form-label">Check-in Date</label>
+                      <input
+                        type="date"
+                        className="form-input"
+                        value={checkIn}
+                        onChange={(e) => setCheckIn(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Check-out Date</label>
+                      <input
+                        type="date"
+                        className="form-input"
+                        value={checkOut}
+                        onChange={(e) => setCheckOut(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="dynamic-form-row">
+                    <div className="form-group">
+                      <label className="form-label">Room Type</label>
+                      <div className="select-wrapper">
+                        <select
+                          className="form-select"
+                          value={roomType}
+                          onChange={(e) => setRoomType(e.target.value)}
+                        >
+                          <option value="">Select Room</option>
+                          {data.hotels.roomTypes.map((r) => (
+                            <option key={r} value={r}>
+                              {r}
+                            </option>
+                          ))}
+                        </select>
+                        <FaChevronDown className="select-arrow" />
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Guests</label>
+                      <input
+                        type="number"
+                        className="form-input"
+                        placeholder="Number of guests"
+                        value={guests}
+                        onChange={(e) => setGuests(e.target.value)}
+                      />
+                    </div>
                   </div>
                 </div>
-
-                <div className="form-group">
-                  <label className="form-label">
-                    
-                    Guests
-                  </label>
-                  <input
-                    type="number"
-                    className="form-input"
-                    placeholder="Number of guests"
-                    value={guests}
-                    onChange={(e) => setGuests(e.target.value)}
-                  />
-                </div>
-              </div>
+              )}
             </div>
           )}
 
@@ -841,14 +906,16 @@ const DynamicForm = () => {
                 Education Services
               </h3>
 
-              <div className="form-row">
+              {/* Mandatory Fields */}
+              <div className="mandatory-fields">
                 <div className="form-group">
-                  <label className="form-label">Course Type</label>
+                  <label className="form-label">Course Type *</label>
                   <div className="select-wrapper">
                     <select
                       className="form-select"
                       value={serviceType}
                       onChange={(e) => setServiceType(e.target.value)}
+                      required
                     >
                       <option value="">Select Course</option>
                       {data.education.courses.map((course) => (
@@ -860,40 +927,54 @@ const DynamicForm = () => {
                     <FaChevronDown className="select-arrow" />
                   </div>
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label className="form-label">Education Level</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="form-select"
-                      value={employmentType}
-                      onChange={(e) => setEmploymentType(e.target.value)}
-                    >
-                      <option value="">Select Level</option>
-                      {data.education.levels.map((level) => (
-                        <option key={level} value={level}>
-                          {level}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="select-arrow" />
+              {/* Additional Fields Toggle */}
+              <div className="additional-fields-toggle">
+                <button
+                  type="button"
+                  className="toggle-btn"
+                  onClick={toggleAdditionalFields}
+                >
+                  {showAdditionalFields ? <FaMinus /> : <FaPlus />}
+                  <span>{showAdditionalFields ? "Hide" : "Show"} Additional Information</span>
+                </button>
+              </div>
+
+              {/* Additional Optional Fields */}
+              {showAdditionalFields && (
+                <div className="additional-fields">
+                  <div className="form-group">
+                    <label className="form-label">Education Level</label>
+                    <div className="select-wrapper">
+                      <select
+                        className="form-select"
+                        value={employmentType}
+                        onChange={(e) => setEmploymentType(e.target.value)}
+                      >
+                        <option value="">Select Level</option>
+                        {data.education.levels.map((level) => (
+                          <option key={level} value={level}>
+                            {level}
+                          </option>
+                        ))}
+                      </select>
+                      <FaChevronDown className="select-arrow" />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Additional Requirements</label>
+                    <textarea
+                      className="form-textarea"
+                      rows="3"
+                      placeholder="Tell us about your educational requirements..."
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    ></textarea>
                   </div>
                 </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">
-                  <FaUser className="input-icon" />
-                  Additional Requirements
-                </label>
-                <textarea
-                  className="form-textarea"
-                  rows="3"
-                  placeholder="Tell us about your educational requirements..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                ></textarea>
-              </div>
+              )}
             </div>
           )}
 
@@ -905,14 +986,16 @@ const DynamicForm = () => {
                 Healthcare Services
               </h3>
 
-              <div className="form-row">
+              {/* Mandatory Fields */}
+              <div className="mandatory-fields">
                 <div className="form-group">
-                  <label className="form-label">Service Type</label>
+                  <label className="form-label">Service Type *</label>
                   <div className="select-wrapper">
                     <select
                       className="form-select"
                       value={serviceType}
                       onChange={(e) => setServiceType(e.target.value)}
+                      required
                     >
                       <option value="">Select Service</option>
                       {data.healthcare.services.map((service) => (
@@ -924,40 +1007,54 @@ const DynamicForm = () => {
                     <FaChevronDown className="select-arrow" />
                   </div>
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label className="form-label">Specialty</label>
-                  <div className="select-wrapper">
-                    <select
-                      className="form-select"
-                      value={employmentType}
-                      onChange={(e) => setEmploymentType(e.target.value)}
-                    >
-                      <option value="">Select Specialty</option>
-                      {data.healthcare.specialties.map((specialty) => (
-                        <option key={specialty} value={specialty}>
-                          {specialty}
-                        </option>
-                      ))}
-                    </select>
-                    <FaChevronDown className="select-arrow" />
+              {/* Additional Fields Toggle */}
+              <div className="additional-fields-toggle">
+                <button
+                  type="button"
+                  className="toggle-btn"
+                  onClick={toggleAdditionalFields}
+                >
+                  {showAdditionalFields ? <FaMinus /> : <FaPlus />}
+                  <span>{showAdditionalFields ? "Hide" : "Show"} Medical Details</span>
+                </button>
+              </div>
+
+              {/* Additional Optional Fields */}
+              {showAdditionalFields && (
+                <div className="additional-fields">
+                  <div className="form-group">
+                    <label className="form-label">Specialty</label>
+                    <div className="select-wrapper">
+                      <select
+                        className="form-select"
+                        value={employmentType}
+                        onChange={(e) => setEmploymentType(e.target.value)}
+                      >
+                        <option value="">Select Specialty</option>
+                        {data.healthcare.specialties.map((specialty) => (
+                          <option key={specialty} value={specialty}>
+                            {specialty}
+                          </option>
+                        ))}
+                      </select>
+                      <FaChevronDown className="select-arrow" />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Medical Requirements</label>
+                    <textarea
+                      className="form-textarea"
+                      rows="3"
+                      placeholder="Describe your medical requirements..."
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    ></textarea>
                   </div>
                 </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">
-                  <FaUser className="input-icon" />
-                  Medical Requirements
-                </label>
-                <textarea
-                  className="form-textarea"
-                  rows="3"
-                  placeholder="Describe your medical requirements..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                ></textarea>
-              </div>
+              )}
             </div>
           )}
         </div>

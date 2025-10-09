@@ -174,7 +174,6 @@ const Messages = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message.trim()) {
@@ -191,7 +190,6 @@ const Messages = () => {
       };
       setMessages([...messages, newMessage]);
       setMessage("");
-      
     }
   };
 
@@ -216,20 +214,17 @@ const Messages = () => {
     setChats(updatedChats);
 
     scrollToTop();
-    
   };
 
   const clearChat = () => {
     setMessages([]);
     setShowChatOptions(false);
-    
   };
 
   const toggleBlock = () => {
     setIsBlocked(!isBlocked);
     setShowChatOptions(false);
   };
-
 
   const scrollToTop = () => {
     if (messageContainerRef.current) {
@@ -291,6 +286,17 @@ const Messages = () => {
   const filteredMessages = messages.filter((msg) =>
     msg.content.toLowerCase().includes(messageSearchQuery.toLowerCase())
   );
+
+  useEffect(() => {
+    const handleClick = (event) => {
+      console.log("Kahin bhi click hua!", event);
+      setShowChatOptions(false);
+    };
+    document.addEventListener("click", handleClick);
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, []);
 
   return (
     <div className="messagesContainer">

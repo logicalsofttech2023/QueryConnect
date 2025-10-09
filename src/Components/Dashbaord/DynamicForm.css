@@ -122,7 +122,7 @@
   margin-top: 0.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  max-height: 300px;
+  height: 170px;
   overflow-y: auto;
   animation: dropdownFadeIn 0.3s ease;
 }
@@ -299,7 +299,7 @@
 .form-content.visible {
   opacity: 1;
   max-height: 2000px;
-  margin-bottom: 2rem;
+  margin-bottom: 10px;
 }
 
 .sector-form {
@@ -323,17 +323,16 @@
 }
 
 /* Form Layout */
-.form-row {
+.dynamic-form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin-bottom: 1rem;
-  padding-left: 10px;
+  
 }
 
 .form-group {
   margin-bottom: 1.5rem;
-  padding-left: 10px;
 }
 
 /* Radio Buttons */
@@ -518,7 +517,7 @@
     font-size: 2rem;
   }
   
-  .form-row {
+  .dynamic-form-row {
     grid-template-columns: 1fr;
   }
   
@@ -574,4 +573,65 @@
 .form-select,
 .submit-btn {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+
+
+/* Add these to your DynamicForm.css */
+
+.mandatory-fields {
+  margin-bottom: 0px;
+}
+
+.additional-fields-toggle {
+  text-align: end;
+  margin: 5px;
+}
+
+.toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: 2px dashed #e2e8f0;
+  padding: 2px 4px;
+  border-radius: 8px;
+  color: #64748b;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  background-color: #f8fafc;
+}
+
+
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form label adjustments for required fields */
+.form-label[class*="*"] {
+  font-weight: 600;
+}
+
+
+
+/* Ensure proper spacing */
+.sector-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }

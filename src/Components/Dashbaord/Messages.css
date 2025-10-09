@@ -1030,21 +1030,7 @@ body.menu-open {
   }
 }
 
-.chatActions {
-  display: flex;
-  gap: 10px;
-}
 
-.chatActions .icon {
-  color: #666;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  font-size: 1.1rem;
-}
-
-.chatActions .icon:hover {
-  color: #007bff;
-}
 
 /* Search Input */
 .SearchInputHolder {
@@ -1753,10 +1739,7 @@ body.menu-open {
   font-size: 0.95rem;
 }
 
-.actionBtn:hover {
-  background-color: #f8f9fa;
-  transform: translateX(5px);
-}
+
 
 .actionBtn.active {
   color: #007bff;
@@ -1764,7 +1747,7 @@ body.menu-open {
 }
 
 .actionBtn svg {
-  margin-right: 1rem;
+  
   font-size: 1.1rem;
   min-width: 20px;
 }
@@ -2213,12 +2196,13 @@ body.menu-open {
 }
 
 .previewActions .actionBtn {
-  background: none;
-  border: none;
-  color: white;
+  background: white;
+  border: 1px solid black;
+  color: black;
   font-size: 1.1rem;
   cursor: pointer;
   padding: 0.5rem;
+  outline: none;
 }
 
 .previewContent {

@@ -323,7 +323,7 @@
 }
 
 /* Form Layout */
-.form-row {
+dynamic-form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
@@ -333,7 +333,7 @@
 
 .form-group {
   margin-bottom: 1.5rem;
-  padding-left: 10px;
+  
 }
 
 /* Radio Buttons */
@@ -518,7 +518,7 @@
     font-size: 2rem;
   }
   
-  .form-row {
+  dynamic-form-row {
     grid-template-columns: 1fr;
   }
   

@@ -14,10 +14,7 @@ const ChatList = ({
     <div className={`sideNav2 ${isMobileMenuOpen ? "mobileOpen" : ""}`}>
       <div className="SideNavhead">
         <h2>Chats</h2>
-        <div className="chatActions">
-          <FaUserPlus className="icon" title="New Chat" />
-          <FaFilter className="icon" title="Filter" />
-        </div>
+        
       </div>
 
       <div className="SearchInputHolder">

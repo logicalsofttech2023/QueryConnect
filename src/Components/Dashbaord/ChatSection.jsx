@@ -132,7 +132,7 @@ const ChatHeader = ({
         <button
           className="iconBtn"
           onClick={() => onShowChatOptions(!showChatOptions)}
-          style={{ width: "23px", height: "0px" }}
+          
         >
           <FaEllipsisV />
         </button>

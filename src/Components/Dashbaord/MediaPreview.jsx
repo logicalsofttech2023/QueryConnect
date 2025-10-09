@@ -38,16 +38,12 @@ const MediaPreview = ({
     <>
       <div className="mediaPreview">
         <div className="previewHeader">
-          <button className="closeButton"   onClick={onClose}>
-            <FaTimes />
-          </button>
+          
           <div className="previewTitle">{selectedMedia.name}</div>
           <div className="previewActions">
-            <button className="actionBtn">
-              <FaDownload />
-            </button>
-            <button className="actionBtn">
-              <FaEllipsisH />
+            
+            <button className="actionBtn" onClick={onClose}>
+              <FaTimes />
             </button>
           </div>
         </div>
