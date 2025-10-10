@@ -10,6 +10,7 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import "./MyQueryDetail.css";
+import { FaEyeSlash } from "react-icons/fa";
 
 const MyQueryDetail = () => {
   const [query, setQuery] = useState({
@@ -63,12 +64,20 @@ const MyQueryDetail = () => {
         images: null,
       },
     ],
-  });
 
+    commentsList: [
+      {
+        id: 1,
+        text: "You can use react-dnd library for this. It's well maintained and has great documentation. I've used it in multiple projects and it handles most drag and drop scenarios very well.",
+        timestamp: "1 hour ago",
+      },
+    ],
+  });
   const [selectedImage, setSelectedImage] = useState(null);
   const [isEditingTime, setIsEditingTime] = useState(false);
   const [tempStartTime, setTempStartTime] = useState(query.startTime);
   const [tempEndTime, setTempEndTime] = useState(query.endTime);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const openImagePopup = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -79,9 +88,9 @@ const MyQueryDetail = () => {
   };
 
   const toggleStatus = () => {
-    setQuery(prev => ({
+    setQuery((prev) => ({
       ...prev,
-      status: prev.status === "active" ? "inactive" : "active"
+      status: prev.status === "active" ? "inactive" : "active",
     }));
   };
 
@@ -92,10 +101,10 @@ const MyQueryDetail = () => {
   };
 
   const saveActiveHours = () => {
-    setQuery(prev => ({
+    setQuery((prev) => ({
       ...prev,
       startTime: tempStartTime,
-      endTime: tempEndTime
+      endTime: tempEndTime,
     }));
     setIsEditingTime(false);
   };
@@ -116,15 +125,17 @@ const MyQueryDetail = () => {
 
   // Format time from 24h to 12h format for display
   const formatTimeForDisplay = (time24h) => {
-    const [hours, minutes] = time24h.split(':');
+    const [hours, minutes] = time24h.split(":");
     const hour = parseInt(hours, 10);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const ampm = hour >= 12 ? "PM" : "AM";
     const hour12 = hour % 12 || 12;
     return `${hour12}:${minutes}${ampm}`;
   };
 
   const getDisplayTime = () => {
-    return `${formatTimeForDisplay(query.startTime)} to ${formatTimeForDisplay(query.endTime)}`;
+    return `${formatTimeForDisplay(query.startTime)} to ${formatTimeForDisplay(
+      query.endTime
+    )}`;
   };
 
   // Component for rendering each agent
@@ -182,6 +193,24 @@ const MyQueryDetail = () => {
     );
   };
 
+  const CommentItem = ({ comment }) => {
+    return (
+      <li className="main-comments">
+        <div className="each-comment">
+          <div className="post-header">
+            <div className="media">
+              <div className="media-body"></div>
+            </div>
+          </div>
+          <div className="post-body">
+            <p>{comment.text}</p>
+            <div className="comment-timestamp">{comment.timestamp}</div>
+          </div>
+        </div>
+      </li>
+    );
+  };
+
   return (
     <div id="wrapper" className="wrapper">
       {/* Image Popup Modal */}
@@ -208,14 +237,13 @@ const MyQueryDetail = () => {
                 <div className="filter-header">
                   <h3>Your Query</h3>
                   <div className="status-controls">
-                    <span 
+                    <span
                       className={`status-badge ${query.status}`}
                       onClick={toggleStatus}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                     >
                       {query.status}
                     </span>
-                    
                   </div>
                 </div>
                 <div className="active-time-control">
@@ -242,14 +270,14 @@ const MyQueryDetail = () => {
                         </div>
                       </div>
                       <div className="time-edit-buttons">
-                        <button 
+                        <button
                           className="save-time-btn"
                           onClick={saveActiveHours}
                           title="Save"
                         >
                           <FaCheck />
                         </button>
-                        <button 
+                        <button
                           className="cancel-time-btn"
                           onClick={cancelEditingTime}
                           title="Cancel"
@@ -260,8 +288,10 @@ const MyQueryDetail = () => {
                     </div>
                   ) : (
                     <div className="time-display-container">
-                      <span className="active-time">Active {getDisplayTime()}</span>
-                      <button 
+                      <span className="active-time">
+                        Active {getDisplayTime()}
+                      </span>
+                      <button
                         className="edit-time-btn"
                         onClick={startEditingTime}
                         title="Edit time"
@@ -278,7 +308,42 @@ const MyQueryDetail = () => {
                 <div className="query-header p-0"></div>
 
                 <div className="query-content">
-                  <p>{query.description}</p>
+                  <p
+                    className={isExpanded ? "expanded" : ""}
+                    style={{
+                      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                    }}
+                  >
+                    {isExpanded
+                      ? query.description
+                      : `${query.description.slice(0, 180)}${
+                          query.description.length > 180 ? "..." : ""
+                        }`}
+                  </p>
+                  {query.description.length > 180 && (
+                    <button
+                      className={`read-more-btn`}
+                      onClick={() => {
+                        setIsExpanded(!isExpanded);
+                      }}
+                      data-tooltip={isExpanded ? "Show less" : "Show more"}
+                      aria-label={isExpanded ? "Collapse text" : "Expand text"}
+                    >
+                      {isExpanded ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  )}
+                </div>
+
+                <div className="comments-section">
+                  <div className="section-header">
+                    <h4>Your Comments</h4>
+                  </div>
+
+                  <ul className="comment-list">
+                    {query.commentsList.map((comment) => (
+                      <CommentItem key={comment.id} comment={comment} />
+                    ))}
+                  </ul>
                 </div>
 
                 {/* Comments Section */}

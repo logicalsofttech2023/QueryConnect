@@ -695,3 +695,266 @@
     flex-direction: row !important;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/* Query Content Styling */
+.query-content {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.query-content p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #2d3748;
+  margin-bottom: 10px;
+  text-align: justify;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 4.8em; /* Approximately 3 lines of text (1.7 * 3) */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Expanded state */
+.query-content p.expanded {
+  max-height: 1000px; /* Large enough to accommodate full content */
+  background: none;
+  -webkit-text-fill-color: #2d3748;
+}
+
+/* Collapsed state with fade effect */
+.query-content p:not(.expanded)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2em;
+  background: linear-gradient(transparent, white);
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+/* Dark mode support for fade effect */
+@media (prefers-color-scheme: dark) {
+  .query-content p:not(.expanded)::after {
+    background: linear-gradient(transparent, #1a202c);
+  }
+}
+
+/* Read More Button Styling */
+.read-more-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  float: right;
+}
+
+.read-more-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.read-more-btn:active {
+  transform: translateY(0);
+}
+
+/* Smooth icon transition */
+.read-more-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.read-more-btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* Tooltip for better UX */
+.read-more-btn {
+  position: relative;
+}
+
+.read-more-btn::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2d3748;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.read-more-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #2d3748;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: -4px;
+}
+
+.read-more-btn:hover::before,
+.read-more-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .query-content p {
+    padding-right: 45px;
+    font-size: 15px;
+    max-height: 4.6em;
+  }
+  
+  .read-more-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .query-content p {
+    padding-right: 40px;
+    font-size: 14px;
+    line-height: 1.6;
+    max-height: 4.4em;
+  }
+  
+  .read-more-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .query-content p {
+    color: #e2e8f0;
+  }
+  
+  .query-content p.expanded {
+    -webkit-text-fill-color: #e2e8f0;
+  }
+}
+
+/* Pulse animation for attention */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+  }
+}
+
+.read-more-btn.pulse {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Focus state for accessibility */
+.read-more-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Smooth page transitions */
+.wrapper {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced text selection */
+.query-content p {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* Smooth scrolling for expanded content */
+.query-content {
+  scroll-behavior: smooth;
+}
+
+/* Additional transition for better visual feedback */
+.query-content p {
+  transition: 
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* Hover effect on text container */
+.query-content:hover p:not(.expanded) {
+  transform: translateX(2px);
+}
+
+/* Smooth color transitions */
+.query-content p {
+  transition: 
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s ease,
+    background 0.3s ease;
+}
+
+
+.comment-timestamp {
+  font-size: 12px;
+  color: #6c757d;
+  margin-left: 8px;
+}
