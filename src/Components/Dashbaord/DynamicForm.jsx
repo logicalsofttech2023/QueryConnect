@@ -17,7 +17,6 @@ import {
 } from "react-icons/fa";
 import "./DynamicForm.css";
 import { useNavigate } from "react-router-dom";
-import LocationSearch from "./LocationSearch"; // Make sure this path is correct
 
 const data = {
   realEstate: {
@@ -120,14 +119,10 @@ const DynamicForm = () => {
   const [availableAreas, setAvailableAreas] = useState([]);
   const [areaSearch, setAreaSearch] = useState("");
 
-  // New state for LocationSearch
-  const [selectedCityData, setSelectedCityData] = useState(null);
-  const [selectedAreaData, setSelectedAreaData] = useState(null);
-
   useEffect(() => {
     if (sector) {
       setIsFormVisible(true);
-      setShowAdditionalFields(false);
+      setShowAdditionalFields(false); // Reset additional fields when sector changes
     }
   }, [sector]);
 
@@ -153,39 +148,6 @@ const DynamicForm = () => {
 
   const removeArea = (area) => {
     setSelectedAreas((prev) => prev.filter((a) => a !== area));
-  };
-
-  // Handle city selection from LocationSearch
-  const handleCitySelect = (locationData) => {
-    if (locationData) {
-      setCity(locationData.name || locationData.formatted_address);
-      setSelectedCityData(locationData);
-    } else {
-      setCity("");
-      setSelectedCityData(null);
-    }
-  };
-
-  const handleHotelCitySelect = (locationData) => {
-    if (locationData) {
-      setHotelCity(locationData.name || locationData.formatted_address);
-      setSelectedCityData(locationData);
-    } else {
-      setHotelCity("");
-      setSelectedCityData(null);
-    }
-  };
-
-  // Handle area selection from LocationSearch
-  const handleAreaSelect = (locationData) => {
-    if (locationData) {
-      const areaName = locationData.name || locationData.formatted_address;
-      if (!selectedAreas.includes(areaName)) {
-        setSelectedAreas((prev) => [...prev, areaName]);
-      }
-      setSelectedAreaData(locationData);
-      setAreaSearch(""); // Clear search after selection
-    }
   };
 
   useEffect(() => {
@@ -307,8 +269,6 @@ const DynamicForm = () => {
     setGuests("");
     setDescription("");
     setAreaSearch("");
-    setSelectedCityData(null);
-    setSelectedAreaData(null);
   };
 
   const handleSectorSelect = (sectorKey) => {
@@ -340,8 +300,6 @@ const DynamicForm = () => {
     setRoomType("");
     setGuests("");
     setDescription("");
-    setSelectedCityData(null);
-    setSelectedAreaData(null);
   };
 
   const getSectorIcon = (sectorKey) => {
@@ -460,14 +418,22 @@ const DynamicForm = () => {
                 <div className="dynamic-form-row">
                   <div className="form-group">
                     <label className="form-label">City *</label>
-                    <LocationSearch
-                      placeholder="Search for a city..."
-                      onLocationSelect={handleCitySelect}
-                      value={city}
-                      name="city"
-                      required={true}
-                      className="location-search-field"
-                    />
+                    <div className="select-wrapper">
+                      <select
+                        className="form-select"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        required
+                      >
+                        <option value="">Select City</option>
+                        {data.realEstate.cities.map((c) => (
+                          <option key={c} value={c}>
+                            {c}
+                          </option>
+                        ))}
+                      </select>
+                      <FaChevronDown className="select-arrow" />
+                    </div>
                   </div>
                 </div>
 
@@ -492,57 +458,45 @@ const DynamicForm = () => {
                     </div>
                   )}
 
-                  {/* LocationSearch for Areas */}
-                  <div className="areas-selection">
-                    <LocationSearch
-                      placeholder="Search for areas, localities..."
-                      onLocationSelect={handleAreaSelect}
-                      value={areaSearch}
-                      name="areas"
-                      className="location-search-field area-search"
-                    />
+                  {/* Area Search and Selection */}
+                  {city && (
+                    <div className="areas-selection">
+                      <input
+                        type="text"
+                        className="form-input area-search"
+                        placeholder="Search areas..."
+                        value={areaSearch}
+                        onChange={(e) => setAreaSearch(e.target.value)}
+                      />
 
-                    {/* Traditional Area Selection (as fallback) */}
-                    {city && availableAreas.length > 0 && (
-                      <div className="traditional-area-selection">
-                        <p className="area-selection-label">Or select from predefined areas:</p>
-                        <input
-                          type="text"
-                          className="form-input area-search"
-                          placeholder="Search predefined areas..."
-                          value={areaSearch}
-                          onChange={(e) => setAreaSearch(e.target.value)}
-                        />
-
-                        <div className="areas-list">
-                          {filteredAreas.map((area) => (
-                            <div
-                              key={area}
-                              className={`area-option ${
-                                selectedAreas.includes(area) ? "selected" : ""
-                              }`}
-                              onClick={() => toggleArea(area)}
-                            >
-                              <span className="area-checkbox">
-                                {selectedAreas.includes(area) && <FaCheck />}
-                              </span>
-                              <span className="area-name">{area}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {filteredAreas.length === 0 && areaSearch && (
-                          <div className="no-areas">No predefined areas found</div>
-                        )}
+                      <div className="areas-list">
+                        {filteredAreas.map((area) => (
+                          <div
+                            key={area}
+                            className={`area-option ${
+                              selectedAreas.includes(area) ? "selected" : ""
+                            }`}
+                            onClick={() => toggleArea(area)}
+                          >
+                            <span className="area-checkbox">
+                              {selectedAreas.includes(area) && <FaCheck />}
+                            </span>
+                            <span className="area-name">{area}</span>
+                          </div>
+                        ))}
                       </div>
-                    )}
 
-                    {!city && (
-                      <div className="area-placeholder">
-                        Please select a city first to see available areas
-                      </div>
-                    )}
-                  </div>
+                      {filteredAreas.length === 0 && areaSearch && (
+                        <div className="no-areas">No areas found</div>
+                      )}
+                    </div>
+                  )}
+
+                  {!city && (
+                    <div className="area-placeholder">
+                      Please select a city first to see available areas
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -860,16 +814,14 @@ const DynamicForm = () => {
               <div className="mandatory-fields">
                 <div className="form-group">
                   <label className="form-label">City *</label>
-                  
-
-                  <LocationSearch
-                      placeholder="Search for a city..."
-                      onLocationSelect={handleHotelCitySelect}
-                      value={hotelCity}
-                      name="city"
-                      required={true}
-                      className="location-search-field"
-                    />
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Enter city"
+                    value={hotelCity}
+                    onChange={(e) => setHotelCity(e.target.value)}
+                    required
+                  />
                 </div>
               </div>
 
@@ -1010,6 +962,17 @@ const DynamicForm = () => {
                       <FaChevronDown className="select-arrow" />
                     </div>
                   </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Additional Requirements</label>
+                    <textarea
+                      className="form-textarea"
+                      rows="3"
+                      placeholder="Tell us about your educational requirements..."
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    ></textarea>
+                  </div>
                 </div>
               )}
             </div>
@@ -1078,6 +1041,17 @@ const DynamicForm = () => {
                       </select>
                       <FaChevronDown className="select-arrow" />
                     </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Medical Requirements</label>
+                    <textarea
+                      className="form-textarea"
+                      rows="3"
+                      placeholder="Describe your medical requirements..."
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    ></textarea>
                   </div>
                 </div>
               )}
