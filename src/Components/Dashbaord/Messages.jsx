@@ -287,16 +287,7 @@ const Messages = () => {
     msg.content.toLowerCase().includes(messageSearchQuery.toLowerCase())
   );
 
-  useEffect(() => {
-    const handleClick = (event) => {
-      console.log("Kahin bhi click hua!", event);
-      setShowChatOptions(false);
-    };
-    document.addEventListener("click", handleClick);
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, []);
+  
 
   return (
     <div className="messagesContainer">

@@ -1,5 +1,5 @@
 // components/ChatSection.jsx
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   FaPhone,
   FaVideo,
@@ -34,11 +34,9 @@ const ChatSection = ({
   onClearChat,
   onToggleBlock,
 }) => {
-  
-  // Function to handle option click and close menu
   const handleOptionClick = (action) => {
     action();
-    onShowChatOptions(false); // Close the menu after action
+    onShowChatOptions(false);
   };
 
   return (
@@ -54,7 +52,7 @@ const ChatSection = ({
         onShowMessageSearch={onShowMessageSearch}
         onClearChat={onClearChat}
         onToggleBlock={onToggleBlock}
-        onOptionClick={handleOptionClick} // Pass the handler
+        onOptionClick={handleOptionClick}
       />
 
       {showMessageSearch && (
@@ -103,56 +101,84 @@ const ChatHeader = ({
   onClearChat,
   onToggleBlock,
   onOptionClick,
-}) => (
-  <div className="ChatHead">
-    <div className="chatUser" onClick={() => onShowUserDetails(true)}>
-      <div className="avatarContainer">
-        <div className="avatar">
-          <img src={currentChat.avatar} alt={currentChat.name} />
-        </div>
-        <div
-          className={`statusDot ${currentChat.online ? "online" : "offline"}`}
-        ></div>
-      </div>
-      <div className="userInfo">
-        <p className="GroupName">{currentChat.name}</p>
-        <span className="userStatus">
-          {currentChat.online ? "Online" : `Last seen ${currentChat.lastSeen}`}
-        </span>
-      </div>
-    </div>
-    <div className="callGroup">
-      <button className="iconBtn" onClick={onVoiceCall} title="Voice Call">
-        <FaPhone />
-      </button>
-      <button className="iconBtn" onClick={onVideoCall} title="Video Call">
-        <FaVideo />
-      </button>
-      <div className="chatOptions">
-        <button
-          className="iconBtn"
-          onClick={() => onShowChatOptions(!showChatOptions)}
-          
-        >
-          <FaEllipsisV />
-        </button>
-        {showChatOptions && (
-          <div className="chatOptionsMenu">
-            <button onClick={() => onOptionClick(() => onShowMessageSearch(true))}>
-              <FaSearch /> Search Messages
-            </button>
-            <button onClick={() => onOptionClick(onClearChat)}>
-              <FaTrash /> Clear Chat
-            </button>
-            <button onClick={() => onOptionClick(onToggleBlock)}>
-              <FaBan /> {isBlocked ? "Unblock" : "Block"}
-            </button>
+}) => {
+  const optionsRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (optionsRef.current && !optionsRef.current.contains(e.target)) {
+        onShowChatOptions(false);
+      }
+    };
+
+    if (showChatOptions) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showChatOptions, onShowChatOptions]);
+
+  return (
+    <div className="ChatHead">
+      <div className="chatUser" onClick={() => onShowUserDetails(true)}>
+        <div className="avatarContainer">
+          <div className="avatar">
+            <img src={currentChat.avatar} alt={currentChat.name} />
           </div>
-        )}
+          <div
+            className={`statusDot ${currentChat.online ? "online" : "offline"}`}
+          ></div>
+        </div>
+        <div className="userInfo">
+          <p className="GroupName">{currentChat.name}</p>
+          <span className="userStatus">
+            {currentChat.online
+              ? "Online"
+              : `Last seen ${currentChat.lastSeen}`}
+          </span>
+        </div>
+      </div>
+
+      <div className="callGroup" ref={optionsRef}>
+        <button className="iconBtn" onClick={onVoiceCall} title="Voice Call">
+          <FaPhone />
+        </button>
+        <button className="iconBtn" onClick={onVideoCall} title="Video Call">
+          <FaVideo />
+        </button>
+
+        <div className="chatOptions">
+          <button
+            className="iconBtn"
+            onClick={() => onShowChatOptions(!showChatOptions)}
+          >
+            <FaEllipsisV />
+          </button>
+
+          {showChatOptions && (
+            <div className="chatOptionsMenu">
+              <button
+                onClick={() => onOptionClick(() => onShowMessageSearch(true))}
+              >
+                <FaSearch /> Search Messages
+              </button>
+              <button onClick={() => onOptionClick(onClearChat)}>
+                <FaTrash /> Clear Chat
+              </button>
+              <button onClick={() => onOptionClick(onToggleBlock)}>
+                <FaBan /> {isBlocked ? "Unblock" : "Block"}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const MessageSearchBar = ({
   messageSearchQuery,
@@ -174,7 +200,11 @@ const MessageSearchBar = ({
   </div>
 );
 
-const MessageContainer = ({ messages, messageContainerRef, messagesEndRef }) => (
+const MessageContainer = ({
+  messages,
+  messageContainerRef,
+  messagesEndRef,
+}) => (
   <div className="MessageContainer" ref={messageContainerRef}>
     {messages.map((msg, index) => {
       const showDateSeparator =

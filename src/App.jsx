@@ -185,6 +185,16 @@ function App() {
           }
         />
 
+
+        <Route
+          path="/jitsiCall"
+          element={
+            <ProfileLayout>
+              <JitsiCall />
+            </ProfileLayout>
+          }
+        />
+
         {/* Login Page without Header & Footer */}
         <Route path="/login" element={<Login />} />
       </Routes>

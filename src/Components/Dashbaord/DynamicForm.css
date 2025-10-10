@@ -635,3 +635,59 @@
   flex-direction: column;
   gap: 1.5rem;
 }
+
+
+
+/* Add these styles to your DynamicForm.css */
+
+
+
+.add-custom-area-btn {
+  background: #e3f2fd;
+  border: 1px dashed #2196f3;
+  color: #2196f3;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.add-custom-area-btn:hover {
+  background: #bbdefb;
+}
+
+/* Google Maps autocomplete styling */
+.pac-container {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  font-family: inherit;
+}
+
+.pac-item {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+
+.pac-item:hover {
+  background-color: #f5f5f5;
+}
+
+.pac-item-selected {
+  background-color: #e3f2fd;
+}
+
+.pac-icon {
+  margin-right: 8px;
+}
+
+.pac-matched {
+  font-weight: bold;
+  color: #2196f3;
+}
