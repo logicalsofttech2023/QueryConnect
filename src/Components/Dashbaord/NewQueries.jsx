@@ -330,9 +330,9 @@ const NewQueries = () => {
   const sectors = Object.keys(data);
 
   return (
-    <div className="form-container" style={{ margin: "0px", padding: "0px" }}>
+    <div className="form-container">
       <div className="form-header">
-        <h2 className="form-title" style={{ color: "white" }}>Create Your Query</h2>
+        <h2 className="form-title" >Create Your Query</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="dynamic-form">

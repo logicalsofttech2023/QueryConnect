@@ -13,10 +13,17 @@ import {
   FaTimes,
   FaCheck,
   FaPlus,
-  FaMinus
+  FaMinus,
 } from "react-icons/fa";
 import "./DynamicForm.css";
 import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const data = {
   realEstate: {
@@ -85,7 +92,6 @@ const DynamicForm = () => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
   const [isSectorDropdownOpen, setIsSectorDropdownOpen] = useState(false);
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
-
   // Form states
   const [transactionType, setTransactionType] = useState("buy");
   const [city, setCity] = useState("");
@@ -93,36 +99,32 @@ const DynamicForm = () => {
   const [propertyType, setPropertyType] = useState("");
   const [furnishing, setFurnishing] = useState("");
   const [budget, setBudget] = useState("");
-
   const [serviceType, setServiceType] = useState("");
   const [employmentType, setEmploymentType] = useState("");
   const [income, setIncome] = useState("");
   const [age, setAge] = useState("");
   const [cibil, setCibil] = useState("");
   const [mobile, setMobile] = useState("");
-
   const [vehicleType, setVehicleType] = useState("");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [autoAction, setAutoAction] = useState("");
   const [autoBudget, setAutoBudget] = useState("");
-
   const [hotelCity, setHotelCity] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [roomType, setRoomType] = useState("");
   const [guests, setGuests] = useState("");
-
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
-
   const [availableAreas, setAvailableAreas] = useState([]);
   const [areaSearch, setAreaSearch] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (sector) {
       setIsFormVisible(true);
-      setShowAdditionalFields(false); // Reset additional fields when sector changes
+      setShowAdditionalFields(false);
     }
   }, [sector]);
 
@@ -240,37 +242,6 @@ const DynamicForm = () => {
     guests,
   ]);
 
-  const resetAll = () => {
-    setSector("");
-    setIsFormVisible(false);
-    setIsDescriptionVisible(false);
-    setShowAdditionalFields(false);
-    setTransactionType("buy");
-    setCity("");
-    setSelectedAreas([]);
-    setPropertyType("");
-    setFurnishing("");
-    setBudget("");
-    setServiceType("");
-    setEmploymentType("");
-    setIncome("");
-    setAge("");
-    setCibil("");
-    setMobile("");
-    setVehicleType("");
-    setBrand("");
-    setModel("");
-    setAutoAction("");
-    setAutoBudget("");
-    setHotelCity("");
-    setCheckIn("");
-    setCheckOut("");
-    setRoomType("");
-    setGuests("");
-    setDescription("");
-    setAreaSearch("");
-  };
-
   const handleSectorSelect = (sectorKey) => {
     setSector(sectorKey);
     setIsSectorDropdownOpen(false);
@@ -317,25 +288,35 @@ const DynamicForm = () => {
     );
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted successfully!", description);
-    navigate("/login");
-  };
-
   const toggleAdditionalFields = () => {
     setShowAdditionalFields(!showAdditionalFields);
   };
 
   const sectors = Object.keys(data);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = () => {
+    console.log("Form submitted!");
+    navigate("/login");
+    handleClose();
+  };
+
   return (
     <div className="form-container" style={{ margin: "0px", padding: "0px" }}>
       <div className="form-header">
-        <h2 className="form-title" style={{ color: "white" }}>Create Your Query</h2>
+        <h2 className="form-title" style={{ color: "white" }}>
+          Create Your Query
+        </h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="dynamic-form">
+      <form className="dynamic-form">
         {/* Sector Selection */}
         <div className="form-section">
           <label className="form-label">Select Industry</label>
@@ -439,7 +420,7 @@ const DynamicForm = () => {
 
                 <div className="form-group">
                   <label className="form-label">Preferred Areas *</label>
-                  
+
                   {/* Selected Areas Chips */}
                   {selectedAreas.length > 0 && (
                     <div className="selected-areas">
@@ -508,7 +489,9 @@ const DynamicForm = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Additional Options</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Additional Options
+                  </span>
                 </button>
               </div>
 
@@ -609,7 +592,9 @@ const DynamicForm = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Additional Details</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Additional Details
+                  </span>
                 </button>
               </div>
 
@@ -748,7 +733,9 @@ const DynamicForm = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Vehicle Details</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Vehicle Details
+                  </span>
                 </button>
               </div>
 
@@ -833,7 +820,9 @@ const DynamicForm = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Booking Details</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Booking Details
+                  </span>
                 </button>
               </div>
 
@@ -937,7 +926,10 @@ const DynamicForm = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Additional Information</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Additional
+                    Information
+                  </span>
                 </button>
               </div>
 
@@ -962,8 +954,6 @@ const DynamicForm = () => {
                       <FaChevronDown className="select-arrow" />
                     </div>
                   </div>
-
-                  
                 </div>
               )}
             </div>
@@ -1008,7 +998,9 @@ const DynamicForm = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Medical Details</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Medical Details
+                  </span>
                 </button>
               </div>
 
@@ -1033,8 +1025,6 @@ const DynamicForm = () => {
                       <FaChevronDown className="select-arrow" />
                     </div>
                   </div>
-
-                  
                 </div>
               )}
             </div>
@@ -1047,7 +1037,9 @@ const DynamicForm = () => {
             isDescriptionVisible ? "visible" : ""
           }`}
         >
-          <label className="form-label">Generated Description</label>
+          <label className="form-label">
+            Generated Query (You can edit this query)
+          </label>
           <textarea
             className="form-textarea"
             rows="3"
@@ -1059,10 +1051,40 @@ const DynamicForm = () => {
 
         {/* Submit Button */}
         {isDescriptionVisible && (
-          <button type="submit" className="submit-btn">
+          <button type="button" className="submit-btn" onClick={handleClickOpen}>
             Submit Query
           </button>
         )}
+
+        <Dialog open={open} onClose={handleClose} className="beautiful-dialog">
+  <DialogTitle>Review Your Query</DialogTitle>
+  <DialogContent>
+    <DialogContentText>
+      You can review and edit your query below before submitting. Make sure all details are correct.
+    </DialogContentText>
+    <TextField
+      autoFocus
+      margin="dense"
+      id="comment"
+      label="Edit your query"
+      type="text"
+      fullWidth
+      variant="outlined"
+      placeholder="Type or update your query..."
+      multiline
+      rows={4}
+      value={description}
+      onChange={(e) => setDescription(e.target.value)}
+    />
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleClose}>Cancel</Button>
+    <Button onClick={handleSubmit} variant="contained">
+      Submit
+    </Button>
+  </DialogActions>
+</Dialog>
+
       </form>
     </div>
   );

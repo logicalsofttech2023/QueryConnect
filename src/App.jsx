@@ -30,7 +30,7 @@ function MainLayout({ children }) {
     <div id="wrapper" className="wrapper overflow-hidden">
       <Header />
       {children}
-      <Footer />
+      
     </div>
   );
 }
@@ -41,7 +41,7 @@ function ProfileLayout({ children }) {
       <PHeader />
       
       {children}
-      <Footer />
+      
     </>
   );
 }
@@ -58,10 +58,7 @@ function App() {
           element={
             <MainLayout>
               <Banner />
-              <WhyChooseUs />
-              <Team />
-              <WhyChooseFluid />
-              <BannerApps />
+              
             </MainLayout>
           }
         />

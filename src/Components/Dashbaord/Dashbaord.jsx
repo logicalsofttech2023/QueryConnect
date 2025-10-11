@@ -7,11 +7,101 @@ import {
   FiClock,
   FiSearch,
   FiEye,
+  FiMessageCircle,
 } from "react-icons/fi";
 import { FaCircle } from "react-icons/fa";
-import { Skeleton, Box, Chip } from "@mui/material";
-import "./Dashboard.css";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  IconButton,
+  TextField,
+  InputAdornment,
+  Skeleton,
+  Button,
+  Avatar,
+  AvatarGroup,
+  Tooltip,
+  alpha,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
+
+// Styled components
+const StatCard = styled(Card)(({ theme, color }) => ({
+  background: `linear-gradient(135deg, ${theme.palette[color].light} 0%, ${theme.palette[color].main} 100%)`,
+  color: theme.palette.common.white,
+  borderRadius: theme.spacing(2),
+  position: "relative",
+  overflow: "hidden",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: -50,
+    right: -50,
+    width: 100,
+    height: 100,
+    borderRadius: "50%",
+    background: alpha(theme.palette.common.white, 0.1),
+  },
+}));
+
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  borderRadius: theme.spacing(2),
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+  "& .MuiTableHead-root": {
+    backgroundColor: theme.palette.grey[50],
+  },
+  "& .MuiTableCell-head": {
+    fontWeight: 600,
+    color: theme.palette.text.secondary,
+    borderBottom: `2px solid ${theme.palette.grey[200]}`,
+  },
+  "& .MuiTableCell-body": {
+    borderBottom: `1px solid ${theme.palette.grey[100]}`,
+  },
+}));
+
+const QueryRow = styled(TableRow)(({ theme }) => ({
+  cursor: "pointer",
+  transition: "all 0.2s ease-in-out",
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+    transform: "translateY(-1px)",
+    boxShadow: theme.shadows[1],
+  },
+  "&:last-child td, &:last-child th": {
+    borderBottom: 0,
+  },
+}));
+
+const PriorityChip = styled(Chip)(({ theme, priority }) => {
+  const priorityColors = {
+    high: theme.palette.error,
+    medium: theme.palette.warning,
+    low: theme.palette.success,
+  };
+
+  const color = priorityColors[priority] || theme.palette.grey;
+
+  return {
+    backgroundColor: alpha(color.main, 0.1),
+    color: color.main,
+    fontWeight: 600,
+    border: `1px solid ${alpha(color.main, 0.2)}`,
+  };
+});
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -26,6 +116,11 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const theme = useTheme();
+  
+  const isXs = useMediaQuery(theme.breakpoints.down("sm"));  // mobile
+  const isMd = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
+  const isLg = useMediaQuery(theme.breakpoints.up("md")); // desktop
 
   useEffect(() => {
     setTimeout(() => {
@@ -183,214 +278,303 @@ const Dashboard = () => {
     });
   };
 
-  const getStatusBadge = (status) => {
+  const formatTime = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const getStatusChip = (status) => {
     const statusConfig = {
-      active: { class: "status-active", label: "Active", color: "#10b981" },
-      inactive: {
-        class: "status-inactive",
-        label: "Inactive",
-        color: "#6b7280",
-      },
+      active: { label: "Active", color: "success" },
+      inactive: { label: "Inactive", color: "default" },
     };
 
     const config = statusConfig[status] || statusConfig.inactive;
+
     return (
-      <span
-        className={`status-badge ${config.class}`}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "4px",
-          color: config.color,
-          fontSize: "12px",
-          fontWeight: "600",
-        }}
-      >
-        <FaCircle size={8} />
-        {config.label}
-      </span>
+      <Chip
+        label={
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            <FaCircle size={8} />
+            {config.label}
+          </Box>
+        }
+        color={config.color}
+        variant="outlined"
+        size="small"
+      />
     );
   };
 
-  const StatCard = ({ title, value, icon, color, description }) => (
-    <div className={`stat-card stat-card-${color}`}>
-      <div className="stat-icon">{icon}</div>
-      <div className="stat-content">
-        {loading ? (
-          <Skeleton variant="text" width={60} height={30} />
-        ) : (
-          <h3 className="stat-value">{value}</h3>
-        )}
-        <p className="stat-title">{title}</p>
-        {description && <p className="stat-description">{description}</p>}
-      </div>
-    </div>
+  const handleViewQuery = (queryId) => {
+    navigate("/myQueryDetail", { state: { queryId } });
+  };
+
+  const StatCardComponent = ({ title, value, icon, color, description }) => (
+    <StatCard color={color}>
+      <CardContent sx={{ position: "relative", zIndex: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box>
+            {loading ? (
+              <Skeleton
+                variant="text"
+                width={60}
+                height={40}
+                sx={{ bgcolor: "rgba(255,255,255,0.3)" }}
+              />
+            ) : (
+              <Typography variant="h3" sx={{ fontWeight: 700, mb: 1, color: "white" }}>
+                {value}
+              </Typography>
+            )}
+            <Typography variant="h6" sx={{ opacity: 0.9, fontWeight: 600 , color: "white" }}>
+              {title}
+            </Typography>
+            {description && (
+              <Typography variant="body2" sx={{ opacity: 0.8, mt: 1 }}>
+                {description}
+              </Typography>
+            )}
+          </Box>
+          <Box sx={{ color: "rgba(255,255,255,0.8)" }}>{icon}</Box>
+        </Box>
+      </CardContent>
+    </StatCard>
   );
 
   const EmptyQueriesState = () => (
-    <div className="empty-queries-state">
-      <div className="empty-state-icon">
-        <FiInbox />
-      </div>
-      <h3>No Queries Found</h3>
-      <p>
+    <Paper sx={{ p: 6, textAlign: "center" }}>
+      <Box sx={{ color: theme.palette.text.secondary, mb: 2 }}>
+        <FiInbox size={64} />
+      </Box>
+      <Typography variant="h6" gutterBottom>
+        No Queries Found
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
         No queries match your current filters. Try adjusting your search or
         create a new query.
-      </p>
-      <button
-        className="btn-primary large"
+      </Typography>
+      <Button
+        variant="contained"
+        startIcon={<FiPlus />}
         onClick={() => navigate("/newQueries")}
+        size="large"
       >
-        <FiPlus className="icon" />
         Create New Query
-      </button>
-    </div>
+      </Button>
+    </Paper>
   );
 
-  const handleViewQuery = () => {
-    navigate("/myQueryDetail");
-  };
-
   return (
-    <div className="dashboard-wrapper">
-      <div className="dashboard-header">
-        <div className="header-content">
-          <h1 style={{ textAlign: "start" }}>Welcome Suraj</h1>
-        </div>
-      </div>
+    <Box sx={{ p: 3, mt: 10 }}>
+      {/* Header */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" fontWeight="700" gutterBottom>
+          Welcome Suraj
+        </Typography>
+      </Box>
 
       {/* Statistics Grid */}
-      <div className="stats-grid">
-        <StatCard
-          title="Active Queries"
-          value={stats.activeQueries}
-          icon={<FiActivity className="stat-icon-svg" />}
-          color="green"
-        />
+      <Box sx={{ mb: 4 }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              lg: "repeat(2, 1fr)",
+            },
+            gap: 3,
+          }}
+        >
+          <StatCardComponent
+            title="Active Queries"
+            value={stats.activeQueries}
+            icon={<FiActivity size={32} />}
+            color="primary"
+          />
+        </Box>
+      </Box>
 
-        <StatCard
-          title="Inactive Queries"
-          value={stats.inactiveQueries}
-          icon={<FiPause className="stat-icon-svg" />}
-          color="orange"
-        />
-      </div>
-
-      <div className="dashboard-content">
-        {/* Recent Queries Section */}
-        <div className="content-section">
-          <div className="section-header">
-            <div className="section-title">
-              <h2>My Active Queries</h2>
-            </div>
+      {/* Recent Queries Section */}
+      <Card
+        sx={{ borderRadius: 3, boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)" }}
+      >
+        <CardContent sx={{ p: 0 }}>
+          {/* Section Header */}
+          <Box
+            sx={{
+              p: 3,
+              pb: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h5" fontWeight="600" >
+              My Active Queries
+            </Typography>
             {recentQueries.length > 0 && (
-              <button
-                className="btn-primary"
+              <Button
+                variant="contained"
+                startIcon={<FiPlus />}
                 onClick={() => navigate("/newQueries")}
+                style={{ fontSize: isXs ? "10px" : isMd ? "11px" : "20px" }}
               >
-                <FiPlus className="icon" />
                 New Query
-              </button>
+              </Button>
             )}
-          </div>
+          </Box>
 
-          {/* Filters and Search */}
-          <div className="table-controls">
-            <div className="search-box">
-              <FiSearch className="search-icon" />
-              <input
-                type="text"
-                placeholder="Search queries..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
-              />
-            </div>
-          </div>
+          {/* Search Box */}
+          <Box sx={{ px: 3, pb: 2 }}>
+            <TextField
+              fullWidth
+              placeholder="Search queries..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <FiSearch />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 2,
+                },
+              }}
+            />
+          </Box>
 
           {/* Queries Table */}
-          <div className="queries-table-container">
+          <Box sx={{ p: 1 }}>
             {loading ? (
-              // Loading skeletons for table
-              <div className="table-skeleton">
+              // Loading skeletons
+              <Box sx={{ p: 2 }}>
                 {Array.from(new Array(5)).map((_, index) => (
-                  <div key={index} className="table-row-skeleton">
-                    <Skeleton variant="text" width="20%" height={20} />
-                    <Skeleton variant="text" width="15%" height={20} />
-                    <Skeleton variant="text" width="15%" height={20} />
-                    <Skeleton variant="text" width="15%" height={20} />
-                    <Skeleton variant="text" width="10%" height={20} />
-                    <Skeleton variant="text" width="15%" height={20} />
-                  </div>
+                  <Box
+                    key={index}
+                    sx={{ display: "flex", gap: 2, mb: 2, p: 2 }}
+                  >
+                    <Skeleton variant="text" width="5%" height={40} />
+                    <Skeleton variant="text" width="30%" height={40} />
+                    <Skeleton variant="text" width="15%" height={40} />
+                    <Skeleton variant="text" width="10%" height={40} />
+                    <Skeleton variant="text" width="15%" height={40} />
+                    <Skeleton variant="text" width="15%" height={40} />
+                    <Skeleton variant="text" width="10%" height={40} />
+                  </Box>
                 ))}
-              </div>
+              </Box>
             ) : recentQueries.length > 0 ? (
-              // Queries Table
-              <div className="queries-table">
-                {/* Table Header */}
-                <div className="table-header">
-                  <div className="table-cell">Sr No</div>
-                  <div className="table-cell">Query</div>
-                  <div className="table-cell">Total Treads</div>
-                  <div className="table-cell">New Messages</div>
-                  <div className="table-cell">Status</div>
-                  <div className="table-cell">Last Updated</div>
-                  <div className="table-cell">Actions</div>
-                </div>
+              <StyledTableContainer component={Paper} elevation={0}>
+                <Table sx={{ minWidth: 800 }}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>ID</TableCell>
+                      <TableCell>Query Description</TableCell>
 
-                {/* Table Body */}
-                <div className="table-body">
-                  {recentQueries.map((query) => (
-                    <div
-                      key={query.id}
-                      className="table-row"
-                      onClick={handleViewQuery}
-                    >
-                      <div className="table-cell">{query.id}</div>
-                      <div className="table-cell">
-                        <div className="query-title-cell">
-                          <p className="query-description">
-                            {query.shortDescription}
-                          </p>
-                        </div>
-                      </div>
+                      <TableCell>Threads</TableCell>
+                      <TableCell>Unread</TableCell>
 
-                      <div className="table-cell">{query.total_treads}</div>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Last Updated</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {recentQueries.map((query) => (
+                      <QueryRow
+                        key={query.id}
+                        hover
+                        onClick={() => handleViewQuery(query.id)}
+                      >
+                        <TableCell>
+                          <Typography variant="body2" fontWeight="600">
+                            #{query.id}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Box>
+                            <Typography variant="body2" color="text.secondary">
+                              {query.shortDescription
+                                ? query.shortDescription.length > 100
+                                  ? query.shortDescription.slice(0, 100) + "..."
+                                  : query.shortDescription
+                                : ""}
+                            </Typography>
+                          </Box>
+                        </TableCell>
 
-                      <div className="table-cell">{query.totalUnread}</div>
+                        <TableCell>
+                          <Chip
+                            label={query.total_treads}
+                            size="small"
+                            variant="outlined"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          {query.totalUnread > 0 ? (
+                            <Chip
+                              label={query.totalUnread}
+                              size="small"
+                              color="error"
+                            />
+                          ) : (
+                            <Typography variant="body2" color="text.secondary">
+                              -
+                            </Typography>
+                          )}
+                        </TableCell>
 
-                      <div className="table-cell">
-                        {getStatusBadge(query.status)}
-                      </div>
-
-                      <div className="table-cell">
-                        <div className="date-cell">
-                          <FiClock className="date-icon" />
-                          {formatDate(query.lastUpdated)}
-                        </div>
-                      </div>
-
-                      <div className="table-cell">
-                        <div className="action-buttons">
-                          <button
-                            className="action-btn view-btn"
-                            onClick={handleViewQuery}
+                        <TableCell>{getStatusChip(query.status)}</TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                            }}
                           >
-                            <FiEye size={16} />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                            <FiClock
+                              size={14}
+                              color={theme.palette.text.secondary}
+                            />
+                            <Box>
+                              <Typography variant="body2" fontWeight="500">
+                                {formatDate(query.lastUpdated)}
+                              </Typography>
+                              <Typography
+                                variant="caption"
+                                color="text.secondary"
+                              >
+                                {formatTime(query.lastUpdated)}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </TableCell>
+                      </QueryRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </StyledTableContainer>
             ) : (
               <EmptyQueriesState />
             )}
-          </div>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 

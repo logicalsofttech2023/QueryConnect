@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  FaArrowLeft,
-  FaFacebook,
-  FaGoogle
-} from "react-icons/fa";
+import { FaArrowLeft, FaFacebook, FaGoogle } from "react-icons/fa";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 
@@ -35,7 +31,6 @@ const Login = () => {
   const handleSendOTP = (e) => {
     e.preventDefault();
     if (formData.mobile.length === 10) {
-      // Simulate OTP sending
       console.log("OTP sent to:", formData.mobile);
       setRegistrationStep(2);
     }
@@ -52,14 +47,10 @@ const Login = () => {
   // Social login handlers
   const handleFacebookLogin = () => {
     console.log("Facebook login initiated");
-    // Add your Facebook OAuth logic here
-    // Example: window.location.href = '/auth/facebook';
   };
 
   const handleGoogleLogin = () => {
     console.log("Google login initiated");
-    // Add your Google OAuth logic here
-    // Example: window.location.href = '/auth/google';
   };
 
   const resetRegistration = () => {
@@ -93,24 +84,9 @@ const Login = () => {
           </div>
 
           <div className="login-form-wrap">
-            <ul className="nav nav-tabs" role="tablist">
-              <li className="nav-item">
-                <button
-                  className={`nav-link ${
-                    activeTab === "registration" ? "active" : ""
-                  }`}
-                  onClick={() => {
-                    setActiveTab("registration");
-                    resetRegistration();
-                  }}
-                >
-                  <i className="icofont-download" /> Sign In
-                </button>
-              </li>
-            </ul>
+            
 
             <div className="tab-content">
-              {/* REGISTRATION TAB */}
               <div
                 className={`tab-pane registration-tab fade ${
                   activeTab === "registration" ? "show active" : ""
@@ -118,8 +94,8 @@ const Login = () => {
                 id="registration-tab"
                 role="tabpanel"
               >
-                {/* Registration Progress Steps */}
-                <div className="registration-steps">
+                {/* Registration Steps */}
+                {/* <div className="registration-steps">
                   <div
                     className={`step ${registrationStep >= 1 ? "active" : ""}`}
                   >
@@ -132,13 +108,44 @@ const Login = () => {
                     <div className="step-number">2</div>
                     <span>OTP</span>
                   </div>
-                </div>
+                </div> */}
 
                 <h3 className="item-title">
-                  {registrationStep === 1 && "Enter Your Mobile Number"}
+                  {registrationStep === 1 && "Sign In or Continue with"}
                   {registrationStep === 2 && "Verify OTP"}
                 </h3>
 
+                {/* --- 🟦 SOCIAL LOGIN AT TOP --- */}
+                {registrationStep === 1 && (
+                  <>
+                    <div className="social-login-buttons top-social">
+                      <button
+                        type="button"
+                        className="social-btn facebook-btn"
+                        onClick={handleFacebookLogin}
+                        style={{ fontSize: "11px" }}
+                      >
+                        <FaFacebook className="social-icon" />
+                        Continue with Facebook
+                      </button>
+                      <button
+                        type="button"
+                        className="social-btn google-btn"
+                        onClick={handleGoogleLogin}
+                        style={{ fontSize: "11px" }}
+                      >
+                        <FaGoogle className="social-icon" />
+                        Continue with Google
+                      </button>
+                    </div>
+
+                    <div className="social-login-divider">
+                      <span>Or</span>
+                    </div>
+                  </>
+                )}
+
+                {/* --- FORM --- */}
                 <form
                   onSubmit={
                     registrationStep === 1
@@ -173,31 +180,6 @@ const Login = () => {
                       <div className="form-group">
                         <button type="submit" className="submit-btn">
                           Send OTP
-                        </button>
-                      </div>
-
-                      {/* Social Login Divider */}
-                      <div className="social-login-divider">
-                        <span>Or continue with</span>
-                      </div>
-
-                      {/* Social Login Buttons */}
-                      <div className="social-login-buttons">
-                        <button
-                          type="button"
-                          className="social-btn facebook-btn"
-                          onClick={handleFacebookLogin}
-                        >
-                          <FaFacebook className="social-icon" />
-                          Facebook
-                        </button>
-                        <button
-                          type="button"
-                          className="social-btn google-btn"
-                          onClick={handleGoogleLogin}
-                        >
-                          <FaGoogle className="social-icon" />
-                          Google
                         </button>
                       </div>
                     </div>
