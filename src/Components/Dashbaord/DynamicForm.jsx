@@ -338,7 +338,7 @@ const DynamicForm = () => {
       <form onSubmit={handleSubmit} className="dynamic-form">
         {/* Sector Selection */}
         <div className="form-section">
-          <label className="form-label">Select Sector</label>
+          <label className="form-label">Select Industry</label>
           <div className="sector-dropdown">
             <div
               className={`sector-dropdown-toggle ${
@@ -349,7 +349,7 @@ const DynamicForm = () => {
               <div className="selected-sector">
                 {getSelectedSectorIcon()}
                 <span className="selected-sector-text">
-                  {sector ? data[sector].name : "Choose a sector..."}
+                  {sector ? data[sector].name : "Choose a Industry..."}
                 </span>
               </div>
               <FaChevronDown
@@ -963,16 +963,7 @@ const DynamicForm = () => {
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Additional Requirements</label>
-                    <textarea
-                      className="form-textarea"
-                      rows="3"
-                      placeholder="Tell us about your educational requirements..."
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    ></textarea>
-                  </div>
+                  
                 </div>
               )}
             </div>
@@ -1043,16 +1034,7 @@ const DynamicForm = () => {
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Medical Requirements</label>
-                    <textarea
-                      className="form-textarea"
-                      rows="3"
-                      placeholder="Describe your medical requirements..."
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    ></textarea>
-                  </div>
+                  
                 </div>
               )}
             </div>

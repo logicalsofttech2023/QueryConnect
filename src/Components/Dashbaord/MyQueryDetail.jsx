@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaEye,
   FaEllipsisV,
@@ -11,6 +11,13 @@ import {
 } from "react-icons/fa";
 import "./MyQueryDetail.css";
 import { FaEyeSlash } from "react-icons/fa";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const MyQueryDetail = () => {
   const [query, setQuery] = useState({
@@ -78,6 +85,8 @@ const MyQueryDetail = () => {
   const [tempStartTime, setTempStartTime] = useState(query.startTime);
   const [tempEndTime, setTempEndTime] = useState(query.endTime);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [statusQueryModelOpen, setStatusQueryModelOpen] = useState(false);
 
   const openImagePopup = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -85,13 +94,6 @@ const MyQueryDetail = () => {
 
   const closeImagePopup = () => {
     setSelectedImage(null);
-  };
-
-  const toggleStatus = () => {
-    setQuery((prev) => ({
-      ...prev,
-      status: prev.status === "active" ? "inactive" : "active",
-    }));
   };
 
   const startEditingTime = () => {
@@ -123,7 +125,6 @@ const MyQueryDetail = () => {
     setTempEndTime(e.target.value);
   };
 
-  // Format time from 24h to 12h format for display
   const formatTimeForDisplay = (time24h) => {
     const [hours, minutes] = time24h.split(":");
     const hour = parseInt(hours, 10);
@@ -138,7 +139,6 @@ const MyQueryDetail = () => {
     )}`;
   };
 
-  // Component for rendering each agent
   const AgentItem = ({ agent }) => {
     return (
       <li className="main-comments">
@@ -149,8 +149,24 @@ const MyQueryDetail = () => {
                 <img src={agent.user.avatar} alt={agent.user.name} />
               </div>
               <div className="media-body">
-                <div className="user-title">
+                <div className="user-title d-flex align-items-end justify-content-between">
                   <a>{agent.user.name}</a>
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      color: "white",
+                      borderRadius: "50%",
+                      padding: "4px 10px",
+                      fontSize: "13px",
+                      fontWeight: "600",
+                      display: "inline-block",
+                      minWidth: "24px",
+                      textAlign: "center",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                    }}
+                  >
+                    12
+                  </span>
                 </div>
                 <ul className="entry-meta">
                   <li className="meta-time">
@@ -211,6 +227,37 @@ const MyQueryDetail = () => {
     );
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = () => {
+    console.log("Form submitted!");
+    handleClose();
+  };
+
+  const handleOpenStatusQuery = () => {
+    setStatusQueryModelOpen(true);
+  };
+  const closeStatusQueryModel = () => {
+    setStatusQueryModelOpen(false);
+  };
+  const confirmStatusQuery = () => {
+    setQuery((prev) => ({
+      ...prev,
+      status: prev.status === "active" ? "inactive" : "active",
+    }));
+    setStatusQueryModelOpen(false);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div id="wrapper" className="wrapper">
       {/* Image Popup Modal */}
@@ -229,7 +276,7 @@ const MyQueryDetail = () => {
       )}
 
       <div className="page-content">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
             <div className="col-lg-12">
               {/* Filter Section */}
@@ -239,7 +286,7 @@ const MyQueryDetail = () => {
                   <div className="status-controls">
                     <span
                       className={`status-badge ${query.status}`}
-                      onClick={toggleStatus}
+                      onClick={handleOpenStatusQuery}
                       style={{ cursor: "pointer" }}
                     >
                       {query.status}
@@ -301,6 +348,33 @@ const MyQueryDetail = () => {
                     </div>
                   )}
                 </div>
+              </div>
+
+              <div
+                className="query-title-card"
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                }}
+              >
+                <button class="btn-primary" onClick={handleClickOpen}>
+                  <svg
+                    stroke="currentColor"
+                    fill="none"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{ stroke: "white", width: "1em", height: "1em" }}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  Add Comment
+                </button>
               </div>
 
               {/* Query Detail */}
@@ -367,6 +441,56 @@ const MyQueryDetail = () => {
               </div>
             </div>
           </div>
+
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            className="beautiful-dialog"
+          >
+            <DialogTitle>Your Query</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Stay updated with our latest news and features. Enter your email
+                address below to receive occasional updates from us.
+              </DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="comment"
+                label="Your comment here"
+                type="text"
+                fullWidth
+                variant="outlined" // Changed to outlined for better styling
+                placeholder="Type your comment..."
+                multiline
+                rows={4}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={handleSubmit} variant="contained">
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog
+            open={statusQueryModelOpen}
+            onClose={closeStatusQueryModel}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {" Are you sure you want to change the status of this query?"}
+            </DialogTitle>
+
+            <DialogActions>
+              <Button onClick={closeStatusQueryModel}>Cancel</Button>
+              <Button onClick={confirmStatusQuery} autoFocus>
+                Confirm
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
     </div>

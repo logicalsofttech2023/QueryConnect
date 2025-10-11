@@ -6,6 +6,7 @@ import UserDetailsPanel from "./UserDetailsPanel";
 import MediaGallery from "./MediaGallery";
 import MediaPreview from "./MediaPreview";
 import QRCodeModal from "./QRCodeModal";
+import { FaArrowLeft, FaBars } from "react-icons/fa";
 
 const Messages = () => {
   const [message, setMessage] = useState("");

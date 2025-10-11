@@ -329,6 +329,7 @@ const Dashboard = () => {
               <div className="queries-table">
                 {/* Table Header */}
                 <div className="table-header">
+                  <div className="table-cell">Sr No</div>
                   <div className="table-cell">Query</div>
                   <div className="table-cell">Total Treads</div>
                   <div className="table-cell">New Messages</div>
@@ -345,6 +346,7 @@ const Dashboard = () => {
                       className="table-row"
                       onClick={handleViewQuery}
                     >
+                      <div className="table-cell">{query.id}</div>
                       <div className="table-cell">
                         <div className="query-title-cell">
                           <p className="query-description">
