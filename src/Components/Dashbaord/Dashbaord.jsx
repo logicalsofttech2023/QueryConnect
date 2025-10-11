@@ -86,22 +86,7 @@ const QueryRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const PriorityChip = styled(Chip)(({ theme, priority }) => {
-  const priorityColors = {
-    high: theme.palette.error,
-    medium: theme.palette.warning,
-    low: theme.palette.success,
-  };
 
-  const color = priorityColors[priority] || theme.palette.grey;
-
-  return {
-    backgroundColor: alpha(color.main, 0.1),
-    color: color.main,
-    fontWeight: 600,
-    border: `1px solid ${alpha(color.main, 0.2)}`,
-  };
-});
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -480,93 +465,73 @@ const Dashboard = () => {
             ) : recentQueries.length > 0 ? (
               <StyledTableContainer component={Paper} elevation={0}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>ID</TableCell>
-                      <TableCell>Query Description</TableCell>
+  <TableHead>
+    <TableRow>
+      <TableCell sx={{ width: "8%" }}>ID</TableCell>
+      <TableCell sx={{ width: "47%" }}>Query</TableCell>
+      <TableCell sx={{ width: "8%" }}>Threads</TableCell>
+      <TableCell sx={{ width: "8%" }}>Unread</TableCell>
+      <TableCell sx={{ width: "12%" }}>Status</TableCell>
+      <TableCell sx={{ width: "15%" }}>Last Updated</TableCell>
+    </TableRow>
+  </TableHead>
 
-                      <TableCell>Threads</TableCell>
-                      <TableCell>Unread</TableCell>
+  <TableBody>
+    {recentQueries.map((query) => (
+      <QueryRow key={query.id} hover onClick={() => handleViewQuery(query.id)}>
+        <TableCell>
+          <Typography variant="body2" fontWeight="600">
+            #{query.id}
+          </Typography>
+        </TableCell>
 
-                      <TableCell>Status</TableCell>
-                      <TableCell>Last Updated</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {recentQueries.map((query) => (
-                      <QueryRow
-                        key={query.id}
-                        hover
-                        onClick={() => handleViewQuery(query.id)}
-                      >
-                        <TableCell>
-                          <Typography variant="body2" fontWeight="600">
-                            #{query.id}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Box>
-                            <Typography variant="body2" color="text.secondary">
-                              {query.shortDescription
-                                ? query.shortDescription.length > 100
-                                  ? query.shortDescription.slice(0, 100) + "..."
-                                  : query.shortDescription
-                                : ""}
-                            </Typography>
-                          </Box>
-                        </TableCell>
+        {/* Make Query column wider */}
+        <TableCell sx={{ width: "40%" }}>
+          <Box>
+            <Typography variant="body2" color="text.secondary" noWrap={false}>
+              {query.shortDescription
+                ? query.shortDescription.length > 150
+                  ? query.shortDescription.slice(0, 150) + "..."
+                  : query.shortDescription
+                : ""}
+            </Typography>
+          </Box>
+        </TableCell>
 
-                        <TableCell>
-                          <Chip
-                            label={query.total_treads}
-                            size="small"
-                            variant="outlined"
-                          />
-                        </TableCell>
-                        <TableCell>
-                          {query.totalUnread > 0 ? (
-                            <Chip
-                              label={query.totalUnread}
-                              size="small"
-                              color="error"
-                            />
-                          ) : (
-                            <Typography variant="body2" color="text.secondary">
-                              -
-                            </Typography>
-                          )}
-                        </TableCell>
+        <TableCell>
+          <Chip label={query.total_treads} size="small" variant="outlined" />
+        </TableCell>
 
-                        <TableCell>{getStatusChip(query.status)}</TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1,
-                            }}
-                          >
-                            <FiClock
-                              size={14}
-                              color={theme.palette.text.secondary}
-                            />
-                            <Box>
-                              <Typography variant="body2" fontWeight="500">
-                                {formatDate(query.lastUpdated)}
-                              </Typography>
-                              <Typography
-                                variant="caption"
-                                color="text.secondary"
-                              >
-                                {formatTime(query.lastUpdated)}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </TableCell>
-                      </QueryRow>
-                    ))}
-                  </TableBody>
-                </Table>
+        <TableCell>
+          {query.totalUnread > 0 ? (
+            <Chip label={query.totalUnread} size="small" color="error" />
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              -
+            </Typography>
+          )}
+        </TableCell>
+
+        <TableCell>{getStatusChip(query.status)}</TableCell>
+
+        <TableCell>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <FiClock size={14} color={theme.palette.text.secondary} />
+            <Box>
+              <Typography variant="body2" fontWeight="500">
+                {formatDate(query.lastUpdated)}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                {formatTime(query.lastUpdated)}
+              </Typography>
+            </Box>
+          </Box>
+        </TableCell>
+      </QueryRow>
+    ))}
+  </TableBody>
+</Table>
+
               </StyledTableContainer>
             ) : (
               <EmptyQueriesState />
