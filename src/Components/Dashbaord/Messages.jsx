@@ -25,6 +25,66 @@ const Messages = () => {
   const [callType, setCallType] = useState("");
   const messagesEndRef = useRef(null);
   const messageContainerRef = useRef(null);
+  const [query, setQuery] = useState({
+    id: 1,
+    description:
+      "I'm trying to implement a drag and drop feature for file uploads in my React application. I've tried using the HTML5 drag and drop API but facing issues with React's synthetic events. The drag events are not firing properly and I'm having trouble managing the state during drag operations. Can someone help me with the best approach and maybe suggest some good libraries?",
+    images: ["media/figure/sample1.jpg", "media/figure/sample1.jpg"],
+    videos: [],
+    queryType: "technical",
+    status: "active",
+    user: {
+      name: "Rahul Mehta",
+      avatar: "media/figure/chat_5.jpg",
+    },
+    timestamp: "2 hours ago",
+    startTime: "06:00",
+    endTime: "20:00",
+
+    agentsList: [
+      {
+        id: 1,
+        user: {
+          name: "Neha Sharma",
+          avatar: "media/figure/chat_5.jpg",
+        },
+        text: "You can use react-dnd library for this. It's well maintained and has great documentation. I've used it in multiple projects and it handles most drag and drop scenarios very well.",
+        timestamp: "1 hour ago",
+        rating: 4.5,
+        images: ["media/figure/sample1.jpg", "media/figure/sample1.jpg"],
+      },
+      {
+        id: 2,
+        user: {
+          name: "Amit Verma",
+          avatar: "media/figure/chat_5.jpg",
+        },
+        text: "Another good option is react-beautiful-dnd. It's specifically designed for beautiful and accessible drag and drop in React. Works great with lists.",
+        timestamp: "30 mins ago",
+        rating: 4.5,
+        images: ["media/figure/sample1.jpg", "media/figure/sample1.jpg"],
+      },
+      {
+        id: 3,
+        user: {
+          name: "Priya Singh",
+          avatar: "media/figure/chat_5.jpg",
+        },
+        text: "If you want a simpler solution without external libraries, you can use the native HTML5 drag and drop with React refs. But I'd recommend starting with react-dnd as it's more React-friendly.",
+        timestamp: "15 mins ago",
+        rating: 3.5,
+        images: null,
+      },
+    ],
+
+    commentsList: [
+      {
+        id: 1,
+        text: "You can use react-dnd library for this. It's well maintained and has great documentation. I've used it in multiple projects and it handles most drag and drop scenarios very well.",
+        timestamp: "1 hour ago",
+      },
+    ],
+  });
 
   const [chats, setChats] = useState([
     {
@@ -63,6 +123,8 @@ const Messages = () => {
       isFavorite: false,
       isMuted: false,
     },
+
+    
   ]);
 
   const [currentChat, setCurrentChat] = useState({
@@ -288,8 +350,6 @@ const Messages = () => {
     msg.content.toLowerCase().includes(messageSearchQuery.toLowerCase())
   );
 
-  
-
   return (
     <div className="messagesContainer">
       {/* Mobile Menu Toggle Button */}
@@ -315,6 +375,7 @@ const Messages = () => {
           isMobileMenuOpen={isMobileMenuOpen}
           onSearchChange={setSearchQuery}
           onChatSelect={handleChatSelect}
+          query={query}
         />
 
         <ChatSection

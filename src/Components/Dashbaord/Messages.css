@@ -3,7 +3,7 @@
 /* Main container styling */
 .MessagesMain {
   display: flex;
-  height: 100vh;
+  height: 86vh;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin-top: 5.5rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -35,7 +35,7 @@
 .SideNavhead h2 {
   margin: 0;
   color: white;
-  font-size: 1.6rem;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
@@ -77,7 +77,7 @@
 
 .searchInput {
   width: 100%;
-  padding: 15px 20px 15px 45px;
+  padding: 8px 20px 8px 45px;
   border: 2px solid #f1f5f9;
   background: #f8fafc;
   font-size: 0.95rem;
@@ -994,20 +994,14 @@ body.menu-open {
 }
 
 @media screen and (min-width: 1440px) {
-  .sideNav2 {
-    margin-left: 5.7rem;
-  }
+  
 
   .fixed-header {
     height: 89px !important;
   }
 }
 
-@media screen and (min-width: 1300px) {
-  .sideNav2 {
-    margin-left: 5.7rem;
-  }
-}
+
 
 /* Animations */
 @keyframes fadeIn {
@@ -1049,7 +1043,7 @@ body.menu-open {
 
 .searchInput {
   width: 100%;
-  padding: 12px 20px 12px 40px;
+  padding: 8px 20px 8px 40px;
   border: 1px solid #e0e0e0;
   border-radius: 25px;
   background: #f8f9fa;

@@ -224,9 +224,7 @@
 /* Rest of your existing CSS remains the same */
 .query-detail-card {
   background: #fff;
-  border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  margin-bottom: 24px;
   overflow: hidden;
   border: 1px solid #f1f3f4;
 }
@@ -322,14 +320,15 @@
 
 /* Query Content */
 .query-content {
-  padding: 24px;
+  padding: 10px;
 }
 
 .query-content p {
-  font-size: 20px;
+  font-size: 15px;
   line-height: 1.7;
   color: #495057;
   margin-bottom: 20px;
+  overflow: hidden;
 }
 
 .query-images {
@@ -710,17 +709,16 @@
 /* Query Content Styling */
 .query-content {
   position: relative;
-  margin-bottom: 20px;
 }
 
 .query-content p {
-  font-size: 20px;
+  font-size: 15px;
   line-height: 1.7;
   color: #2d3748;
   margin-bottom: 10px;
   text-align: justify;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  max-height: 4.8em; /* Approximately 3 lines of text (1.7 * 3) */
+  max-height: 3em; /* Approximately 3 lines of text (1.7 * 3) */
   overflow: hidden;
   position: relative;
 }
@@ -754,24 +752,20 @@
 
 /* Read More Button Styling */
 .read-more-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: white;
-  font-size: 14px;
+  font-size: x-small;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   z-index: 2;
-  float: right;
 }
 
 .read-more-btn:hover {
@@ -843,7 +837,7 @@
   .query-content p {
     padding-right: 45px;
     font-size: 15px;
-    max-height: 4.6em;
+    max-height: 3em;
   }
   
   .read-more-btn {
@@ -858,7 +852,7 @@
     padding-right: 40px;
     font-size: 14px;
     line-height: 1.6;
-    max-height: 4.4em;
+    max-height: 3em;
   }
   
   .read-more-btn {
@@ -1146,4 +1140,14 @@
     width: 100%;
     margin: 4px 0 !important;
   }
+}
+
+
+.read-more-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 10px;
 }

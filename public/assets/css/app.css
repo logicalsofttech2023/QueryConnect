@@ -2109,23 +2109,6 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
   align-items: center;
 }
 
-.fixed-header .header-control .inline-item {
-  margin-right: 40px;
-  position: relative;
-}
-
-@media only screen and (max-width: 767px) {
-  .fixed-header .header-control .inline-item {
-    margin-right: 25px;
-  }
-}
-
-@media only screen and (max-width: 374px) {
-  .fixed-header .header-control .inline-item {
-    margin-right: 10px;
-  }
-}
-
 .fixed-header .header-control .inline-item:after {
   content: "";
   height: 21px;
@@ -2149,7 +2132,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
   margin-right: 0;
 }
 
-.fixed-header .header-control .inline-item:last-child:after {
+:last-child:after {
   display: none;
 }
 
@@ -2231,20 +2214,6 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
   textarea.form-control::-webkit-input-placeholder {
   color: #c5c3ff;
   letter-spacing: 1px;
-}
-
-.fixed-header .header-control .dropdown {
-  margin-right: 10px;
-}
-
-@media only screen and (max-width: 374px) {
-  .fixed-header .header-control .dropdown {
-    margin-right: 0;
-  }
-}
-
-.fixed-header .header-control .dropdown:last-child {
-  margin-right: 0;
 }
 
 .fixed-header .header-control .dropdown .dropdown-toggle {

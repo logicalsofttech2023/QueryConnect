@@ -18,6 +18,8 @@
     "@jitsi/react-sdk": "^1.4.4",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
+    "@mui/x-date-pickers": "^8.14.0",
+    "dayjs": "^1.11.18",
     "framer-motion": "^12.23.22",
     "install": "^0.13.0",
     "lucide-react": "^0.544.0",

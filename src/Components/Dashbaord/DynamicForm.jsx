@@ -24,6 +24,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 
 const data = {
   realEstate: {
@@ -92,7 +97,6 @@ const DynamicForm = () => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
   const [isSectorDropdownOpen, setIsSectorDropdownOpen] = useState(false);
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
-  // Form states
   const [transactionType, setTransactionType] = useState("buy");
   const [city, setCity] = useState("");
   const [selectedAreas, setSelectedAreas] = useState([]);
@@ -1076,6 +1080,26 @@ const DynamicForm = () => {
       value={description}
       onChange={(e) => setDescription(e.target.value)}
     />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["TimePicker"]}>
+                  <TimePicker
+                    label="Start Time"
+                    viewRenderers={{
+                      hours: renderTimeViewClock,
+                      minutes: renderTimeViewClock,
+                      seconds: renderTimeViewClock,
+                    }}
+                  />
+                  <TimePicker
+                    label="End Time"
+                    viewRenderers={{
+                      hours: renderTimeViewClock,
+                      minutes: renderTimeViewClock,
+                      seconds: renderTimeViewClock,
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
   </DialogContent>
   <DialogActions>
     <Button onClick={handleClose}>Cancel</Button>
