@@ -27,7 +27,7 @@ import DynamicForm from "./Components/Dashbaord/DynamicForm";
 // Layout for pages where Header & Footer are shown
 function MainLayout({ children }) {
   return (
-    <div id="wrapper" className="wrapper overflow-hidden">
+    <div id="wrapper" className="wrapper overflow-auto" style={{ height: "100vh", backgroundColor: "#615dfa" }}>
       <Header />
       {children}
       

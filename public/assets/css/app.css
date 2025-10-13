@@ -4420,20 +4420,20 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
 
 @media only screen and (max-width: 1199px) {
   .hero-banner {
-    padding: 140px 0 100px;
+    padding: 140px 0 200px;
   }
 }
 
 @media only screen and (max-width: 991px) {
   .hero-banner {
-    padding: 160px 0 80px;
+    padding: 160px 0 200px;
     min-height: auto;
   }
 }
 
 @media only screen and (max-width: 767px) {
   .hero-banner {
-    padding: 140px 0 60px;
+    padding: 140px 0 200px;
   }
 }
 
@@ -4512,7 +4512,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
 }
 
 .hero-banner .map-line {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 11%;
   z-index: -1;

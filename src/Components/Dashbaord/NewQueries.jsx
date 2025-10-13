@@ -13,10 +13,22 @@ import {
   FaTimes,
   FaCheck,
   FaPlus,
-  FaMinus
+  FaMinus,
 } from "react-icons/fa";
 import "./DynamicForm.css";
 import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 
 const data = {
   realEstate: {
@@ -85,44 +97,38 @@ const NewQueries = () => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
   const [isSectorDropdownOpen, setIsSectorDropdownOpen] = useState(false);
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
-
-  // Form states
   const [transactionType, setTransactionType] = useState("buy");
   const [city, setCity] = useState("");
   const [selectedAreas, setSelectedAreas] = useState([]);
   const [propertyType, setPropertyType] = useState("");
   const [furnishing, setFurnishing] = useState("");
   const [budget, setBudget] = useState("");
-
   const [serviceType, setServiceType] = useState("");
   const [employmentType, setEmploymentType] = useState("");
   const [income, setIncome] = useState("");
   const [age, setAge] = useState("");
   const [cibil, setCibil] = useState("");
   const [mobile, setMobile] = useState("");
-
   const [vehicleType, setVehicleType] = useState("");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [autoAction, setAutoAction] = useState("");
   const [autoBudget, setAutoBudget] = useState("");
-
   const [hotelCity, setHotelCity] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [roomType, setRoomType] = useState("");
   const [guests, setGuests] = useState("");
-
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
-
   const [availableAreas, setAvailableAreas] = useState([]);
   const [areaSearch, setAreaSearch] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (sector) {
       setIsFormVisible(true);
-      setShowAdditionalFields(false); // Reset additional fields when sector changes
+      setShowAdditionalFields(false);
     }
   }, [sector]);
 
@@ -240,37 +246,6 @@ const NewQueries = () => {
     guests,
   ]);
 
-  const resetAll = () => {
-    setSector("");
-    setIsFormVisible(false);
-    setIsDescriptionVisible(false);
-    setShowAdditionalFields(false);
-    setTransactionType("buy");
-    setCity("");
-    setSelectedAreas([]);
-    setPropertyType("");
-    setFurnishing("");
-    setBudget("");
-    setServiceType("");
-    setEmploymentType("");
-    setIncome("");
-    setAge("");
-    setCibil("");
-    setMobile("");
-    setVehicleType("");
-    setBrand("");
-    setModel("");
-    setAutoAction("");
-    setAutoBudget("");
-    setHotelCity("");
-    setCheckIn("");
-    setCheckOut("");
-    setRoomType("");
-    setGuests("");
-    setDescription("");
-    setAreaSearch("");
-  };
-
   const handleSectorSelect = (sectorKey) => {
     setSector(sectorKey);
     setIsSectorDropdownOpen(false);
@@ -317,28 +292,36 @@ const NewQueries = () => {
     );
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted successfully!", description);
-    navigate("/login");
-  };
-
   const toggleAdditionalFields = () => {
     setShowAdditionalFields(!showAdditionalFields);
   };
 
   const sectors = Object.keys(data);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = () => {
+    console.log("Form submitted!");
+    navigate("/dashboard");
+    handleClose();
+  };
+
   return (
     <div className="form-container">
       <div className="form-header">
-        <h2 className="form-title" >Create Your Query</h2>
+        <h2 className="form-title">Create Your Query</h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="dynamic-form">
+      <form className="dynamic-form">
         {/* Sector Selection */}
         <div className="form-section">
-          <label className="form-label">Select Sector</label>
+          <label className="form-label">Select Industry</label>
           <div className="sector-dropdown">
             <div
               className={`sector-dropdown-toggle ${
@@ -349,7 +332,7 @@ const NewQueries = () => {
               <div className="selected-sector">
                 {getSelectedSectorIcon()}
                 <span className="selected-sector-text">
-                  {sector ? data[sector].name : "Choose a sector..."}
+                  {sector ? data[sector].name : "Choose a Industry..."}
                 </span>
               </div>
               <FaChevronDown
@@ -439,7 +422,7 @@ const NewQueries = () => {
 
                 <div className="form-group">
                   <label className="form-label">Preferred Areas *</label>
-                  
+
                   {/* Selected Areas Chips */}
                   {selectedAreas.length > 0 && (
                     <div className="selected-areas">
@@ -508,7 +491,9 @@ const NewQueries = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Additional Options</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Additional Options
+                  </span>
                 </button>
               </div>
 
@@ -556,7 +541,7 @@ const NewQueries = () => {
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label" >Budget (₹)</label>
+                    <label className="form-label">Budget (₹)</label>
                     <input
                       type="text"
                       className="form-input"
@@ -609,7 +594,9 @@ const NewQueries = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Additional Details</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Additional Details
+                  </span>
                 </button>
               </div>
 
@@ -748,7 +735,9 @@ const NewQueries = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Vehicle Details</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Vehicle Details
+                  </span>
                 </button>
               </div>
 
@@ -833,7 +822,9 @@ const NewQueries = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Booking Details</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Booking Details
+                  </span>
                 </button>
               </div>
 
@@ -937,7 +928,10 @@ const NewQueries = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Additional Information</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Additional
+                    Information
+                  </span>
                 </button>
               </div>
 
@@ -961,17 +955,6 @@ const NewQueries = () => {
                       </select>
                       <FaChevronDown className="select-arrow" />
                     </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Additional Requirements</label>
-                    <textarea
-                      className="form-textarea"
-                      rows="3"
-                      placeholder="Tell us about your educational requirements..."
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    ></textarea>
                   </div>
                 </div>
               )}
@@ -1017,7 +1000,9 @@ const NewQueries = () => {
                   onClick={toggleAdditionalFields}
                 >
                   {showAdditionalFields ? <FaMinus /> : <FaPlus />}
-                  <span>{showAdditionalFields ? "Hide" : "Show"} Medical Details</span>
+                  <span>
+                    {showAdditionalFields ? "Hide" : "Show"} Medical Details
+                  </span>
                 </button>
               </div>
 
@@ -1042,17 +1027,6 @@ const NewQueries = () => {
                       <FaChevronDown className="select-arrow" />
                     </div>
                   </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Medical Requirements</label>
-                    <textarea
-                      className="form-textarea"
-                      rows="3"
-                      placeholder="Describe your medical requirements..."
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    ></textarea>
-                  </div>
                 </div>
               )}
             </div>
@@ -1065,7 +1039,9 @@ const NewQueries = () => {
             isDescriptionVisible ? "visible" : ""
           }`}
         >
-          <label className="form-label">Generated Description</label>
+          <label className="form-label">
+            Generated Query (You can edit this query)
+          </label>
           <textarea
             className="form-textarea"
             rows="3"
@@ -1077,10 +1053,64 @@ const NewQueries = () => {
 
         {/* Submit Button */}
         {isDescriptionVisible && (
-          <button type="submit" className="submit-btn">
+          <button
+            type="button"
+            className="submit-btn"
+            onClick={handleClickOpen}
+          >
             Submit Query
           </button>
         )}
+
+        <Dialog open={open} onClose={handleClose} className="beautiful-dialog">
+          <DialogTitle>Review Your Query</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              You can review and edit your query below before submitting. Make
+              sure all details are correct.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="comment"
+              label="Edit your query"
+              type="text"
+              fullWidth
+              variant="outlined"
+              placeholder="Type or update your query..."
+              multiline
+              rows={4}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["TimePicker"]}>
+                <TimePicker
+                  label="Start Time"
+                  viewRenderers={{
+                    hours: renderTimeViewClock,
+                    minutes: renderTimeViewClock,
+                    seconds: renderTimeViewClock,
+                  }}
+                />
+                <TimePicker
+                  label="End Time"
+                  viewRenderers={{
+                    hours: renderTimeViewClock,
+                    minutes: renderTimeViewClock,
+                    seconds: renderTimeViewClock,
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleSubmit} variant="contained">
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
       </form>
     </div>
   );

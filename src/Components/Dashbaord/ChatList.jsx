@@ -63,7 +63,14 @@ const ChatList = ({
     <div className={`sideNav2 ${isMobileMenuOpen ? "mobileOpen" : ""}`}>
       <div className="SideNavhead">
         <h2>Your Query</h2>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "11px" }} >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "11px",
+          }}
+        >
           <div className="status-controls">
             <span
               className={`status-badge ${query.status}`}
@@ -89,11 +96,24 @@ const ChatList = ({
       <div className="query-detail-card">
         <div className="query-header p-0"></div>
 
-        <div className="query-content">
+        <div
+          className="query-content"
+          style={{
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
           <p
-            className={isExpanded ? "expanded" : ""}
             style={{
               transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+              position: "relative",
+              margin: 0,
+              ...(isExpanded
+                ? {}
+                : {
+                    maxHeight: "3.5em",
+                    overflow: "hidden",
+                  }),
             }}
           >
             {isExpanded
@@ -102,7 +122,24 @@ const ChatList = ({
                   query.description.length > 100 ? "..." : ""
                 }`}
           </p>
+
+          {/* Gradient overlay instead of ::after */}
+          {!isExpanded && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: "2em",
+                background: "linear-gradient(transparent, white)",
+                pointerEvents: "none",
+                transition: "all 0.4s ease",
+              }}
+            />
+          )}
         </div>
+
         <div className="read-more-container">
           <div>Active 6:00AM to 8:00PM</div>
           {query.description.length > 100 && (

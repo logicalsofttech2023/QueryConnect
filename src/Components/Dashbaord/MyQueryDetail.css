@@ -796,7 +796,7 @@
   content: attr(data-tooltip);
   position: absolute;
   bottom: 100%;
-  left: 50%;
+  left: 0%;
   transform: translateX(-50%);
   background: #2d3748;
   color: white;
