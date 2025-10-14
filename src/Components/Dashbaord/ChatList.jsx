@@ -34,6 +34,16 @@ const ChatList = ({
   const [statusQueryModelOpen, setStatusQueryModelOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [queryView, setQueryView] = useState(false);
+  const [comments, setComments] = useState([
+    {
+      id: 1,
+      text: "I'm trying to implement a drag and drop feature for file uploads in my React application. I've tried using the HTML5 drag and drop API but facing issues",
+      time: "2023-10-01 10:00 AM",
+    },
+    { id: 2, text: "with React's synthetic events. The drag events are not firing properly and I'm having trouble managing the state during drag operations. Can", time: "2023-10-01 11:00 AM" },
+    { id: 3, text: "someone help me with the best approach and maybe suggest some good libraries?", time: "2023-10-01 12:00 PM" },
+  ]);
+  const [newComment, setNewComment] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,11 +51,6 @@ const ChatList = ({
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleSubmit = () => {
-    console.log("Form submitted!");
-    handleClose();
   };
 
   const handleOpenStatusQuery = () => {
@@ -57,6 +62,20 @@ const ChatList = ({
   const confirmStatusQuery = () => {
     query.status = query.status === "active" ? "inactive" : "active";
     setStatusQueryModelOpen(false);
+  };
+
+  const handleSubmit = () => {
+    if (!newComment.trim()) return;
+
+    const newEntry = {
+      id: Date.now(),
+      text: newComment.trim(),
+      time: new Date().toLocaleString(),
+    };
+    setOpen(false);
+    setComments([newEntry, ...comments]);
+    setNewComment("");
+
   };
 
   return (
@@ -196,16 +215,43 @@ const ChatList = ({
       </div>
 
       <Dialog open={open} onClose={handleClose} className="beautiful-dialog">
-        <DialogTitle>Your Query</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2}>
-            <Grid size={9}>
-              Stay updated with our latest news and features. Enter your email
-              address below to receive occasional updates from us.
-            </Grid>
+        <DialogTitle sx={{ fontSize: "16px" }}>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item>Your Query</Grid>
             <Grid size={3}>Active 6:00AM to 8:00PM</Grid>
           </Grid>
+        </DialogTitle>
 
+        <DialogContent>
+          {/* ===== Main Query Info ===== */}
+          <div style={{ marginBottom: "10px" }}>
+            <p style={{ margin: 0, fontWeight: "500" }}>{query.description}</p>
+            <small style={{ color: "gray" }}>10/14/2025, 10:59:01 AM</small>
+          </div>
+
+          <hr style={{ margin: "15px 0", borderColor: "#eee" }} />
+
+          {/* ===== Comments Section ===== */}
+          <div style={{ maxHeight: "250px", overflowY: "auto" }}>
+            {comments.length === 0 ? (
+              null
+            ) : (
+              comments.map((comment) => (
+                <div
+                  key={comment.id}
+                  style={{
+                    
+                    
+                    borderRadius: "8px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <p style={{ margin: "0 0 4px 0" }}>{comment.text}</p>
+                  <small style={{ color: "gray" }}>{comment.time}</small>
+                </div>
+              ))
+            )}
+          </div>
           <TextField
             autoFocus
             margin="dense"
@@ -217,6 +263,8 @@ const ChatList = ({
             placeholder="Type your comment..."
             multiline
             rows={4}
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
           />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["TimePicker"]}>
@@ -239,6 +287,7 @@ const ChatList = ({
             </DemoContainer>
           </LocalizationProvider>
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSubmit} variant="contained">
@@ -270,24 +319,56 @@ const ChatList = ({
         onClose={() => setQueryView(false)}
         className="beautiful-dialog"
       >
-        <DialogTitle>Your Query</DialogTitle>
+        <DialogTitle sx={{ fontSize: "16px" }}>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item>Your Query</Grid>
+            <Grid size={3}>Active 6:00AM to 8:00PM</Grid>
+          </Grid>
+        </DialogTitle>
+
         <IconButton
           aria-label="close"
           onClick={() => setQueryView(false)}
           sx={(theme) => ({
             position: "absolute",
-            right: 8,
-            top: 8,
+            right: "-2px",
+            top: "-7px",
             color: theme.palette.grey[500],
+           
           })}
         >
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <DialogContentText>
-            Stay updated with our latest news and features. Enter your email
-            address below to receive occasional updates from us.
-          </DialogContentText>
+          {/* ===== Main Query Info ===== */}
+          <div style={{ marginBottom: "10px" }}>
+            <p style={{ margin: 0, fontWeight: "500" }}>{query.description}</p>
+            <small style={{ color: "gray" }}>10/14/2025, 10:59:01 AM</small>
+          </div>
+
+          <hr style={{ margin: "15px 0", borderColor: "#eee" }} />
+
+          {/* ===== Comments Section ===== */}
+          <div style={{ maxHeight: "250px", overflowY: "auto" }}>
+            {comments.length === 0 ? (
+              null
+            ) : (
+              comments.map((comment) => (
+                <div
+                  key={comment.id}
+                  style={{
+                
+                    borderRadius: "8px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <p style={{ margin: "0 0 4px 0" }}>{comment.text}</p>
+                  <small style={{ color: "gray" }}>{comment.time}</small>
+                </div>
+              ))
+            )}
+          </div>
+         
         </DialogContent>
       </Dialog>
     </div>

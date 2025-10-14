@@ -1,4 +1,3 @@
-// components/ChatSection.jsx
 import React, { useEffect, useRef } from "react";
 import {
   FaPhone,

@@ -123,8 +123,6 @@ const Messages = () => {
       isFavorite: false,
       isMuted: false,
     },
-
-    
   ]);
 
   const [currentChat, setCurrentChat] = useState({
