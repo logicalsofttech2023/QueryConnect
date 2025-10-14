@@ -295,7 +295,7 @@ const Dashboard = () => {
   };
 
   const handleViewQuery = (queryId) => {
-    navigate("/myQueryDetail", { state: { queryId } });
+    navigate("/messages", { state: { queryId } });
   };
 
   const StatCardComponent = ({ title, value, icon, color, description }) => (
