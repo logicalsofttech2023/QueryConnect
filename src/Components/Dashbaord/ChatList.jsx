@@ -262,7 +262,7 @@ const ChatList = ({
             label="Your comment here"
             type="text"
             fullWidth
-            variant="outlined" // Changed to outlined for better styling
+            variant="outlined"
             placeholder="Type your comment..."
             multiline
             rows={4}
@@ -327,8 +327,8 @@ const ChatList = ({
       >
         <DialogTitle sx={{ fontSize: "16px" }}>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item>Your Query</Grid>
-            <Grid item>Active 6:00AM to 8:00PM</Grid>
+            <Grid item >Your Query</Grid>
+            <Grid item sx={{ marginRight: "30px" }}>Active 6:00AM to 8:00PM</Grid>
           </Grid>
         </DialogTitle>
 
@@ -338,7 +338,7 @@ const ChatList = ({
           sx={(theme) => ({
             position: "absolute",
             right: 8,
-            top: 8,
+            top: 12,
             color: theme.palette.grey[500],
           })}
         >
