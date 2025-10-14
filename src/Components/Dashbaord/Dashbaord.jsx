@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
   FiActivity,
-  FiPause,
   FiPlus,
   FiInbox,
   FiClock,
   FiSearch,
-  FiEye,
-  FiMessageCircle,
 } from "react-icons/fi";
 import { FaCircle } from "react-icons/fa";
 import {
@@ -28,15 +25,12 @@ import {
   InputAdornment,
   Skeleton,
   Button,
-  Avatar,
-  AvatarGroup,
-  Tooltip,
   alpha,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Styled components
 const StatCard = styled(Card)(({ theme, color }) => ({
@@ -86,8 +80,6 @@ const QueryRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-
 const Dashboard = () => {
   const [stats, setStats] = useState({
     totalQueries: 0,
@@ -102,10 +94,11 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const theme = useTheme();
-  
-  const isXs = useMediaQuery(theme.breakpoints.down("sm"));  // mobile
-  const isMd = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
-  const isLg = useMediaQuery(theme.breakpoints.up("md")); // desktop
+
+  // Responsive breakpoints
+  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
+  const isSm = useMediaQuery(theme.breakpoints.between("sm", "md")); // tablet
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md")); // desktop
 
   useEffect(() => {
     setTimeout(() => {
@@ -123,94 +116,18 @@ const Dashboard = () => {
           id: 1,
           title: "Payment Gateway Integration Issue",
           status: "active",
-          description:
-            "Unable to process payments through the gateway. Customers are reporting failed transactions and error messages when trying to complete purchases.",
-          shortDescription: "Unable to process payments through the gateway",
-          createdAt: "2024-01-15T10:30:00",
-          activeHours: "6:00 AM - 8:00 PM",
-          priority: "high",
-          category: "Technical",
-          agents: [
-            {
-              id: 1,
-              name: "John Doe",
-              profile:
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-              lastMessage:
-                "We're looking into the payment gateway issue and will update you shortly.",
-              lastMessageImage:
-                "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop",
-              lastMessageTime: "2024-01-15T14:20:00",
-              isOnline: true,
-              rating: 4.5,
-              totalReviews: 23,
-              unreadCount: 3,
-              department: "Technical Support",
-            },
-            {
-              id: 2,
-              name: "Sarah Wilson",
-              profile:
-                "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-              lastMessage:
-                "Can you share the error screenshot? This will help us diagnose the issue faster.",
-              lastMessageImage: null,
-              lastMessageTime: "2024-01-15T13:45:00",
-              isOnline: false,
-              rating: 4.8,
-              totalReviews: 45,
-              unreadCount: 1,
-              department: "Payment Solutions",
-            },
-          ],
-          comments: [
-            {
-              id: 1,
-              text: "Facing this issue since morning, urgent resolution needed.",
-              timestamp: "2024-01-15T10:30:00",
-              type: "user",
-            },
-          ],
-          totalUnread: 4,
+          shortDescription:
+            "Unable to process payments through the gateway. Customers are reporting failed transactions and error messages.",
           total_treads: 2,
+          totalUnread: 4,
           lastUpdated: "2024-01-15T14:20:00",
         },
         {
           id: 2,
           title: "Account Verification Problem",
           status: "active",
-          description:
-            "Documents not getting verified automatically. The system is rejecting valid ID documents and proof of address. Manual verification works but takes 24-48 hours.",
-          shortDescription: "Documents not getting verified automatically",
-          createdAt: "2024-01-14T09:15:00",
-          activeHours: "6:00 AM - 8:00 PM",
-          priority: "medium",
-          category: "Account",
-          agents: [
-            {
-              id: 3,
-              name: "Mike Johnson",
-              profile:
-                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-              lastMessage:
-                "Your documents are under review. We'll complete verification within 24 hours.",
-              lastMessageImage: null,
-              lastMessageTime: "2024-01-15T11:30:00",
-              isOnline: true,
-              rating: 4.2,
-              totalReviews: 12,
-              unreadCount: 0,
-              department: "Verification Team",
-            },
-          ],
-          comments: [
-            {
-              id: 1,
-              text: "Uploaded all required documents last week but still pending.",
-              timestamp: "2024-01-14T09:15:00",
-              type: "user",
-            },
-          ],
+          shortDescription:
+            "Documents not getting verified automatically. The system is rejecting valid ID documents.",
           total_treads: 2,
           totalUnread: 0,
           lastUpdated: "2024-01-15T11:30:00",
@@ -219,33 +136,9 @@ const Dashboard = () => {
           id: 3,
           title: "Dark Mode Feature Request",
           status: "active",
-          description:
-            "Request for dark mode theme implementation to reduce eye strain and improve battery life on mobile devices. Many users have requested this feature.",
-          shortDescription: "Request for dark mode theme implementation",
-          createdAt: "2024-01-10T16:45:00",
-          activeHours: "6:00 AM - 8:00 PM",
-          priority: "low",
-          category: "Feature Request",
-          agents: [
-            {
-              id: 4,
-              name: "Emily Chen",
-              profile:
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-              lastMessage:
-                "Great suggestion! We've added this to our product roadmap for Q2 2024.",
-              lastMessageImage:
-                "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?w=300&h=200&fit=crop",
-              lastMessageTime: "2024-01-12T10:15:00",
-              isOnline: true,
-              rating: 4.9,
-              totalReviews: 67,
-              unreadCount: 2,
-              department: "Product Team",
-            },
-          ],
+          shortDescription:
+            "Request for dark mode theme implementation to reduce eye strain.",
           total_treads: 2,
-          comments: [],
           totalUnread: 2,
           lastUpdated: "2024-01-12T10:15:00",
         },
@@ -254,22 +147,18 @@ const Dashboard = () => {
     }, 2000);
   }, []);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
+  const formatDate = (dateString) =>
+    new Date(dateString).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
     });
-  };
 
-  const formatTime = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString("en-US", {
+  const formatTime = (dateString) =>
+    new Date(dateString).toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
     });
-  };
 
   const getStatusChip = (status) => {
     const statusConfig = {
@@ -278,7 +167,6 @@ const Dashboard = () => {
     };
 
     const config = statusConfig[status] || statusConfig.inactive;
-
     return (
       <Chip
         label={
@@ -298,7 +186,7 @@ const Dashboard = () => {
     navigate("/messages", { state: { queryId } });
   };
 
-  const StatCardComponent = ({ title, value, icon, color, description }) => (
+  const StatCardComponent = ({ title, value, icon, color }) => (
     <StatCard color={color}>
       <CardContent sx={{ position: "relative", zIndex: 1 }}>
         <Box
@@ -317,18 +205,19 @@ const Dashboard = () => {
                 sx={{ bgcolor: "rgba(255,255,255,0.3)" }}
               />
             ) : (
-              <Typography variant="h3" sx={{ fontWeight: 700, mb: 1, color: "white" }}>
+              <Typography
+                variant={isXs ? "h5" : "h3"}
+                sx={{ fontWeight: 700, mb: 1, color: "white" }}
+              >
                 {value}
               </Typography>
             )}
-            <Typography variant="h6" sx={{ opacity: 0.9, fontWeight: 600 , color: "white" }}>
+            <Typography
+              variant={isXs ? "subtitle1" : "h6"}
+              sx={{ opacity: 0.9, fontWeight: 600, color: "white" }}
+            >
               {title}
             </Typography>
-            {description && (
-              <Typography variant="body2" sx={{ opacity: 0.8, mt: 1 }}>
-                {description}
-              </Typography>
-            )}
           </Box>
           <Box sx={{ color: "rgba(255,255,255,0.8)" }}>{icon}</Box>
         </Box>
@@ -337,14 +226,18 @@ const Dashboard = () => {
   );
 
   const EmptyQueriesState = () => (
-    <Paper sx={{ p: 6, textAlign: "center" }}>
+    <Paper sx={{ p: isXs ? 4 : 6, textAlign: "center" }}>
       <Box sx={{ color: theme.palette.text.secondary, mb: 2 }}>
-        <FiInbox size={64} />
+        <FiInbox size={isXs ? 48 : 64} />
       </Box>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant={isXs ? "h6" : "h5"} gutterBottom>
         No Queries Found
       </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ mb: 3, px: isXs ? 1 : 6 }}
+      >
         No queries match your current filters. Try adjusting your search or
         create a new query.
       </Typography>
@@ -352,7 +245,7 @@ const Dashboard = () => {
         variant="contained"
         startIcon={<FiPlus />}
         onClick={() => navigate("/newQueries")}
-        size="large"
+        size={isXs ? "medium" : "large"}
       >
         Create New Query
       </Button>
@@ -360,23 +253,27 @@ const Dashboard = () => {
   );
 
   return (
-    <Box sx={{ p: 3, mt: 10 }}>
+    <Box sx={{ p: isXs ? 2 : 3, mt: isXs ? 8 : 10 }}>
       {/* Header */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" fontWeight="700" gutterBottom>
+      <Box sx={{ mb: isXs ? 2 : 4 }}>
+        <Typography
+          variant={isXs ? "h5" : "h4"}
+          fontWeight="700"
+          gutterBottom
+        >
           Welcome Suraj
         </Typography>
       </Box>
 
       {/* Statistics Grid */}
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: isXs ? 3 : 4 }}>
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: {
               xs: "1fr",
               sm: "repeat(2, 1fr)",
-              lg: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
             },
             gap: 3,
           }}
@@ -384,28 +281,32 @@ const Dashboard = () => {
           <StatCardComponent
             title="Active Queries"
             value={stats.activeQueries}
-            icon={<FiActivity size={32} />}
+            icon={<FiActivity size={isXs ? 24 : 32} />}
             color="primary"
           />
         </Box>
       </Box>
 
       {/* Recent Queries Section */}
-      <Card
-        sx={{ borderRadius: 3, boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)" }}
-      >
+      <Card sx={{ borderRadius: 3, boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)" }}>
         <CardContent sx={{ p: 0 }}>
           {/* Section Header */}
           <Box
             sx={{
-              p: 3,
+              p: isXs ? 2 : 3,
               pb: 2,
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              flexDirection: isXs ? "column" : "row",
+              gap: isXs ? 2 : 0,
             }}
           >
-            <Typography variant="h5" fontWeight="600" >
+            <Typography
+              variant={isXs ? "h6" : "h5"}
+              fontWeight="600"
+              textAlign={isXs ? "center" : "left"}
+            >
               My Active Queries
             </Typography>
             {recentQueries.length > 0 && (
@@ -413,7 +314,10 @@ const Dashboard = () => {
                 variant="contained"
                 startIcon={<FiPlus />}
                 onClick={() => navigate("/newQueries")}
-                style={{ fontSize: isXs ? "10px" : isMd ? "11px" : "20px" }}
+                sx={{
+                  fontSize: isXs ? "12px" : "25px",
+                  width: isXs ? "100%" : "auto",
+                }}
               >
                 New Query
               </Button>
@@ -421,7 +325,7 @@ const Dashboard = () => {
           </Box>
 
           {/* Search Box */}
-          <Box sx={{ px: 3, pb: 2 }}>
+          <Box sx={{ px: isXs ? 2 : 3, pb: 2 }}>
             <TextField
               fullWidth
               placeholder="Search queries..."
@@ -437,101 +341,104 @@ const Dashboard = () => {
               sx={{
                 "& .MuiOutlinedInput-root": {
                   borderRadius: 2,
+                  fontSize: isXs ? "13px" : "16px",
                 },
               }}
             />
           </Box>
 
-          {/* Queries Table */}
+          {/* Table / Empty / Loading */}
           <Box sx={{ p: 1 }}>
             {loading ? (
-              // Loading skeletons
               <Box sx={{ p: 2 }}>
-                {Array.from(new Array(5)).map((_, index) => (
-                  <Box
-                    key={index}
-                    sx={{ display: "flex", gap: 2, mb: 2, p: 2 }}
-                  >
-                    <Skeleton variant="text" width="5%" height={40} />
-                    <Skeleton variant="text" width="30%" height={40} />
-                    <Skeleton variant="text" width="15%" height={40} />
+                {Array.from(new Array(5)).map((_, i) => (
+                  <Box key={i} sx={{ display: "flex", gap: 2, mb: 2, p: 2 }}>
                     <Skeleton variant="text" width="10%" height={40} />
-                    <Skeleton variant="text" width="15%" height={40} />
-                    <Skeleton variant="text" width="15%" height={40} />
+                    <Skeleton variant="text" width="40%" height={40} />
                     <Skeleton variant="text" width="10%" height={40} />
+                    <Skeleton variant="text" width="10%" height={40} />
+                    <Skeleton variant="text" width="20%" height={40} />
                   </Box>
                 ))}
               </Box>
             ) : recentQueries.length > 0 ? (
               <StyledTableContainer component={Paper} elevation={0}>
                 <Table sx={{ minWidth: 800 }}>
-  <TableHead>
-    <TableRow>
-      <TableCell sx={{ width: "8%" }}>ID</TableCell>
-      <TableCell sx={{ width: "47%" }}>Query</TableCell>
-      <TableCell sx={{ width: "8%" }}>Threads</TableCell>
-      <TableCell sx={{ width: "8%" }}>Unread</TableCell>
-      <TableCell sx={{ width: "12%" }}>Status</TableCell>
-      <TableCell sx={{ width: "15%" }}>Last Updated</TableCell>
-    </TableRow>
-  </TableHead>
-
-  <TableBody>
-    {recentQueries.map((query) => (
-      <QueryRow key={query.id} hover onClick={() => handleViewQuery(query.id)}>
-        <TableCell>
-          <Typography variant="body2" fontWeight="600">
-            #{query.id}
-          </Typography>
-        </TableCell>
-
-        {/* Make Query column wider */}
-        <TableCell sx={{ width: "40%" }}>
-          <Box>
-            <Typography variant="body2" color="text.secondary" noWrap={false}>
-              {query.shortDescription
-                ? query.shortDescription.length > 150
-                  ? query.shortDescription.slice(0, 150) + "..."
-                  : query.shortDescription
-                : ""}
-            </Typography>
-          </Box>
-        </TableCell>
-
-        <TableCell>
-          <Chip label={query.total_treads} size="small" variant="outlined" />
-        </TableCell>
-
-        <TableCell>
-          {query.totalUnread > 0 ? (
-            <Chip label={query.totalUnread} size="small" color="error" />
-          ) : (
-            <Typography variant="body2" color="text.secondary">
-              -
-            </Typography>
-          )}
-        </TableCell>
-
-        <TableCell>{getStatusChip(query.status)}</TableCell>
-
-        <TableCell>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <FiClock size={14} color={theme.palette.text.secondary} />
-            <Box>
-              <Typography variant="body2" fontWeight="500">
-                {formatDate(query.lastUpdated)}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {formatTime(query.lastUpdated)}
-              </Typography>
-            </Box>
-          </Box>
-        </TableCell>
-      </QueryRow>
-    ))}
-  </TableBody>
-</Table>
-
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>ID</TableCell>
+                      <TableCell>Query</TableCell>
+                      <TableCell>Threads</TableCell>
+                      <TableCell>Unread</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Last Updated</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {recentQueries.map((query) => (
+                      <QueryRow
+                        key={query.id}
+                        hover
+                        onClick={() => handleViewQuery(query.id)}
+                      >
+                        <TableCell>
+                          <Typography variant="body2" fontWeight="600">
+                            #{query.id}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{
+                              display: "-webkit-box",
+                              WebkitLineClamp: isXs ? 2 : 1,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {query.shortDescription}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Chip
+                            label={query.total_treads}
+                            size="small"
+                            variant="outlined"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          {query.totalUnread > 0 ? (
+                            <Chip
+                              label={query.totalUnread}
+                              size="small"
+                              color="error"
+                            />
+                          ) : (
+                            <Typography variant="body2" color="text.secondary">
+                              -
+                            </Typography>
+                          )}
+                        </TableCell>
+                        <TableCell>{getStatusChip(query.status)}</TableCell>
+                        <TableCell>
+                          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                            <FiClock size={14} color={theme.palette.text.secondary} />
+                            <Box>
+                              <Typography variant="body2" fontWeight="500">
+                                {formatDate(query.lastUpdated)}
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary">
+                                {formatTime(query.lastUpdated)}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </TableCell>
+                      </QueryRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </StyledTableContainer>
             ) : (
               <EmptyQueriesState />
