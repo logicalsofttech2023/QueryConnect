@@ -40,8 +40,16 @@ const ChatList = ({
       text: "I'm trying to implement a drag and drop feature for file uploads in my React application. I've tried using the HTML5 drag and drop API but facing issues",
       time: "2023-10-01 10:00 AM",
     },
-    { id: 2, text: "with React's synthetic events. The drag events are not firing properly and I'm having trouble managing the state during drag operations. Can", time: "2023-10-01 11:00 AM" },
-    { id: 3, text: "someone help me with the best approach and maybe suggest some good libraries?", time: "2023-10-01 12:00 PM" },
+    {
+      id: 2,
+      text: "with React's synthetic events. The drag events are not firing properly and I'm having trouble managing the state during drag operations. Can",
+      time: "2023-10-01 11:00 AM",
+    },
+    {
+      id: 3,
+      text: "someone help me with the best approach and maybe suggest some good libraries?",
+      time: "2023-10-01 12:00 PM",
+    },
   ]);
   const [newComment, setNewComment] = useState("");
 
@@ -75,7 +83,6 @@ const ChatList = ({
     setOpen(false);
     setComments([newEntry, ...comments]);
     setNewComment("");
-
   };
 
   return (
@@ -233,24 +240,20 @@ const ChatList = ({
 
           {/* ===== Comments Section ===== */}
           <div style={{ maxHeight: "250px", overflowY: "auto" }}>
-            {comments.length === 0 ? (
-              null
-            ) : (
-              comments.map((comment) => (
-                <div
-                  key={comment.id}
-                  style={{
-                    
-                    
-                    borderRadius: "8px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <p style={{ margin: "0 0 4px 0" }}>{comment.text}</p>
-                  <small style={{ color: "gray" }}>{comment.time}</small>
-                </div>
-              ))
-            )}
+            {comments.length === 0
+              ? null
+              : comments.map((comment) => (
+                  <div
+                    key={comment.id}
+                    style={{
+                      borderRadius: "8px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <p style={{ margin: "0 0 4px 0" }}>{comment.text}</p>
+                    <small style={{ color: "gray" }}>{comment.time}</small>
+                  </div>
+                ))}
           </div>
           <TextField
             autoFocus
@@ -318,11 +321,14 @@ const ChatList = ({
         open={queryView}
         onClose={() => setQueryView(false)}
         className="beautiful-dialog"
+        scroll="paper"
+        fullWidth
+        maxWidth="sm"
       >
         <DialogTitle sx={{ fontSize: "16px" }}>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>Your Query</Grid>
-            <Grid size={3}>Active 6:00AM to 8:00PM</Grid>
+            <Grid item>Active 6:00AM to 8:00PM</Grid>
           </Grid>
         </DialogTitle>
 
@@ -331,15 +337,22 @@ const ChatList = ({
           onClick={() => setQueryView(false)}
           sx={(theme) => ({
             position: "absolute",
-            right: "-2px",
-            top: "-7px",
+            right: 8,
+            top: 8,
             color: theme.palette.grey[500],
-           
           })}
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent>
+
+        <DialogContent
+          dividers
+          sx={{
+            maxHeight: { xs: "70vh", sm: "75vh" }, // ✅ Responsive max height
+            overflowY: "auto",
+            paddingBottom: "20px",
+          }}
+        >
           {/* ===== Main Query Info ===== */}
           <div style={{ marginBottom: "10px" }}>
             <p style={{ margin: 0, fontWeight: "500" }}>{query.description}</p>
@@ -349,17 +362,18 @@ const ChatList = ({
           <hr style={{ margin: "15px 0", borderColor: "#eee" }} />
 
           {/* ===== Comments Section ===== */}
-          <div style={{ maxHeight: "250px", overflowY: "auto" }}>
+          <div>
             {comments.length === 0 ? (
-              null
+              <p style={{ color: "gray" }}>No comments yet.</p>
             ) : (
               comments.map((comment) => (
                 <div
                   key={comment.id}
                   style={{
-                
                     borderRadius: "8px",
                     marginBottom: "10px",
+                    background: "#f9f9f9",
+                    padding: "8px",
                   }}
                 >
                   <p style={{ margin: "0 0 4px 0" }}>{comment.text}</p>
@@ -368,7 +382,6 @@ const ChatList = ({
               ))
             )}
           </div>
-         
         </DialogContent>
       </Dialog>
     </div>

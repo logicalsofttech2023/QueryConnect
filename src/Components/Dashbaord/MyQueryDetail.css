@@ -37,9 +37,9 @@
 }
 
 .status-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
+  padding: 0px 8px;
+  border-radius: 16px;
+  font-size: 10px;
   font-weight: 600;
   text-transform: capitalize;
   transition: all 0.3s ease;

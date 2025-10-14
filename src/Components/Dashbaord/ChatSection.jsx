@@ -11,6 +11,7 @@ import {
   FaCheckDouble,
   FaPaperPlane,
 } from "react-icons/fa";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const ChatSection = ({
   currentChat,
@@ -38,8 +39,10 @@ const ChatSection = ({
     onShowChatOptions(false);
   };
 
+  const matches = useMediaQuery("(max-width:600px)");
+
   return (
-    <section className="Chat">
+    <section className="Chat" style={{ width: matches ? "100%" : "67%" }}>
       <ChatHeader
         currentChat={currentChat}
         showChatOptions={showChatOptions}
@@ -232,19 +235,50 @@ const MessageContainer = ({
   </div>
 );
 
-const MessageForm = ({ message, onMessageChange, onSubmit }) => (
-  <form id="MessageForm" onSubmit={onSubmit}>
-    <input
+const MessageForm = ({ message, onMessageChange, onSubmit }) => {
+  const textareaRef = useRef(null);
+
+  // Auto-resize textarea height dynamically
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [message]);
+  return (
+    <form id="MessageForm" onSubmit={onSubmit}>
+      {/* <input
       type="text"
       id="MessageInput"
       value={message}
       onChange={(e) => onMessageChange(e.target.value)}
       placeholder="Type a message..."
-    />
-    <button className="Send" type="submit">
-      <FaPaperPlane />
-    </button>
-  </form>
-);
+    /> */}
 
+      <textarea
+        ref={textareaRef}
+        id="MessageInput"
+        value={message}
+        onChange={(e) => onMessageChange(e.target.value)}
+        placeholder="Type a message..."
+        rows={1}
+        style={{
+          flexGrow: 1,
+          resize: "none",
+          border: "none",
+          outline: "none",
+          fontSize: "15px",
+          padding: "8px 10px",
+          borderRadius: "18px",
+          background: "#f5f5f5",
+          maxHeight: "120px", // limit max height
+          overflowY: "auto",
+        }}
+      />
+      <button className="Send" type="submit">
+        <FaPaperPlane />
+      </button>
+    </form>
+  );
+};
 export default ChatSection;
