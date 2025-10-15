@@ -424,7 +424,7 @@ const Dashboard = () => {
                         <TableCell>{getStatusChip(query.status)}</TableCell>
                         <TableCell>
                           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                            <FiClock size={14} color={theme.palette.text.secondary} />
+                            
                             <Box>
                               <Typography variant="body2" fontWeight="500">
                                 {formatDate(query.lastUpdated)}

@@ -8,9 +8,11 @@ import MediaPreview from "./MediaPreview";
 import QRCodeModal from "./QRCodeModal";
 import { FaArrowLeft, FaBars } from "react-icons/fa";
 
+
+
 const Messages = () => {
   const [message, setMessage] = useState("");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [showChatOptions, setShowChatOptions] = useState(false);

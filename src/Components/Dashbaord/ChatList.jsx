@@ -1,6 +1,6 @@
 // components/ChatList.jsx
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaStar } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import "./MyQueryDetail.css";
 import { FaEyeSlash } from "react-icons/fa";
@@ -20,6 +20,9 @@ import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { RxHeart } from "react-icons/rx";
+import { RxHeartFilled } from "react-icons/rx";
+import { FaStarHalfAlt } from "react-icons/fa";
 
 const ChatList = ({
   chats,
@@ -52,6 +55,7 @@ const ChatList = ({
     },
   ]);
   const [newComment, setNewComment] = useState("");
+  const [favorites, setFavorites] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -83,6 +87,14 @@ const ChatList = ({
     setOpen(false);
     setComments([newEntry, ...comments]);
     setNewComment("");
+  };
+
+  const toggleFavorite = (chatId) => {
+    setFavorites((prev) =>
+      prev.includes(chatId)
+        ? prev.filter((id) => id !== chatId)
+        : [...prev, chatId]
+    );
   };
 
   return (
@@ -210,12 +222,58 @@ const ChatList = ({
             </div>
             <div className="chatInfo">
               <div className="chatHeader">
-                <p className="GroupName">{chat.name}</p>
+                <p className="GroupName">
+                  {chat.name}{" "}
+                  <FaStar
+                    style={{
+                      color: "#f4b400",
+                    }}
+                  />
+                  <span
+                    style={{
+                      marginLeft: "4px",
+                      color: "#333",
+                      fontSize: "10px",
+                    }}
+                  >
+                    4.5
+                  </span>{" "}
+                </p>
+
                 {chat.unread > 0 && (
                   <span className="unreadBadge">{chat.unread}</span>
                 )}
               </div>
               <p className="GroupDescrp">{chat.message}</p>
+            </div>
+
+            {/* ❤️ Favorite Button */}
+            <div
+              style={{
+                marginLeft: "10px",
+                cursor: "pointer",
+                transition: "transform 0.2s ease",
+              }}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent chat selection
+                toggleFavorite(chat.id);
+              }}
+              title={
+                favorites.includes(chat.id)
+                  ? "Remove from favorites"
+                  : "Add to favorites"
+              }
+            >
+              {favorites.includes(chat.id) ? (
+                <RxHeartFilled style={{ color: "#ff4d4f", fontSize: "20px" }} />
+              ) : (
+                <RxHeart
+                  style={{
+                    color: "#aaa",
+                    fontSize: "20px",
+                  }}
+                />
+              )}
             </div>
           </div>
         ))}
@@ -327,8 +385,10 @@ const ChatList = ({
       >
         <DialogTitle sx={{ fontSize: "16px" }}>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item >Your Query</Grid>
-            <Grid item sx={{ marginRight: "30px" }}>Active 6:00AM to 8:00PM</Grid>
+            <Grid item>Your Query</Grid>
+            <Grid item sx={{ marginRight: "30px" }}>
+              Active 6:00AM to 8:00PM
+            </Grid>
           </Grid>
         </DialogTitle>
 

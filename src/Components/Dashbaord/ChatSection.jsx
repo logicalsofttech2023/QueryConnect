@@ -12,6 +12,7 @@ import {
   FaPaperPlane,
 } from "react-icons/fa";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { FaStar } from "react-icons/fa";
 
 const ChatSection = ({
   currentChat,
@@ -136,7 +137,18 @@ const ChatHeader = ({
           ></div>
         </div>
         <div className="userInfo">
-          <p className="GroupName">{currentChat.name}</p>
+          <p className="GroupName">
+            {currentChat.name} <FaStar style={{ color: "#f4b400", fontSize: "15px" }} />
+            <span
+              style={{
+                marginLeft: "4px",
+                color: "#333",
+                fontSize: "10px",
+              }}
+            >
+              4.5
+            </span>{" "}
+          </p>
           <span className="userStatus">
             {currentChat.online
               ? "Online"
@@ -247,14 +259,6 @@ const MessageForm = ({ message, onMessageChange, onSubmit }) => {
   }, [message]);
   return (
     <form id="MessageForm" onSubmit={onSubmit}>
-      {/* <input
-      type="text"
-      id="MessageInput"
-      value={message}
-      onChange={(e) => onMessageChange(e.target.value)}
-      placeholder="Type a message..."
-    /> */}
-
       <textarea
         ref={textareaRef}
         id="MessageInput"
@@ -267,7 +271,7 @@ const MessageForm = ({ message, onMessageChange, onSubmit }) => {
           resize: "none",
           border: "none",
           outline: "none",
-          fontSize: "15px",
+          fontSize: "12px",
           padding: "8px 10px",
           borderRadius: "18px",
           background: "#f5f5f5",
@@ -276,7 +280,7 @@ const MessageForm = ({ message, onMessageChange, onSubmit }) => {
         }}
       />
       <button className="Send" type="submit">
-        <FaPaperPlane />
+        <FaPaperPlane style={{ zIndex: 1 }} />
       </button>
     </form>
   );

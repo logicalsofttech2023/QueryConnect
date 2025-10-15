@@ -249,16 +249,6 @@
   font-weight: 500;
 }
 
-.unreadBadge {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 10px;
-  margin-left: auto;
-}
-
 /* Main Chat Area */
 .Chat {
   flex: 1;
@@ -779,7 +769,6 @@
   }
 
   .chatHeader {
-    
     align-items: flex-start;
     gap: 2px;
   }
@@ -994,14 +983,10 @@ body.menu-open {
 }
 
 @media screen and (min-width: 1440px) {
-  
-
   .fixed-header {
     height: 89px !important;
   }
 }
-
-
 
 /* Animations */
 @keyframes fadeIn {
@@ -1023,8 +1008,6 @@ body.menu-open {
     transform: translateY(0);
   }
 }
-
-
 
 /* Search Input */
 .SearchInputHolder {
@@ -1125,8 +1108,6 @@ body.menu-open {
   min-width: 0;
 }
 
-
-
 .GroupName {
   margin: 0;
   font-weight: 600;
@@ -1155,12 +1136,13 @@ body.menu-open {
 .unreadBadge {
   background: #007bff;
   color: white;
-  border-radius: 10px;
-  padding: 2px 8px;
-  font-size: 11px;
+  border-radius: 50%;
+  font-size: 10px;
   font-weight: 600;
-  min-width: 18px;
+  width: 20px;
+  height: 20px;
   text-align: center;
+  line-height: 20px;
 }
 
 /* Chat Section */
@@ -1193,9 +1175,7 @@ body.menu-open {
   align-items: center;
 }
 
-.userInfo {
-  margin-left: 15px;
-}
+
 
 .callGroup {
   display: flex;
@@ -1556,8 +1536,6 @@ body.menu-open {
   }
 }
 
-
-
 /* User Details Panel - Full Screen Overlay */
 .userDetailsPanel {
   position: fixed;
@@ -1589,8 +1567,12 @@ body.menu-open {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .userDetailsHeader {
@@ -1733,15 +1715,12 @@ body.menu-open {
   font-size: 0.95rem;
 }
 
-
-
 .actionBtn.active {
   color: #007bff;
   background-color: #e3f2fd;
 }
 
 .actionBtn svg {
-  
   font-size: 1.1rem;
   min-width: 20px;
 }
@@ -1859,24 +1838,24 @@ body.menu-open {
   .userDetailsPanel {
     width: 100%;
   }
-  
+
   .userProfileSection {
     padding: 1.5rem 1rem;
   }
-  
+
   .userAvatarLarge {
     width: 100px;
     height: 100px;
   }
-  
+
   .userNameLarge {
     font-size: 1.3rem;
   }
-  
+
   .mediaGrid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .dangerZone {
     margin: 0.5rem;
   }
@@ -1899,7 +1878,6 @@ body.menu-open {
 }
 
 /* Enhanced chat user clickable area */
-
 
 .chatUser:hover {
   background-color: #f8f9fa;
@@ -1973,10 +1951,13 @@ body.menu-open {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-
 
 /* Media Gallery Styles */
 .mediaGallery {
@@ -2274,19 +2255,17 @@ body.menu-open {
   .mediaGallery {
     max-width: 100%;
   }
-  
+
   .galleryGrid {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 0.25rem;
   }
-  
+
   .navButton {
     padding: 0.75rem;
     font-size: 1.2rem;
   }
 }
-
-
 
 .callGroup {
   display: flex;
@@ -2334,8 +2313,3 @@ body.menu-open {
   background: #f7fafc;
   color: #3182ce;
 }
-
-
-
-
-

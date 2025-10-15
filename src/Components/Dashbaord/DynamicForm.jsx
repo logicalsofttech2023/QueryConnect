@@ -14,7 +14,10 @@ import {
   FaCheck,
   FaPlus,
   FaMinus,
+  FaBook,
 } from "react-icons/fa";
+import { MdHealthAndSafety } from "react-icons/md";
+
 import "./DynamicForm.css";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -79,13 +82,13 @@ const data = {
   },
   education: {
     name: "Education",
-    icon: FaUser,
+    icon: FaBook,
     courses: ["Engineering", "Medical", "MBA", "Arts", "Science"],
     levels: ["School", "Undergraduate", "Postgraduate", "PhD"],
   },
   healthcare: {
     name: "Healthcare",
-    icon: FaUser,
+    icon: MdHealthAndSafety,
     services: ["Consultation", "Surgery", "Dental", "Emergency", "Checkup"],
     specialties: ["Cardiology", "Neurology", "Orthopedics", "Pediatrics"],
   },
@@ -1055,60 +1058,64 @@ const DynamicForm = () => {
 
         {/* Submit Button */}
         {isDescriptionVisible && (
-          <button type="button" className="submit-btn" onClick={handleClickOpen}>
+          <button
+            type="button"
+            className="submit-btn"
+            onClick={handleClickOpen}
+          >
             Submit Query
           </button>
         )}
 
         <Dialog open={open} onClose={handleClose} className="beautiful-dialog">
-  <DialogTitle>Review Your Query</DialogTitle>
-  <DialogContent>
-    <DialogContentText>
-      You can review and edit your query below before submitting. Make sure all details are correct.
-    </DialogContentText>
-    <TextField
-      autoFocus
-      margin="dense"
-      id="comment"
-      label="Edit your query"
-      type="text"
-      fullWidth
-      variant="outlined"
-      placeholder="Type or update your query..."
-      multiline
-      rows={4}
-      value={description}
-      onChange={(e) => setDescription(e.target.value)}
-    />
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["TimePicker"]}>
-                  <TimePicker
-                    label="Start Time"
-                    viewRenderers={{
-                      hours: renderTimeViewClock,
-                      minutes: renderTimeViewClock,
-                      seconds: renderTimeViewClock,
-                    }}
-                  />
-                  <TimePicker
-                    label="End Time"
-                    viewRenderers={{
-                      hours: renderTimeViewClock,
-                      minutes: renderTimeViewClock,
-                      seconds: renderTimeViewClock,
-                    }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleClose}>Cancel</Button>
-    <Button onClick={handleSubmit} variant="contained">
-      Submit
-    </Button>
-  </DialogActions>
-</Dialog>
-
+          <DialogTitle>Review Your Query</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              You can review and edit your query below before submitting. Make
+              sure all details are correct.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="comment"
+              label="Edit your query"
+              type="text"
+              fullWidth
+              variant="outlined"
+              placeholder="Type or update your query..."
+              multiline
+              rows={4}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["TimePicker"]}>
+                <TimePicker
+                  label="Start Time"
+                  viewRenderers={{
+                    hours: renderTimeViewClock,
+                    minutes: renderTimeViewClock,
+                    seconds: renderTimeViewClock,
+                  }}
+                />
+                <TimePicker
+                  label="End Time"
+                  viewRenderers={{
+                    hours: renderTimeViewClock,
+                    minutes: renderTimeViewClock,
+                    seconds: renderTimeViewClock,
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleSubmit} variant="contained">
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
       </form>
     </div>
   );
