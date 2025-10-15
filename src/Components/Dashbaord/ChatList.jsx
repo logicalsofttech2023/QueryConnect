@@ -23,6 +23,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { RxHeart } from "react-icons/rx";
 import { RxHeartFilled } from "react-icons/rx";
 import { FaStarHalfAlt } from "react-icons/fa";
+import { MdModeEdit } from "react-icons/md";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 const ChatList = ({
   chats,
@@ -56,6 +59,7 @@ const ChatList = ({
   ]);
   const [newComment, setNewComment] = useState("");
   const [favorites, setFavorites] = useState([]);
+  const [editTime, setEditTime] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -97,6 +101,10 @@ const ChatList = ({
     );
   };
 
+  const handleEditTimeSubmit = () => {
+    setEditTime(false);
+  };
+
   return (
     <div className={`sideNav2 ${isMobileMenuOpen ? "mobileOpen" : ""}`}>
       <div className="SideNavhead">
@@ -110,13 +118,66 @@ const ChatList = ({
           }}
         >
           <div className="status-controls">
-            <span
-              className={`status-badge ${query.status}`}
-              style={{ cursor: "pointer" }}
-              onClick={handleOpenStatusQuery}
+            <ToggleButtonGroup
+              value={query.status}
+              exclusive
+              onChange={handleOpenStatusQuery}
+              aria-label="Query Status"
+              sx={{
+                "& .MuiToggleButton-root": {
+                  fontSize: "10px",
+                  padding: "4px 10px",
+                  border: "none",
+                  borderRadius: "20px",
+                  color: "#fff",
+                  
+                  transition: "all 0.3s ease",
+                  textTransform: "none",
+                  width: "50px",
+                },
+              }}
             >
-              {query.status}
-            </span>
+              <ToggleButton
+                value="active"
+                sx={{
+                  backgroundColor:
+                    query.status === "active" ? "#4caf50" : "#e0e0e0",
+                  color:
+                    query.status === "active"
+                      ? "#fff !important"
+                      : "#333 !important",
+                  marginRight: "8px",
+                  fontWeight: query.status === "active" ? "600" : "400",
+                  "&:hover": {
+                    backgroundColor:
+                      query.status === "active" ? "#45a049" : "#d5d5d5",
+                  },
+                  outline: query.status === "active" ? "2px solid #fff !important" : "#667eea !important",
+                }}
+              >
+                Active
+              </ToggleButton>
+
+              <ToggleButton
+                value="inactive"
+                sx={{
+                  backgroundColor:
+                    query.status === "inactive" ? "#f44336" : "#e0e0e0",
+                  color:
+                    query.status === "inactive"
+                      ? "#fff !important"
+                      : "#333 !important",
+                  fontWeight: query.status === "inactive" ? "600" : "400",
+                  "&:hover": {
+                    backgroundColor:
+                      query.status === "inactive" ? "#e53935" : "#d5d5d5",
+                  },
+                  outline: query.status === "inactive" ? "2px solid #fff !important" : "#667eea !important",
+                }}
+              >
+                Inactive
+              </ToggleButton>
+            </ToggleButtonGroup>
           </div>
           <div>
             <button
@@ -179,7 +240,17 @@ const ChatList = ({
         </div>
 
         <div className="read-more-container">
-          <div>Active 6:00AM to 8:00PM</div>
+          <div>
+            {" "}
+            <Button
+              variant="contained"
+              sx={{ padding: "10px !important", fontSize: "10px !important" }}
+              onClick={() => setEditTime(true)}
+            >
+              Active 6:00AM to 8:00PM{" "}
+              <MdModeEdit style={{ marginLeft: "4px", fontSize: "12px" }} />
+            </Button>
+          </div>
           {query.description.length > 100 && (
             <button
               className={`read-more-btn`}
@@ -364,7 +435,7 @@ const ChatList = ({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {" Are you sure you want to change the status of this query?"}
+          {" Are you sure you want to active this query?"}
         </DialogTitle>
 
         <DialogActions>
@@ -443,6 +514,74 @@ const ChatList = ({
             )}
           </div>
         </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={editTime}
+        onClose={() => setEditTime(false)}
+        className="beautiful-dialog"
+      >
+        <DialogTitle sx={{ fontSize: "16px" }}>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item>Your Query</Grid>
+            <Grid size={3}>Active 6:00AM to 8:00PM</Grid>
+          </Grid>
+        </DialogTitle>
+
+        <DialogContent>
+          {/* ===== Main Query Info ===== */}
+          <div style={{ marginTop: "10px" }}>
+            <p style={{ margin: 0, fontWeight: "500" }}>{query.description}</p>
+            <small style={{ color: "gray" }}>10/14/2025, 10:59:01 AM</small>
+          </div>
+
+          <hr style={{ margin: "15px 0", borderColor: "#eee" }} />
+
+          {/* ===== Comments Section ===== */}
+          <div style={{ maxHeight: "250px", overflowY: "auto" }}>
+            {comments.length === 0
+              ? null
+              : comments.map((comment) => (
+                  <div
+                    key={comment.id}
+                    style={{
+                      borderRadius: "8px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <p style={{ margin: "0 0 4px 0" }}>{comment.text}</p>
+                    <small style={{ color: "gray" }}>{comment.time}</small>
+                  </div>
+                ))}
+          </div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={["TimePicker"]}>
+              <TimePicker
+                label="Start Time"
+                viewRenderers={{
+                  hours: renderTimeViewClock,
+                  minutes: renderTimeViewClock,
+                  seconds: renderTimeViewClock,
+                }}
+              />
+              <TimePicker
+                label="End Time"
+                viewRenderers={{
+                  hours: renderTimeViewClock,
+                  minutes: renderTimeViewClock,
+                  seconds: renderTimeViewClock,
+                }}
+              />
+            </DemoContainer>
+          </LocalizationProvider>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={() => setEditTime(false)}>Cancel</Button>
+          <Button onClick={handleEditTimeSubmit} variant="contained">
+            Save
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

@@ -47,7 +47,9 @@ const PHeader = () => {
                         <div className="media-body">
                           <h6 className="item-title">Rahul Sharma</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>when an unknown printer took galley of types ...</p>
+                          <p>
+                            when an unknown printer took galley of types ...
+                          </p>
                         </div>
                       </Link>
                       <Link to="#" className="media">
@@ -57,7 +59,9 @@ const PHeader = () => {
                         <div className="media-body">
                           <h6 className="item-title">Priya Verma</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>when an unknown printer took galley of types ...</p>
+                          <p>
+                            when an unknown printer took galley of types ...
+                          </p>
                         </div>
                       </Link>
                       <Link to="#" className="media">
@@ -67,7 +71,9 @@ const PHeader = () => {
                         <div className="media-body">
                           <h6 className="item-title">Amit Patel</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>when an unknown printer took galley of types ...</p>
+                          <p>
+                            when an unknown printer took galley of types ...
+                          </p>
                         </div>
                       </Link>
                     </div>
@@ -106,7 +112,9 @@ const PHeader = () => {
                         <div className="media-body">
                           <h6 className="item-title">Neha Singh</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>when an unknown printer took galley of types ...</p>
+                          <p>
+                            when an unknown printer took galley of types ...
+                          </p>
                         </div>
                       </Link>
                       <Link to="#" className="media">
@@ -116,7 +124,9 @@ const PHeader = () => {
                         <div className="media-body">
                           <h6 className="item-title">Vikram Mehta</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>when an unknown printer took galley of types ...</p>
+                          <p>
+                            when an unknown printer took galley of types ...
+                          </p>
                         </div>
                       </Link>
                       <Link to="#" className="media">
@@ -126,7 +136,9 @@ const PHeader = () => {
                         <div className="media-body">
                           <h6 className="item-title">Anita Iyer</h6>
                           <div className="item-time">15 mins ago</div>
-                          <p>when an unknown printer took galley of types ...</p>
+                          <p>
+                            when an unknown printer took galley of types ...
+                          </p>
                         </div>
                       </Link>
                     </div>
@@ -151,12 +163,6 @@ const PHeader = () => {
                     <span className="media">
                       <span className="item-img">
                         <img src="media/figure/chat_5.jpg" alt="Chat" />
-                        <span className="acc-verified">
-                          <i className="icofont-check" />
-                        </span>
-                      </span>
-                      <span className="media-body">
-                        <span className="item-title">Kiran Rao</span>
                       </span>
                     </span>
                   </button>
@@ -173,6 +179,9 @@ const PHeader = () => {
                       </li>
                       <li>
                         <Link to="/messages">Messages</Link>
+                      </li>
+                      <li>
+                        <Link to="/inactiveQueries">Inactive Queries</Link>
                       </li>
                       <li>
                         <Link to="/login">Log Out</Link>

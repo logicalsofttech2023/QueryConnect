@@ -78,24 +78,7 @@ const Header = () => {
               <div className="col-xl-4 col-lg-3 col-sm-5 col-4 d-flex justify-content-end">
                 <div className="header-action">
                   <ul>
-                    <li className="header-social">
-                      <a >
-                        <i className="icofont-facebook" />
-                      </a>
-                      <a >
-                        <i className="icofont-twitter" />
-                      </a>
-                      <a >
-                        <i className="icofont-linkedin" />
-                      </a>
-                      <a >
-                        <i className="icofont-pinterest" />
-                      </a>
-                      <a >
-                        <i className="icofont-skype" />
-                      </a>
-                    </li>
-
+                    
                     <li className="login-btn">
                       <Link to="/login" className="item-btn">
                         <i className="fas fa-user" />

@@ -761,7 +761,7 @@ const Dashboard = () => {
               justifyContent: "space-between",
               flexDirection: isXs ? "column" : "row",
               gap: isXs ? 2 : 0,
-              padding: "15px 0px 10px 0px"
+              padding: isXs ? "20px 10px 10px 10px" : "25px 10px 10px 10px"
             }}
           >
             <Typography

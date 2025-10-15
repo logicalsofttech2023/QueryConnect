@@ -23,14 +23,18 @@ import CallHistory from "./Components/Dashbaord/CallHistory";
 import JitsiCall from "./Components/Dashbaord/JitsiCall";
 import UserProfile from "./Components/Dashbaord/UserProfile";
 import DynamicForm from "./Components/Dashbaord/DynamicForm";
+import InactiveQueries from "./Components/Dashbaord/InactiveQueries";
 
 // Layout for pages where Header & Footer are shown
 function MainLayout({ children }) {
   return (
-    <div id="wrapper" className="wrapper overflow-auto" style={{ height: "100vh", backgroundColor: "#615dfa" }}>
+    <div
+      id="wrapper"
+      className="wrapper overflow-auto"
+      style={{ height: "100vh", backgroundColor: "#615dfa" }}
+    >
       <Header />
       {children}
-      
     </div>
   );
 }
@@ -39,16 +43,13 @@ function ProfileLayout({ children }) {
   return (
     <>
       <PHeader />
-      
+
       {children}
-      
     </>
   );
 }
 
 function App() {
-
-  
   return (
     <Router>
       <Routes>
@@ -58,7 +59,6 @@ function App() {
           element={
             <MainLayout>
               <Banner />
-              
             </MainLayout>
           }
         />
@@ -146,24 +146,6 @@ function App() {
         />
 
         <Route
-          path="/myImageEditor"
-          element={
-            <ProfileLayout>
-              <MyImageEditor />
-            </ProfileLayout>
-          }
-        />
-
-        <Route
-          path="/callHistory"
-          element={
-            <ProfileLayout>
-              <CallHistory />
-            </ProfileLayout>
-          }
-        />
-
-        <Route
           path="/userProfile"
           element={
             <ProfileLayout>
@@ -171,7 +153,6 @@ function App() {
             </ProfileLayout>
           }
         />
-
 
         <Route
           path="/dynamicForm"
@@ -182,12 +163,11 @@ function App() {
           }
         />
 
-
         <Route
-          path="/jitsiCall"
+          path="/inactiveQueries"
           element={
             <ProfileLayout>
-              <JitsiCall />
+              <InactiveQueries />
             </ProfileLayout>
           }
         />
