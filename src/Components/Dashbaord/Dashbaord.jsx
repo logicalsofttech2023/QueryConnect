@@ -727,7 +727,7 @@ const Dashboard = () => {
       </Box>
 
       {/* Statistics Grid */}
-      <Box sx={{ mb: isXs ? 3 : 4 }}>
+      <Box>
         <Box
           sx={{
             display: "grid",
@@ -756,13 +756,12 @@ const Dashboard = () => {
           {/* Section Header */}
           <Box
             sx={{
-              p: isXs ? 2 : 3,
-              pb: 2,
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
               flexDirection: isXs ? "column" : "row",
               gap: isXs ? 2 : 0,
+              padding: "15px 0px 10px 0px"
             }}
           >
             <Typography
