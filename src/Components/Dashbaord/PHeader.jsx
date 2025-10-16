@@ -34,13 +34,10 @@ const PHeader = () => {
                   <div className="dropdown-menu dropdown-menu-right">
                     <div className="item-heading">
                       <h6 className="heading-title">Message</h6>
-                      <div className="heading-btn">
-                        <Link to="#">Settings</Link>
-                        <Link to="#">Mark all as Read</Link>
-                      </div>
+                     
                     </div>
                     <div className="item-body">
-                      <Link to="#" className="media">
+                      <Link to="/messages" className="media">
                         <div className="item-img">
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
@@ -52,7 +49,7 @@ const PHeader = () => {
                           </p>
                         </div>
                       </Link>
-                      <Link to="#" className="media">
+                      <Link to="/messages" className="media">
                         <div className="item-img">
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
@@ -64,7 +61,7 @@ const PHeader = () => {
                           </p>
                         </div>
                       </Link>
-                      <Link to="#" className="media">
+                      <Link to="/messages" className="media">
                         <div className="item-img">
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
@@ -99,13 +96,10 @@ const PHeader = () => {
                   <div className="dropdown-menu dropdown-menu-right">
                     <div className="item-heading">
                       <h6 className="heading-title">Notifications</h6>
-                      <div className="heading-btn">
-                        <Link to="#">Settings</Link>
-                        <Link to="#">Mark all as Read</Link>
-                      </div>
+                      
                     </div>
                     <div className="item-body">
-                      <Link to="#" className="media">
+                      <Link to="/notifications" className="media">
                         <div className="item-img">
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
@@ -117,7 +111,7 @@ const PHeader = () => {
                           </p>
                         </div>
                       </Link>
-                      <Link to="#" className="media">
+                      <Link to="/notifications" className="media">
                         <div className="item-img">
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
@@ -129,7 +123,7 @@ const PHeader = () => {
                           </p>
                         </div>
                       </Link>
-                      <Link to="#" className="media">
+                      <Link to="/notifications" className="media">
                         <div className="item-img">
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>

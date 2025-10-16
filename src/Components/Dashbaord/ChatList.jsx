@@ -28,7 +28,6 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { FaCheck } from "react-icons/fa6";
 
-
 const ChatList = ({
   chats,
   currentChat,
@@ -62,6 +61,7 @@ const ChatList = ({
   const [newComment, setNewComment] = useState("");
   const [favorites, setFavorites] = useState([]);
   const [editTime, setEditTime] = useState(false);
+  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -90,7 +90,7 @@ const ChatList = ({
       text: newComment.trim(),
       time: new Date().toLocaleString(),
     };
-    
+    setOpen(false);
     setComments([newEntry, ...comments]);
     setNewComment("");
   };
@@ -143,7 +143,9 @@ const ChatList = ({
                 value="active"
                 sx={{
                   backgroundColor:
-                    query.status === "active" ? "#4caf50 !important" : "#e0e0e0 !important",
+                    query.status === "active"
+                      ? "#4caf50 !important"
+                      : "#e0e0e0 !important",
                   color:
                     query.status === "active"
                       ? "#fff !important"
@@ -152,26 +154,40 @@ const ChatList = ({
                   fontWeight: query.status === "active" ? "600" : "400",
                   "&:hover": {
                     backgroundColor:
-                      query.status === "active" ? "green !important" : "#d5d5d5 !important",
+                      query.status === "active"
+                        ? "green !important"
+                        : "#d5d5d5 !important",
                   },
                   outline:
                     query.status === "active"
                       ? "2px solid #fff !important"
                       : "#667eea !important",
                   outlineOffset: "2px !important",
+                  
                 }}
+                disabled ={query.status === "active"}
               >
                 Active
               </ToggleButton>
-              {
-                query.status === "active" && (<FaCheck style={{ position: "absolute", marginLeft: "54px", color: "white", fontSize: "10px", marginTop: "8px" }} />)
-              }
+              {query.status === "active" && (
+                <FaCheck
+                  style={{
+                    position: "absolute",
+                    marginLeft: "54px",
+                    color: "white",
+                    fontSize: "10px",
+                    marginTop: "8px",
+                  }}
+                />
+              )}
 
               <ToggleButton
                 value="inactive"
                 sx={{
                   backgroundColor:
-                    query.status === "inactive" ? "#f44336 !important" : "#e0e0e0 !important",
+                    query.status === "inactive"
+                      ? "#f44336 !important"
+                      : "#e0e0e0 !important",
                   color:
                     query.status === "inactive"
                       ? "#fff !important"
@@ -179,21 +195,33 @@ const ChatList = ({
                   fontWeight: query.status === "inactive" ? "600" : "400",
                   "&:hover": {
                     backgroundColor:
-                      query.status === "inactive" ? "green !important" : "#d5d5d5 !important",
+                      query.status === "inactive"
+                        ? "green !important"
+                        : "#d5d5d5 !important",
                   },
                   outline:
                     query.status === "inactive"
                       ? "2px solid #fff !important"
                       : "#667eea !important",
-                      outlineOffset: "2px !important",
+                  outlineOffset: "2px !important",
                 }}
+                disabled ={query.status === "inactive"}
+                
               >
                 Inactive
               </ToggleButton>
 
-              {
-                query.status === "inactive" && (<FaCheck style={{ position: "absolute", marginLeft: "132px", color: "white", fontSize: "10px", marginTop: "8px" }} />)
-              }
+              {query.status === "inactive" && (
+                <FaCheck
+                  style={{
+                    position: "absolute",
+                    marginLeft: "132px",
+                    color: "white",
+                    fontSize: "10px",
+                    marginTop: "8px",
+                  }}
+                />
+              )}
             </ToggleButtonGroup>
           </div>
           <div>
@@ -306,6 +334,7 @@ const ChatList = ({
               </div>
               <div
                 className={`statusDot ${chat.online ? "online" : "offline"}`}
+                style={{ right: "15px" }}
               ></div>
             </div>
             <div className="chatInfo">
@@ -333,6 +362,28 @@ const ChatList = ({
                 )}
               </div>
               <p className="GroupDescrp">{chat.message}</p>
+              <div className="comment-images">
+                {query.images && query.images.length > 0 && (
+                  <div className="comment-images">
+                    {query.images.map((img, idx) => (
+                      <div
+                        key={idx}
+                        className="comment-image-container"
+                        // onClick={() => openImagePopup(img)}
+                      >
+                        <img
+                          src={img}
+                          alt={`agent-${query.id}-${idx}`}
+                          className="comment-image"
+                        />
+                        <div className="image-overlay">
+                          {/* <FaExpand className="expand-icon" /> */}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* ❤️ Favorite Button */}
@@ -343,7 +394,7 @@ const ChatList = ({
                 transition: "transform 0.2s ease",
               }}
               onClick={(e) => {
-                e.stopPropagation(); // Prevent chat selection
+                e.stopPropagation();
                 toggleFavorite(chat.id);
               }}
               title={
@@ -415,7 +466,6 @@ const ChatList = ({
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
           />
-          
         </DialogContent>
 
         <DialogActions>
@@ -435,6 +485,45 @@ const ChatList = ({
         <DialogTitle id="alert-dialog-title">
           {" Are you sure you want to active this query?"}
         </DialogTitle>
+
+        <DialogContent
+          dividers
+          sx={{
+            maxHeight: { xs: "70vh", sm: "75vh" }, // ✅ Responsive max height
+            overflowY: "auto",
+            paddingBottom: "20px",
+          }}
+        >
+          {/* ===== Main Query Info ===== */}
+          <div style={{ marginBottom: "10px" }}>
+            <p style={{ margin: 0, fontWeight: "500" }}>{query.description}</p>
+            <small style={{ color: "gray" }}>10/14/2025, 10:59:01 AM</small>
+          </div>
+
+          <hr style={{ margin: "15px 0", borderColor: "#eee" }} />
+
+          {/* ===== Comments Section ===== */}
+          <div>
+            {comments.length === 0 ? (
+              <p style={{ color: "gray" }}>No comments yet.</p>
+            ) : (
+              comments.map((comment) => (
+                <div
+                  key={comment.id}
+                  style={{
+                    borderRadius: "8px",
+                    marginBottom: "10px",
+                    background: "#f9f9f9",
+                    padding: "8px",
+                  }}
+                >
+                  <p style={{ margin: "0 0 4px 0" }}>{comment.text}</p>
+                  <small style={{ color: "gray" }}>{comment.time}</small>
+                </div>
+              ))
+            )}
+          </div>
+        </DialogContent>
 
         <DialogActions>
           <Button onClick={closeStatusQueryModel}>Cancel</Button>
