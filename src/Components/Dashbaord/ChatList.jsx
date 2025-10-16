@@ -26,6 +26,8 @@ import { FaStarHalfAlt } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { FaCheck } from "react-icons/fa6";
+
 
 const ChatList = ({
   chats,
@@ -88,7 +90,7 @@ const ChatList = ({
       text: newComment.trim(),
       time: new Date().toLocaleString(),
     };
-    setOpen(false);
+    
     setComments([newEntry, ...comments]);
     setNewComment("");
   };
@@ -126,14 +128,14 @@ const ChatList = ({
               sx={{
                 "& .MuiToggleButton-root": {
                   fontSize: "10px",
-                  padding: "4px 10px",
+                  padding: "4px 12px 2px 12px",
                   border: "none",
                   borderRadius: "20px",
                   color: "#fff",
-                  
+
                   transition: "all 0.3s ease",
                   textTransform: "none",
-                  width: "50px",
+                  width: "69px",
                 },
               }}
             >
@@ -141,7 +143,7 @@ const ChatList = ({
                 value="active"
                 sx={{
                   backgroundColor:
-                    query.status === "active" ? "#4caf50" : "#e0e0e0",
+                    query.status === "active" ? "#4caf50 !important" : "#e0e0e0 !important",
                   color:
                     query.status === "active"
                       ? "#fff !important"
@@ -150,19 +152,26 @@ const ChatList = ({
                   fontWeight: query.status === "active" ? "600" : "400",
                   "&:hover": {
                     backgroundColor:
-                      query.status === "active" ? "#45a049" : "#d5d5d5",
+                      query.status === "active" ? "green !important" : "#d5d5d5 !important",
                   },
-                  outline: query.status === "active" ? "2px solid #fff !important" : "#667eea !important",
+                  outline:
+                    query.status === "active"
+                      ? "2px solid #fff !important"
+                      : "#667eea !important",
+                  outlineOffset: "2px !important",
                 }}
               >
                 Active
               </ToggleButton>
+              {
+                query.status === "active" && (<FaCheck style={{ position: "absolute", marginLeft: "54px", color: "white", fontSize: "10px", marginTop: "8px" }} />)
+              }
 
               <ToggleButton
                 value="inactive"
                 sx={{
                   backgroundColor:
-                    query.status === "inactive" ? "#f44336" : "#e0e0e0",
+                    query.status === "inactive" ? "#f44336 !important" : "#e0e0e0 !important",
                   color:
                     query.status === "inactive"
                       ? "#fff !important"
@@ -170,13 +179,21 @@ const ChatList = ({
                   fontWeight: query.status === "inactive" ? "600" : "400",
                   "&:hover": {
                     backgroundColor:
-                      query.status === "inactive" ? "#e53935" : "#d5d5d5",
+                      query.status === "inactive" ? "green !important" : "#d5d5d5 !important",
                   },
-                  outline: query.status === "inactive" ? "2px solid #fff !important" : "#667eea !important",
+                  outline:
+                    query.status === "inactive"
+                      ? "2px solid #fff !important"
+                      : "#667eea !important",
+                      outlineOffset: "2px !important",
                 }}
               >
                 Inactive
               </ToggleButton>
+
+              {
+                query.status === "inactive" && (<FaCheck style={{ position: "absolute", marginLeft: "132px", color: "white", fontSize: "10px", marginTop: "8px" }} />)
+              }
             </ToggleButtonGroup>
           </div>
           <div>
@@ -398,26 +415,7 @@ const ChatList = ({
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
           />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["TimePicker"]}>
-              <TimePicker
-                label="Start Time"
-                viewRenderers={{
-                  hours: renderTimeViewClock,
-                  minutes: renderTimeViewClock,
-                  seconds: renderTimeViewClock,
-                }}
-              />
-              <TimePicker
-                label="End Time"
-                viewRenderers={{
-                  hours: renderTimeViewClock,
-                  minutes: renderTimeViewClock,
-                  seconds: renderTimeViewClock,
-                }}
-              />
-            </DemoContainer>
-          </LocalizationProvider>
+          
         </DialogContent>
 
         <DialogActions>
