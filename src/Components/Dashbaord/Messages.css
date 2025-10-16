@@ -79,7 +79,7 @@
   width: 100%;
   padding: 8px 20px 8px 45px;
   border: 2px solid #f1f5f9;
-  background-color: #f8fafc;
+  background-color: #f8fafc !important;
   font-size: 0.95rem;
   outline: none;
   transition: all 0.3s ease;
@@ -1031,7 +1031,7 @@ body.menu-open {
   padding: 8px 20px 8px 40px;
   border: 1px solid #e0e0e0;
   border-radius: 25px;
-  background-color: #f8f9fa;
+  background-color: #f8f9fa !important;
   font-size: 14px;
   transition: all 0.3s ease;
 }
@@ -1518,12 +1518,7 @@ body.menu-open {
     color: #fff;
   }
 
-  .searchInput,
-  #MessageInput {
-    background-color: #404040;
-    border-color: #555;
-    color: #fff;
-  }
+
 
   .searchInput:focus,
   #MessageInput:focus {
