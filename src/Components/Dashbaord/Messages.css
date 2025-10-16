@@ -266,7 +266,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 30px;
-  background: #fff !important;
+  background-color: #fff !important;
   border-bottom: 1px solid #f1f5f9;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
