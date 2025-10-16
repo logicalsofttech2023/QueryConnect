@@ -1162,4 +1162,17 @@
 
 
 
+.fade-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2em;
+  background: linear-gradient(transparent, #fff) !important;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+
+
 
