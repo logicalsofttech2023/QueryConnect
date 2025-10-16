@@ -38,7 +38,7 @@
 }
 
 .filter-btn.active {
-  background: #667eea;
+  background-color: #667eea;
   border-color: #667eea;
   color: white;
 }
@@ -96,7 +96,7 @@
   height: 80px;
   border-radius: 8px;
   overflow: hidden;
-  background: #f7fafc;
+  background-color: #f7fafc;
 }
 
 .media-preview img,
@@ -107,7 +107,7 @@
 }
 
 .media-preview.video {
-  background: #000;
+  background-color: #000;
 }
 
 .media-preview.video video {
@@ -153,12 +153,12 @@
 }
 
 .query-type {
-  background: #e6fffa;
+  background-color: #e6fffa;
   color: #234e52;
 }
 
 .attachments-count {
-  background: #ebf8ff;
+  background-color: #ebf8ff;
   color: #2c5282;
 }
 
@@ -171,12 +171,12 @@
 }
 
 .query-status.active {
-  background: #c6f6d5;
+  background-color: #c6f6d5;
   color: #22543d;
 }
 
 .query-status.inactive {
-  background: #fed7d7;
+  background-color: #fed7d7;
   color: #742a2a;
 }
 
@@ -321,17 +321,17 @@
 }
 
 .status-badge.active {
-  background: #c6f6d5;
+  background-color: #c6f6d5;
   color: #22543d;
 }
 
 .status-badge.inactive {
-  background: #fed7d7;
+  background-color: #fed7d7;
   color: #742a2a;
 }
 
 .type-badge {
-  background: #e9d8fd;
+  background-color: #e9d8fd;
   color: #553c9a;
 }
 
@@ -349,7 +349,7 @@
 
 .comment-item {
   padding: 15px;
-  background: #f7fafc;
+  background-color: #f7fafc;
   border-radius: 8px;
   margin-bottom: 15px;
 }
@@ -424,7 +424,7 @@
 
 .add-comment button {
   padding: 12px 20px;
-  background: #667eea;
+  background-color: #667eea;
   color: white;
   border: none;
   border-radius: 8px;
@@ -434,7 +434,7 @@
 }
 
 .add-comment button:hover {
-  background: #5a67d8;
+  background-color: #5a67d8;
 }
 
 /* Responsive Design */

@@ -16,7 +16,7 @@
   left: 10%;
   right: 10%;
   height: 2px;
-  background: #e2e8f0;
+  background-color: #e2e8f0;
   z-index: 1;
 }
 
@@ -32,7 +32,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #e2e8f0;
+  background-color: #e2e8f0;
   color: #64748b;
   display: flex;
   align-items: center;
@@ -44,7 +44,7 @@
 }
 
 .step.active .step-number {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
@@ -103,7 +103,7 @@
   font-size: 1rem;
   font-weight: 500;
   color: #1e293b;
-  background: white;
+  background-color: white;
   transition: all 0.3s ease;
 }
 
@@ -130,7 +130,7 @@
   text-align: center;
   margin-bottom: 25px;
   padding: 15px;
-  background: #f0f9ff;
+  background-color: #f0f9ff;
   border-radius: 12px;
   border: 1px solid #e0f2fe;
 }
@@ -197,7 +197,7 @@
 
 .back-btn:hover {
   color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  background-color: rgba(102, 126, 234, 0.1);
 }
 
 /* Password Validation */
@@ -249,7 +249,7 @@
 }
 
 .checkbox-container input:checked + .checkmark {
-  background: #667eea;
+  background-color: #667eea;
   border-color: #667eea;
 }
 
@@ -406,7 +406,7 @@
 
 /* Success State */
 .step.completed .step-number {
-  background: #10b981;
+  background-color: #10b981;
   color: white;
 }
 
@@ -432,7 +432,7 @@
   margin-top: 8px;
   height: 4px;
   border-radius: 2px;
-  background: #e2e8f0;
+  background-color: #e2e8f0;
   overflow: hidden;
 }
 
@@ -443,22 +443,22 @@
 }
 
 .strength-weak {
-  background: #ef4444;
+  background-color: #ef4444;
   width: 25%;
 }
 
 .strength-medium {
-  background: #f59e0b;
+  background-color: #f59e0b;
   width: 50%;
 }
 
 .strength-strong {
-  background: #10b981;
+  background-color: #10b981;
   width: 75%;
 }
 
 .strength-very-strong {
-  background: #059669;
+  background-color: #059669;
   width: 100%;
 }
 
@@ -483,12 +483,12 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: #ddd;
+  background-color: #ddd;
   z-index: 1;
 }
 
 .social-login-divider span {
-  background: white;
+  background-color: white;
   padding: 0 15px;
   position: relative;
   z-index: 2;
@@ -509,7 +509,7 @@
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background: white;
+  background-color: white;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
@@ -527,7 +527,7 @@
 }
 
 .facebook-btn:hover {
-  background: #1877F2;
+  background-color: #1877F2;
   color: white;
 }
 
@@ -537,7 +537,7 @@
 }
 
 .google-btn:hover {
-  background: #DB4437;
+  background-color: #DB4437;
   color: white;
 }
 

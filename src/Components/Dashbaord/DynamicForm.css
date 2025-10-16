@@ -31,7 +31,7 @@
 }
 
 .dynamic-form {
-  background: white;
+  background-color: white;
   padding: 2rem;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -67,7 +67,7 @@
   justify-content: space-between;
   width: 100%;
   padding: 1rem 1.5rem;
-  background: #f7fafc;
+  background-color: #f7fafc;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   cursor: pointer;
@@ -115,7 +115,7 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: white;
+  background-color: white;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   margin-top: 0.5rem;
@@ -152,7 +152,7 @@
 }
 
 .sector-dropdown-item:hover {
-  background: #f7fafc;
+  background-color: #f7fafc;
 }
 
 .sector-dropdown-item.selected {
@@ -207,7 +207,7 @@
   border: 2px solid #e2e8f0;
   border-radius: 8px;
   overflow: hidden;
-  background: #f7fafc;
+  background-color: #f7fafc;
 }
 
 .area-search {
@@ -240,11 +240,11 @@
 }
 
 .area-option:hover {
-  background: #edf2f7;
+  background-color: #edf2f7;
 }
 
 .area-option.selected {
-  background: #667eea;
+  background-color: #667eea;
   color: white;
 }
 
@@ -282,7 +282,7 @@
   text-align: center;
   color: #a0aec0;
   font-style: italic;
-  background: #f7fafc;
+  background-color: #f7fafc;
   border: 2px dashed #e2e8f0;
   border-radius: 8px;
 }
@@ -366,7 +366,7 @@
 
 .radio-label input:checked + .radio-custom {
   border-color: #667eea;
-  background: #667eea;
+  background-color: #667eea;
 }
 
 .radio-label input:checked + .radio-custom::after {
@@ -389,7 +389,7 @@
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #f7fafc;
+  background-color: #f7fafc;
 }
 
 .form-input:focus {
@@ -411,7 +411,7 @@
   border: 2px solid #e2e8f0;
   border-radius: 8px;
   font-size: 1rem;
-  background: #f7fafc;
+  background-color: #f7fafc;
   appearance: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -455,7 +455,7 @@
   border-radius: 8px;
   font-size: 1rem;
   resize: vertical;
-  background: #f7fafc;
+  background-color: #f7fafc;
   transition: all 0.3s ease;
   font-family: inherit;
 }
@@ -550,17 +550,17 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background-color: #f1f1f1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #667eea;
+  background-color: #667eea;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5a6fd8;
+  background-color: #5a6fd8;
 }
 
 /* Smooth transitions for all interactive elements */
@@ -642,7 +642,7 @@
 
 
 .add-custom-area-btn {
-  background: #e3f2fd;
+  background-color: #e3f2fd;
   border: 1px dashed #2196f3;
   color: #2196f3;
   padding: 8px 12px;
@@ -657,7 +657,7 @@
 }
 
 .add-custom-area-btn:hover {
-  background: #bbdefb;
+  background-color: #bbdefb;
 }
 
 /* Google Maps autocomplete styling */

@@ -64,7 +64,7 @@
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #f8fafc;
+  background-color: #f8fafc;
 }
 
 .support-form-control:focus {
@@ -102,7 +102,7 @@
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: #f8fafc;
+  background-color: #f8fafc;
 }
 
 .priority-option input:checked + .priority-label {
@@ -348,7 +348,7 @@ textarea.support-form-control {
 
 .success-close-btn {
   padding: 10px 25px;
-  background: #667eea;
+  background-color: #667eea;
   color: white;
   border: none;
   border-radius: 8px;
@@ -358,7 +358,7 @@ textarea.support-form-control {
 }
 
 .success-close-btn:hover {
-  background: #5a6fd8;
+  background-color: #5a6fd8;
 }
 
 /* Responsive Design */

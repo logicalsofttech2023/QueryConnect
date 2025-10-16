@@ -67,7 +67,7 @@
   justify-content: space-between;
   width: 100%;
   padding: 1rem 1.5rem;
-  background: #f7fafc;
+  background-color: #f7fafc;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   cursor: pointer;
@@ -152,7 +152,7 @@
 }
 
 .sector-dropdown-item:hover {
-  background: #f7fafc;
+  background-color: #f7fafc;
 }
 
 .sector-dropdown-item.selected {
@@ -207,7 +207,7 @@
   border: 2px solid #e2e8f0;
   border-radius: 8px;
   overflow: hidden;
-  background: #f7fafc;
+  background-color: #f7fafc;
 }
 
 .area-search {
@@ -240,11 +240,11 @@
 }
 
 .area-option:hover {
-  background: #edf2f7;
+  background-color: #edf2f7;
 }
 
 .area-option.selected {
-  background: #667eea;
+  background-color: #667eea;
   color: white;
 }
 
@@ -282,7 +282,7 @@
   text-align: center;
   color: #a0aec0;
   font-style: italic;
-  background: #f7fafc;
+  background-color: #f7fafc;
   border: 2px dashed #e2e8f0;
   border-radius: 8px;
 }
@@ -367,7 +367,7 @@ dynamic-form-row {
 
 .radio-label input:checked + .radio-custom {
   border-color: #667eea;
-  background: #667eea;
+  background-color: #667eea;
 }
 
 .radio-label input:checked + .radio-custom::after {
@@ -390,7 +390,7 @@ dynamic-form-row {
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #f7fafc;
+  background-color: #f7fafc;
 }
 
 .form-input:focus {
@@ -412,7 +412,7 @@ dynamic-form-row {
   border: 2px solid #e2e8f0;
   border-radius: 8px;
   font-size: 1rem;
-  background: #f7fafc;
+  background-color: #f7fafc;
   appearance: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -456,7 +456,7 @@ dynamic-form-row {
   border-radius: 8px;
   font-size: 1rem;
   resize: vertical;
-  background: #f7fafc;
+  background-color: #f7fafc;
   transition: all 0.3s ease;
   font-family: inherit;
 }
@@ -551,17 +551,17 @@ dynamic-form-row {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background-color: #f1f1f1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #667eea;
+  background-color: #667eea;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5a6fd8;
+  background-color: #5a6fd8;
 }
 
 /* Smooth transitions for all interactive elements */

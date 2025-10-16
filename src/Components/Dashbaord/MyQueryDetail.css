@@ -9,7 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
+  background-color: #fff;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -46,13 +46,13 @@
 }
 
 .status-badge.active {
-  background: #d4edda;
+  background-color: #d4edda;
   color: #155724;
   border: 1px solid #c3e6cb;
 }
 
 .status-badge.inactive {
-  background: #f8d7da;
+  background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
@@ -79,12 +79,12 @@
 }
 
 .status-toggle-btn.active:hover {
-  background: #28a745;
+  background-color: #28a745;
   color: white;
 }
 
 .status-toggle-btn:not(.active):hover {
-  background: #dc3545;
+  background-color: #dc3545;
   color: white;
 }
 
@@ -120,7 +120,7 @@
 }
 
 .edit-time-btn:hover {
-  background: #f8f9fa;
+  background-color: #f8f9fa;
   border-color: #007bff;
   color: #007bff;
   transform: translateY(-1px);
@@ -175,7 +175,7 @@
 }
 
 .time-input::-webkit-calendar-picker-indicator:hover {
-  background: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 .time-edit-buttons {
@@ -205,7 +205,7 @@
 }
 
 .save-time-btn:hover {
-  background: #28a745;
+  background-color: #28a745;
   color: white;
   transform: translateY(-1px);
 }
@@ -216,14 +216,14 @@
 }
 
 .cancel-time-btn:hover {
-  background: #dc3545;
+  background-color: #dc3545;
   color: white;
   transform: translateY(-1px);
 }
 
 /* Rest of your existing CSS remains the same */
 .query-detail-card {
-  background: #fff;
+  background-color: #fff;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   overflow: hidden;
   border: 1px solid #f1f3f4;
@@ -286,7 +286,7 @@
 }
 
 .dropdown-toggle:hover {
-  background: #f8f9fa;
+  background-color: #f8f9fa;
   border-color: #ced4da;
 }
 
@@ -314,7 +314,7 @@
 }
 
 .dropdown-item:hover {
-  background: #f8f9fa;
+  background-color: #f8f9fa;
   color: #1a1a1a;
 }
 
@@ -381,7 +381,7 @@
 }
 
 .each-comment {
-  background: #f8f9fa;
+  background-color: #f8f9fa;
   border-radius: 12px;
   padding: 20px;
   border: 1px solid #e9ecef;
@@ -518,7 +518,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #f8f9fa;
+  background-color: #f8f9fa;
   border: 1px solid #e9ecef;
   border-radius: 8px;
   color: #495057;
@@ -529,13 +529,13 @@
 }
 
 .item-btn:hover {
-  background: #e9ecef;
+  background-color: #e9ecef;
   color: #212529;
   transform: translateY(-1px);
 }
 
 .item-btn span {
-  background: #007bff;
+  background-color: #007bff;
   color: white;
   padding: 2px 8px;
   border-radius: 12px;
@@ -798,7 +798,7 @@
   bottom: 100%;
   left: 0%;
   transform: translateX(-50%);
-  background: #2d3748;
+  background-color: #2d3748;
   color: white;
   padding: 8px 12px;
   border-radius: 6px;
@@ -1058,7 +1058,7 @@
 .MuiDialogActions-root {
   padding: 16px 24px 24px 24px !important;
   gap: 12px;
-  background: #f8fafc;
+  background-color: #f8fafc;
   border-top: 1px solid #f1f5f9;
 }
 
@@ -1080,7 +1080,7 @@
 }
 
 .MuiButton-root:first-child:hover {
-  background: #f8fafc !important;
+  background-color: #f8fafc !important;
   border-color: #cbd5e1 !important;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

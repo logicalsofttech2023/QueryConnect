@@ -1,6 +1,6 @@
 /* Profile Header */
 .banner-user {
-  background: #615dfa;
+  background-color: #615dfa;
   border-radius: 20px;
   padding: 40px;
   margin-bottom: 30px;
@@ -176,12 +176,12 @@
 }
 
 .tab-btn.active {
-  background: #3b82f6;
+  background-color: #3b82f6;
   color: white;
 }
 
 .tab-btn:hover:not(.active) {
-  background: #f1f5f9;
+  background-color: #f1f5f9;
   color: #374151;
 }
 
@@ -201,13 +201,13 @@
 }
 
 .btn-edit {
-  background: #f1f5f9;
+  background-color: #f1f5f9;
   color: #475569;
   border: 2px solid #e2e8f0;
 }
 
 .btn-edit:hover {
-  background: #e2e8f0;
+  background-color: #e2e8f0;
 }
 
 /* Forms */
@@ -249,7 +249,7 @@
 }
 
 .form-group input.disabled {
-  background: #f8fafc;
+  background-color: #f8fafc;
   color: #64748b;
   cursor: not-allowed;
 }
@@ -299,7 +299,7 @@
 }
 
 .option-btn.active {
-  background: #3b82f6;
+  background-color: #3b82f6;
   color: white;
   border-color: #3b82f6;
 }
@@ -319,13 +319,13 @@
 }
 
 .btn-otp {
-  background: #f1f5f9;
+  background-color: #f1f5f9;
   color: #475569;
   white-space: nowrap;
 }
 
 .btn-otp:hover {
-  background: #e2e8f0;
+  background-color: #e2e8f0;
 }
 
 .password-error {
@@ -343,12 +343,12 @@
 }
 
 .btn-cancel {
-  background: #f1f5f9;
+  background-color: #f1f5f9;
   color: #475569;
 }
 
 .btn-cancel:hover {
-  background: #e2e8f0;
+  background-color: #e2e8f0;
 }
 
 .btn-save {
@@ -377,7 +377,7 @@
   align-items: center;
   gap: 16px;
   padding: 20px;
-  background: #f0f9ff;
+  background-color: #f0f9ff;
   border: 2px solid #e0f2fe;
   border-radius: 12px;
   color: #0369a1;
@@ -574,7 +574,7 @@
 }
 
 .otp-info {
-  background: #f0f9ff;
+  background-color: #f0f9ff;
   border: 1px solid #e0f2fe;
   border-radius: 8px;
   padding: 16px;
@@ -618,7 +618,7 @@
 }
 
 .btn-verify-otp {
-  background: #f1f5f9;
+  background-color: #f1f5f9;
   color: #475569;
   border: none;
   padding: 12px 16px;
@@ -630,7 +630,7 @@
 }
 
 .btn-verify-otp:hover:not(:disabled) {
-  background: #e2e8f0;
+  background-color: #e2e8f0;
 }
 
 .btn-verify-otp:disabled {
@@ -646,7 +646,7 @@
   font-weight: 600;
   margin-top: 8px;
   padding: 8px 12px;
-  background: #f0fdf4;
+  background-color: #f0fdf4;
   border: 1px solid #bbf7d0;
   border-radius: 6px;
 }

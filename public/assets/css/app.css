@@ -507,7 +507,7 @@ h6 {
 }
 
 .select2-container--classic .select2-selection--single {
-  background: #ffffff;
+  background-color: #ffffff;
   border: 1px solid #eaeaea;
   height: 40px;
 }
@@ -554,7 +554,7 @@ h6 {
 
 .select2-container--classic.select2-container--open.select2-container--below
   .select2-selection--single {
-  background: #ffffff;
+  background-color: #ffffff;
   border-color: #eaeaea;
 }
 
@@ -1196,7 +1196,7 @@ hr {
   font-size: 11px;
   font-weight: 600;
   padding: 5px 10px;
-  background: #5edfff;
+  background-color: #5edfff;
   color: #ffffff;
   box-shadow: 0 4px 16px 0 rgba(107, 220, 248, 0.7);
   z-index: 5;
@@ -4037,7 +4037,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
 
 /*------------------- 4.8 Preloader -------------------*/
 #preloader {
-  background: #ffffff url("../../media/preloader.gif") no-repeat scroll center
+  background-color: #ffffff url("../../media/preloader.gif") no-repeat scroll center
     center;
   height: 100%;
   left: 0;
