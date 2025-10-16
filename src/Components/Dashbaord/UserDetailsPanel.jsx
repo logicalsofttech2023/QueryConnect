@@ -17,9 +17,12 @@ import {
   Avatar,
   Paper,
   Chip,
+  useTheme
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { FaThumbsUp } from "react-icons/fa";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 
 const UserDetailsPanel = ({
   currentChat,
@@ -32,6 +35,7 @@ const UserDetailsPanel = ({
   onToggleBlock,
   onMediaPreview,
 }) => {
+  
   if (!showUserDetails) return null;
 
   return (
@@ -125,6 +129,8 @@ const RatingReviewSection = ({ currentChat }) => {
   const [reviews, setReviews] = useState(dummyReviews);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [hoverRating, setHoverRating] = useState(0);
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
 
   const handleSubmitReview = () => {
     if (userRating === 0) {
@@ -190,6 +196,7 @@ const RatingReviewSection = ({ currentChat }) => {
       <Box
         sx={{
           display: "flex",
+          flexDirection: isXs ? "column" : "row",
           alignItems: "center",
           mb: 3,
           p: 3,
@@ -235,7 +242,7 @@ const RatingReviewSection = ({ currentChat }) => {
           </Typography>
         </Box>
 
-        <Box sx={{ flexGrow: 1, position: "relative", zIndex: 1 }}>
+        <Box sx={{ flexGrow: 1, position: "relative", zIndex: 1, width: isXs ? "100%" : "auto", mt: isXs ? 3 : 0 }}>
           {[5, 4, 3, 2, 1].map((star) => {
             const count = ratingDistribution[star];
             const percentage =
