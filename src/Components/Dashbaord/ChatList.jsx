@@ -277,7 +277,7 @@ const ChatList = ({
                 left: 0,
                 right: 0,
                 height: "2em",
-                backgroundColor: "linear-gradient(transparent, white) !important",
+                backgroundColor: "linear-gradient(transparent, #fff) !important",
                 pointerEvents: "none",
                 transition: "all 0.4s ease",
               }}
