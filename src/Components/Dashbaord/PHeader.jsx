@@ -45,7 +45,7 @@ const PHeader = () => {
                           <h6 className="item-title">Rahul Sharma</h6>
                           <div className="item-time">15 mins ago</div>
                           <p>
-                            when an unknown printer took galley of types ...
+                            when an unknown printer...
                           </p>
                         </div>
                       </Link>

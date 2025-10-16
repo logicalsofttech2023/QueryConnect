@@ -812,6 +812,7 @@
 
   .SideNavhead h2 {
     margin-left: 60px;
+    font-size: 15px;
   }
 
   .mobileMenuToggle {
@@ -821,7 +822,7 @@
 
 @media (max-width: 480px) {
   .sideNav2 {
-    width: 91%;
+    width: 100%;
     max-width: none;
   }
 
@@ -838,7 +839,7 @@
   }
 
   .ChatHead .GroupName {
-    font-size: 1.1rem;
+    font-size: 12px;
   }
 
   .userStatus {
@@ -1176,12 +1177,10 @@ body.menu-open {
   align-items: center;
 }
 
-
-
 .callGroup {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 0px;
 }
 
 .iconBtn {
@@ -1468,19 +1467,17 @@ body.menu-open {
 
 /* Responsive Design */
 
+.message {
+  max-width: 85%;
+}
 
-  .message {
-    max-width: 85%;
-  }
+.userInfo {
+  margin-left: -15px;
+}
 
-  .userInfo {
-    margin-left: -15px;
-  }
-
-  .ChatHead {
-    padding: 15px 5px;
-  }
-
+.ChatHead {
+  padding: 15px 5px;
+}
 
 /* Loading States */
 .loading {
@@ -2269,7 +2266,6 @@ body.menu-open {
 .callGroup {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
 .callGroup .iconBtn {
@@ -2283,6 +2279,7 @@ body.menu-open {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
 }
 
 .callGroup .iconBtn:hover {
@@ -2311,4 +2308,10 @@ body.menu-open {
 .chatOptions .iconBtn:hover {
   background: #f7fafc;
   color: #3182ce;
+}
+
+@media (max-width: 500px) {
+  .media-body {
+    font-size: 12px !important;
+  }
 }

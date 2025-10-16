@@ -2111,24 +2111,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
   align-items: center;
 }
 
-.fixed-header .header-control .inline-item:after {
-  content: "";
-  height: 21px;
-  width: 2px;
-  background-color: #9996fc;
-  position: absolute;
-  top: 50%;
-  right: -20px;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
 
-@media only screen and (max-width: 374px) {
-  .fixed-header .header-control .inline-item:after {
-    display: none;
-  }
-}
 
 .fixed-header .header-control .inline-item:last-child {
   margin-right: 0;
@@ -2275,7 +2258,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
   min-width: 330px;
   padding: 0;
   top: 58px;
-  right: -35px;
+  right: 0px;
   -webkit-transform: translateY(10px);
   -ms-transform: translateY(10px);
   transform: translateY(10px);
@@ -2443,7 +2426,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
   .item-body
   .media
   .item-title {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   color: #000000;
   margin-bottom: 1px;
@@ -2956,7 +2939,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
 
 .fixed-header .header-control .dropdown-admin .dropdown-menu {
   top: 64px;
-  min-width: 230px;
+  min-width: 173px;
   border: 1px solid #dee5ef;
 }
 
@@ -2979,7 +2962,7 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
 @media only screen and (max-width: 1199px) {
   .fixed-header .header-control .dropdown-admin .dropdown-menu:before {
     left: auto;
-    right: 47px;
+    right: 19px;
   }
 }
 
@@ -3039,21 +3022,21 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
 
 @media only screen and (max-width: 575px) {
   .fixed-header .header-control .dropdown-message .dropdown-menu {
-    left: -105px;
+    left: -136px;
   }
 
   .fixed-header .header-control .dropdown-message .dropdown-menu:before {
-    left: 112px;
+    left: 150px;
   }
 }
 
 @media only screen and (max-width: 575px) {
   .fixed-header .header-control .dropdown-notification .dropdown-menu {
-    left: -135px;
+    left: -181px;
   }
 
   .fixed-header .header-control .dropdown-notification .dropdown-menu:before {
-    left: 145px;
+    left: 199px;
   }
 }
 
