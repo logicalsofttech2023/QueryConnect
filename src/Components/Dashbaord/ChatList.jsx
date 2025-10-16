@@ -61,7 +61,6 @@ const ChatList = ({
   const [newComment, setNewComment] = useState("");
   const [favorites, setFavorites] = useState([]);
   const [editTime, setEditTime] = useState(false);
-  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -163,9 +162,8 @@ const ChatList = ({
                       ? "2px solid #fff !important"
                       : "#667eea !important",
                   outlineOffset: "2px !important",
-                  
                 }}
-                disabled ={query.status === "active"}
+                disabled={query.status === "active"}
               >
                 Active
               </ToggleButton>
@@ -205,8 +203,7 @@ const ChatList = ({
                       : "#667eea !important",
                   outlineOffset: "2px !important",
                 }}
-                disabled ={query.status === "inactive"}
-                
+                disabled={query.status === "inactive"}
               >
                 Inactive
               </ToggleButton>
@@ -269,11 +266,7 @@ const ChatList = ({
           </p>
 
           {/* Gradient overlay instead of ::after */}
-          {!isExpanded && (
-            <div
-              className="fade-overlay"
-            />
-          )}
+          {!isExpanded && <div className="fade-overlay" />}
         </div>
 
         <div className="read-more-container">
@@ -414,7 +407,9 @@ const ChatList = ({
         <DialogTitle sx={{ fontSize: "16px" }}>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>Your Query</Grid>
-            <Grid size={3}>Active 6:00AM to 8:00PM</Grid>
+            <Grid size={3} sx={{ width: "fit-content" }}>
+              Active 6:00AM to 8:00PM
+            </Grid>
           </Grid>
         </DialogTitle>
 
@@ -536,7 +531,7 @@ const ChatList = ({
         <DialogTitle sx={{ fontSize: "16px" }}>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>Your Query</Grid>
-            <Grid item sx={{ marginRight: "30px" }}>
+            <Grid item sx={{ marginRight: "30px", width: "fit-content" }}>
               Active 6:00AM to 8:00PM
             </Grid>
           </Grid>
@@ -603,7 +598,9 @@ const ChatList = ({
         <DialogTitle sx={{ fontSize: "16px" }}>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>Your Query</Grid>
-            <Grid size={3}>Active 6:00AM to 8:00PM</Grid>
+            <Grid size={3} sx={{ width: "fit-content" }}>
+              Active 6:00AM to 8:00PM
+            </Grid>
           </Grid>
         </DialogTitle>
 
