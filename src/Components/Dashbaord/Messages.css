@@ -427,7 +427,7 @@
 
 .message.you {
   align-self: flex-start;
-  background: white;
+  background-color: #fff !important;
   color: #1e293b;
   border-bottom-left-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -500,7 +500,7 @@
   display: flex;
   align-items: center;
   padding: 25px 30px;
-  background: white;
+  background-color: #fff !important;
   border-top: 1px solid #f1f5f9;
   gap: 15px;
   position: relative;
@@ -751,7 +751,7 @@
     padding: 20px 15px;
     position: sticky;
     bottom: 0;
-    background: white;
+    
   }
 
   .ChatHead {
@@ -1346,7 +1346,7 @@ body.menu-open {
 }
 
 .message.you {
-  background-color: #fff;
+  background-color: #fff !important;
   color: #333;
   margin-right: auto;
   border-bottom-left-radius: 5px;
@@ -1499,32 +1499,7 @@ body.menu-open {
   animation: highlightMessage 2s ease;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .messagesContainer {
-    background-color: #1a1a1a;
-    color: #fff;
-  }
 
-  .sideNav2,
-  .ChatHead,
-  #MessageForm {
-    background-color: #2d2d2d;
-    border-color: #404040;
-  }
-
-  .message.you {
-    background-color: #404040;
-    color: #fff;
-  }
-
-
-
-  .searchInput:focus,
-  #MessageInput:focus {
-    border-color: #007bff;
-  }
-}
 
 /* User Details Panel - Full Screen Overlay */
 .userDetailsPanel {
