@@ -251,7 +251,7 @@ const ChatList = ({
             style={{
               transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
               position: "relative",
-              color: "#fff",
+              color: "black",
               margin: 0,
               ...(isExpanded
                 ? {}
