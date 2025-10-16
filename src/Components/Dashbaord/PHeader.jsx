@@ -42,7 +42,7 @@ const PHeader = () => {
                           <img src="media/figure/chat_5.jpg" alt="Notify" />
                         </div>
                         <div className="media-body">
-                          <h6 className="item-title">Rahul Sharma</h6>
+                          <h6 className="item-title ">Rahul Sharma</h6>
                           <div className="item-time">15 mins ago</div>
                           <p>
                             when an unknown printer...

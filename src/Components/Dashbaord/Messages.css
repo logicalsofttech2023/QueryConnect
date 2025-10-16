@@ -266,7 +266,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 30px;
-  background: white;
+  background: #fff !important;
   border-bottom: 1px solid #f1f5f9;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
@@ -2313,5 +2313,8 @@ body.menu-open {
 @media (max-width: 500px) {
   .media-body {
     font-size: 12px !important;
+  }
+  .callGroup{
+    margin-right: 20px;
   }
 }
