@@ -17,6 +17,7 @@
     "@googlemaps/js-api-loader": "^2.0.1",
     "@jitsi/react-sdk": "^1.4.4",
     "@mui/icons-material": "^7.3.4",
+    "@mui/lab": "^7.0.1-beta.18",
     "@mui/material": "^7.3.4",
     "@mui/x-date-pickers": "^8.14.0",
     "dayjs": "^1.11.18",

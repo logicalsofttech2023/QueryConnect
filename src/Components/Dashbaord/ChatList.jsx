@@ -1,4 +1,3 @@
-// components/ChatList.jsx
 import React, { useState } from "react";
 import { FaSearch, FaStar } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
@@ -27,6 +26,12 @@ import { MdModeEdit } from "react-icons/md";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { FaCheck } from "react-icons/fa6";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import { MdOutlineMarkUnreadChatAlt, MdFavorite } from "react-icons/md";
 
 const ChatList = ({
   chats,
@@ -61,6 +66,11 @@ const ChatList = ({
   const [newComment, setNewComment] = useState("");
   const [favorites, setFavorites] = useState([]);
   const [editTime, setEditTime] = useState(false);
+  const [chatFilter, setChatFilter] = useState("1");
+
+  const handleChange = (event, newValue) => {
+    setChatFilter(newValue);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -105,6 +115,106 @@ const ChatList = ({
   const handleEditTimeSubmit = () => {
     setEditTime(false);
   };
+
+  // Filter chats based on current tab
+  const getFilteredChats = () => {
+    switch (chatFilter) {
+      case "1": // All chats
+        return chats;
+      case "2": // Favorite chats - CORRECTED: Only show favorited chats
+        return chats.filter(chat => favorites.includes(chat.id));
+      case "3": // Unread chats
+        return chats.filter(chat => chat.unread > 0);
+      default:
+        return chats;
+    }
+  };
+
+  const filteredChats = getFilteredChats();
+
+  const renderChatItem = (chat) => (
+    <div
+      key={chat.id}
+      className={`group ${currentChat.id === chat.id ? "active" : ""}`}
+      onClick={() => onChatSelect(chat)}
+      style={{ marginTop: "10px", marginBottom: "10px" }}
+    >
+      <div className="avatarContainer">
+        <div className="avatar">
+          <img src={chat.avatar} alt={chat.name} />
+        </div>
+        <div
+          className={`statusDot ${chat.online ? "online" : "offline"}`}
+          style={{ right: "15px" }}
+        ></div>
+      </div>
+      <div className="chatInfo">
+        <div className="chatHeader">
+          <p className="GroupName">
+            {chat.name}{" "}
+            <FaStar
+              style={{
+                color: "#f4b400",
+              }}
+            />
+            <span
+              style={{
+                marginLeft: "4px",
+                color: "#333",
+                fontSize: "10px",
+              }}
+            >
+              4.5
+            </span>{" "}
+          </p>
+
+          {chat.unread > 0 && (
+            <span className="unreadBadge">{chat.unread}</span>
+          )}
+        </div>
+        <p className="GroupDescrp">{chat.message}</p>
+        {query.images && query.images.length > 0 && (
+          <div className="comment-images">
+            {query.images.map((img, idx) => (
+              <div key={idx} className="comment-image-container">
+                <img
+                  src={img}
+                  alt={`agent-${query.id}-${idx}`}
+                  className="comment-image"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ❤️ Favorite Button */}
+      <div
+        style={{
+          marginLeft: "10px",
+          cursor: "pointer",
+          transition: "transform 0.2s ease",
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleFavorite(chat.id);
+        }}
+        title={
+          favorites.includes(chat.id)
+            ? "Remove from favorites"
+            : "Add to favorites"
+        }
+      >
+        {favorites.includes(chat.id) ? (
+          <RxHeartFilled
+            style={{ color: "#ff4d4f", fontSize: "20px" }}
+          />
+        ) : (
+          <RxHeart style={{ color: "#aaa", fontSize: "20px" }} />
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <div className={`sideNav2 ${isMobileMenuOpen ? "mobileOpen" : ""}`}>
@@ -306,102 +416,142 @@ const ChatList = ({
         />
       </div>
 
-      <div className="chatList">
-        {chats.map((chat) => (
-          <div
-            key={chat.id}
-            className={`group ${currentChat.id === chat.id ? "active" : ""}`}
-            onClick={() => onChatSelect(chat)}
+      <Box sx={{ width: "100%", typography: "body1" }}>
+        <TabContext value={chatFilter} >
+          <Box
+            sx={{
+              borderBottom: "1px solid #e0e0e0",
+              backgroundColor: "#fff",
+              px: 2,
+            }}
           >
-            <div className="avatarContainer">
-              <div className="avatar">
-                <img src={chat.avatar} alt={chat.name} />
-              </div>
-              <div
-                className={`statusDot ${chat.online ? "online" : "offline"}`}
-                style={{ right: "15px" }}
-              ></div>
-            </div>
-            <div className="chatInfo">
-              <div className="chatHeader">
-                <p className="GroupName">
-                  {chat.name}{" "}
-                  <FaStar
-                    style={{
-                      color: "#f4b400",
-                    }}
-                  />
-                  <span
-                    style={{
-                      marginLeft: "4px",
-                      color: "#333",
-                      fontSize: "10px",
-                    }}
-                  >
-                    4.5
-                  </span>{" "}
-                </p>
-
-                {chat.unread > 0 && (
-                  <span className="unreadBadge">{chat.unread}</span>
-                )}
-              </div>
-              <p className="GroupDescrp">{chat.message}</p>
-              <div className="comment-images">
-                {query.images && query.images.length > 0 && (
-                  <div className="comment-images">
-                    {query.images.map((img, idx) => (
-                      <div
-                        key={idx}
-                        className="comment-image-container"
-                        // onClick={() => openImagePopup(img)}
-                      >
-                        <img
-                          src={img}
-                          alt={`agent-${query.id}-${idx}`}
-                          className="comment-image"
-                        />
-                        <div className="image-overlay">
-                          {/* <FaExpand className="expand-icon" /> */}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* ❤️ Favorite Button */}
-            <div
-              style={{
-                marginLeft: "10px",
-                cursor: "pointer",
-                transition: "transform 0.2s ease",
+            <TabList
+              onChange={handleChange}
+              aria-label="Chat Tabs"
+              variant="fullWidth"
+              sx={{
+                "& .MuiTabs-flexContainer": {
+                  justifyContent: "space-around",
+                },
+                "& .MuiTab-root": {
+                  textTransform: "none",
+                  fontWeight: 600,
+                  fontSize: "14px",
+                  color: "#555",
+                  transition: "all 0.3s ease",
+                  minHeight: "42px",
+                  border: "none",
+                  outline: "none",
+                  mx: 0.5,
+                  "&:hover": {
+                    backgroundColor: "#f0f2f5",
+                    color: "#000",
+                    border: "none",
+                  },
+                },
+                "& .Mui-selected": {
+                  color: "#0a8d48 !important", // WhatsApp green
+                  backgroundColor: "#e9f7ef",
+                  border: "none",
+                },
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "#0a8d48",
+                  height: "3px",
+                  border: "none",
+                },
               }}
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleFavorite(chat.id);
-              }}
-              title={
-                favorites.includes(chat.id)
-                  ? "Remove from favorites"
-                  : "Add to favorites"
-              }
             >
-              {favorites.includes(chat.id) ? (
-                <RxHeartFilled style={{ color: "#ff4d4f", fontSize: "20px" }} />
-              ) : (
-                <RxHeart
+              <Tab label="All" value="1" />
+              <Tab label="Unread" value="3" />
+              <Tab label="Favorites" value="2" />
+            </TabList>
+          </Box>
+
+          {/* ✅ All Chats */}
+          <TabPanel value="1" sx={{ padding: "5px", height: "42vh !important", overflowY: "auto" }}>
+            <div className="chatList">
+              {filteredChats.length === 0 ? (
+                <p
                   style={{
-                    color: "#aaa",
-                    fontSize: "20px",
+                    textAlign: "center",
+                    color: "#888",
+                    fontSize: "14px",
+                    padding: "20px 0",
                   }}
-                />
+                >
+                  No chats available
+                </p>
+              ) : (
+                filteredChats.map(renderChatItem)
               )}
             </div>
-          </div>
-        ))}
-      </div>
+          </TabPanel>
+
+          {/* ✅ Unread Chats */}
+          <TabPanel value="3" sx={{ padding: "5px", height: "100%" }}>
+            {filteredChats.length === 0 ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "200px",
+                  color: "#888",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "14px",
+                    margin: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                  }}
+                >
+                  No unread messages <MdOutlineMarkUnreadChatAlt size={18} />
+                </p>
+              </Box>
+            ) : (
+              <div className="chatList">
+                {filteredChats.map(renderChatItem)}
+              </div>
+            )}
+          </TabPanel>
+
+          {/* ✅ Favorite Chats - CORRECTED: Now properly filters only favorited chats */}
+          <TabPanel value="2" sx={{ padding: "5px", height: "100%" }}>
+            {filteredChats.length === 0 ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "200px",
+                  color: "#888",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "14px",
+                    margin: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                  }}
+                >
+                  No favorite chats <MdFavorite color="red" />
+                </p>
+              </Box>
+            ) : (
+              <div className="chatList">
+                {filteredChats.map(renderChatItem)}
+              </div>
+            )}
+          </TabPanel>
+        </TabContext>
+      </Box>
 
       <Dialog open={open} onClose={handleClose} className="beautiful-dialog">
         <DialogTitle sx={{ fontSize: "16px" }}>

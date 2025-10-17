@@ -21,6 +21,7 @@
   box-shadow: 5px 0 25px rgba(0, 0, 0, 0.1);
   z-index: 7;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: fit-content;
 }
 
 .SideNavhead {
@@ -102,6 +103,7 @@
 .chatList {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sideNav2 .group {
@@ -2288,3 +2290,8 @@ body.menu-open {
     margin-right: 14px;
   }
 }
+
+
+
+
+
