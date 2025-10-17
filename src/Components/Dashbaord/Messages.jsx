@@ -8,8 +8,6 @@ import MediaPreview from "./MediaPreview";
 import QRCodeModal from "./QRCodeModal";
 import { FaArrowLeft, FaBars } from "react-icons/fa";
 
-
-
 const Messages = () => {
   const [message, setMessage] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(true);
@@ -87,6 +85,7 @@ const Messages = () => {
       },
     ],
   });
+  const [callsEnabled, setCallsEnabled] = useState(true);
 
   const [chats, setChats] = useState([
     {
@@ -350,6 +349,10 @@ const Messages = () => {
     msg.content.toLowerCase().includes(messageSearchQuery.toLowerCase())
   );
 
+  const handleToggleCalls = () => {
+    setCallsEnabled(!callsEnabled);
+  };
+
   return (
     <div className="messagesContainer">
       {/* Mobile Menu Toggle Button */}
@@ -398,6 +401,8 @@ const Messages = () => {
           onVideoCall={handleVideoCall}
           onClearChat={clearChat}
           onToggleBlock={toggleBlock}
+          callsEnabled={callsEnabled}
+          onToggleCalls={handleToggleCalls}
         />
       </main>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FaPhone,
   FaVideo,
@@ -13,6 +13,8 @@ import {
 } from "react-icons/fa";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { FaStar } from "react-icons/fa";
+import { RxHeart } from "react-icons/rx";
+import { RxHeartFilled } from "react-icons/rx";
 
 const ChatSection = ({
   currentChat,
@@ -34,6 +36,8 @@ const ChatSection = ({
   onVideoCall,
   onClearChat,
   onToggleBlock,
+  onToggleCalls,
+  callsEnabled = true,
 }) => {
   const handleOptionClick = (action) => {
     action();
@@ -48,6 +52,7 @@ const ChatSection = ({
         currentChat={currentChat}
         showChatOptions={showChatOptions}
         isBlocked={isBlocked}
+        callsEnabled={callsEnabled} // Pass callsEnabled prop
         onShowUserDetails={onShowUserDetails}
         onVoiceCall={onVoiceCall}
         onVideoCall={onVideoCall}
@@ -55,6 +60,7 @@ const ChatSection = ({
         onShowMessageSearch={onShowMessageSearch}
         onClearChat={onClearChat}
         onToggleBlock={onToggleBlock}
+        onToggleCalls={onToggleCalls} // Pass toggle function
         onOptionClick={handleOptionClick}
       />
 
@@ -96,6 +102,7 @@ const ChatHeader = ({
   currentChat,
   showChatOptions,
   isBlocked,
+  callsEnabled, // New prop
   onShowUserDetails,
   onVoiceCall,
   onVideoCall,
@@ -103,9 +110,11 @@ const ChatHeader = ({
   onShowMessageSearch,
   onClearChat,
   onToggleBlock,
+  onToggleCalls, // New prop
   onOptionClick,
 }) => {
   const optionsRef = useRef(null);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -125,10 +134,25 @@ const ChatHeader = ({
     };
   }, [showChatOptions, onShowChatOptions]);
 
+  const handleVoiceCall = () => {
+    if (callsEnabled) {
+      onVoiceCall();
+    }
+  };
+
+  const handleVideoCall = () => {
+    if (callsEnabled) {
+      onVideoCall();
+    }
+  };
+
   return (
     <div className="ChatHead">
-      <div className="chatUser" onClick={() => onShowUserDetails(true)}>
-        <div className="avatarContainer">
+      <div className="chatUser">
+        <div
+          className="avatarContainer"
+          onClick={() => onShowUserDetails(true)}
+        >
           <div className="avatar">
             <img src={currentChat.avatar} alt={currentChat.name} />
           </div>
@@ -138,7 +162,8 @@ const ChatHeader = ({
         </div>
         <div className="userInfo">
           <p className="GroupName">
-            {currentChat.name} <FaStar style={{ color: "#f4b400", fontSize: "15px" }} />
+            {currentChat.name}{" "}
+            <FaStar style={{ color: "#f4b400", fontSize: "15px" }} />
             <span
               style={{
                 marginLeft: "4px",
@@ -148,7 +173,27 @@ const ChatHeader = ({
             >
               4.5
             </span>{" "}
+            <span
+              style={{
+                cursor: "pointer",
+                transition: "transform 0.2s ease",
+                position: "relative",
+                top: "3px",
+                left: "3px",
+              }}
+              onClick={() => {
+                setIsFavorite(!isFavorite);
+              }}
+              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+            >
+              {isFavorite ? (
+                <RxHeartFilled style={{ color: "#ff4d4f", fontSize: "32px" }} />
+              ) : (
+                <RxHeart style={{ color: "#ff4d4f", fontSize: "32px" }} />
+              )}
+            </span>
           </p>
+
           <span className="userStatus">
             {currentChat.online
               ? "Online"
@@ -158,10 +203,19 @@ const ChatHeader = ({
       </div>
 
       <div className="callGroup" ref={optionsRef}>
-        <button className="iconBtn" onClick={onVoiceCall} title="Voice Call">
+        <button
+          className={`iconBtn`}
+          onClick={handleVoiceCall}
+          title={"Voice Call"}
+          
+        >
           <FaPhone />
         </button>
-        <button className="iconBtn" onClick={onVideoCall} title="Video Call">
+        <button
+          className={`iconBtn`}
+          onClick={handleVideoCall}
+          title={"Video Call"}
+        >
           <FaVideo />
         </button>
 
@@ -179,6 +233,9 @@ const ChatHeader = ({
                 onClick={() => onOptionClick(() => onShowMessageSearch(true))}
               >
                 <FaSearch /> Search Messages
+              </button>
+              <button onClick={() => onOptionClick(onToggleCalls)}>
+                <FaPhone /> {callsEnabled ? "Disable Calls" : "Enable Calls"}
               </button>
               <button onClick={() => onOptionClick(onClearChat)}>
                 <FaTrash /> Clear Chat
@@ -285,4 +342,5 @@ const MessageForm = ({ message, onMessageChange, onSubmit }) => {
     </form>
   );
 };
+
 export default ChatSection;

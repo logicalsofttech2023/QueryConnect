@@ -32,6 +32,8 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { MdOutlineMarkUnreadChatAlt, MdFavorite } from "react-icons/md";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const ChatList = ({
   chats,
@@ -67,6 +69,8 @@ const ChatList = ({
   const [favorites, setFavorites] = useState([]);
   const [editTime, setEditTime] = useState(false);
   const [chatFilter, setChatFilter] = useState("1");
+  const [snackbarBar, setSnackbarBar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleChange = (event, newValue) => {
     setChatFilter(newValue);
@@ -105,11 +109,18 @@ const ChatList = ({
   };
 
   const toggleFavorite = (chatId) => {
-    setFavorites((prev) =>
-      prev.includes(chatId)
+    setFavorites((prev) => {
+      const isAlreadyFav = prev.includes(chatId);
+      const updatedFavorites = isAlreadyFav
         ? prev.filter((id) => id !== chatId)
-        : [...prev, chatId]
-    );
+        : [...prev, chatId];
+      setSnackbarMessage(
+        isAlreadyFav ? "Removed from favorites ❤️‍🔥" : "Added to favorites 💖"
+      );
+      setSnackbarBar(true);
+
+      return updatedFavorites;
+    });
   };
 
   const handleEditTimeSubmit = () => {
@@ -122,9 +133,9 @@ const ChatList = ({
       case "1": // All chats
         return chats;
       case "2": // Favorite chats - CORRECTED: Only show favorited chats
-        return chats.filter(chat => favorites.includes(chat.id));
+        return chats.filter((chat) => favorites.includes(chat.id));
       case "3": // Unread chats
-        return chats.filter(chat => chat.unread > 0);
+        return chats.filter((chat) => chat.unread > 0);
       default:
         return chats;
     }
@@ -206,9 +217,7 @@ const ChatList = ({
         }
       >
         {favorites.includes(chat.id) ? (
-          <RxHeartFilled
-            style={{ color: "#ff4d4f", fontSize: "20px" }}
-          />
+          <RxHeartFilled style={{ color: "#ff4d4f", fontSize: "20px" }} />
         ) : (
           <RxHeart style={{ color: "#aaa", fontSize: "20px" }} />
         )}
@@ -417,7 +426,7 @@ const ChatList = ({
       </div>
 
       <Box sx={{ width: "100%", typography: "body1" }}>
-        <TabContext value={chatFilter} >
+        <TabContext value={chatFilter}>
           <Box
             sx={{
               borderBottom: "1px solid #e0e0e0",
@@ -468,7 +477,14 @@ const ChatList = ({
           </Box>
 
           {/* ✅ All Chats */}
-          <TabPanel value="1" sx={{ padding: "5px", height: "42vh !important", overflowY: "auto" }}>
+          <TabPanel
+            value="1"
+            sx={{
+              padding: "5px",
+              height: "42vh !important",
+              overflowY: "auto",
+            }}
+          >
             <div className="chatList">
               {filteredChats.length === 0 ? (
                 <p
@@ -809,6 +825,22 @@ const ChatList = ({
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={snackbarBar}
+        autoHideDuration={2000}
+        onClose={() => setSnackbarBar(false)}
+        
+        sx={{ width: "max-content" }}
+      >
+        <Alert
+          onClose={() => setSnackbarBar(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

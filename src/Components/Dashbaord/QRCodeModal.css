@@ -200,3 +200,35 @@
     height: 180px;
   }
 }
+
+
+
+
+
+
+
+
+.storeButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 12px;
+  margin: 20px 0;
+  align-items: center;
+}
+
+.storeBtn {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.storeBtn:hover {
+  transform: scale(1.05);
+}
+
+.storeBadge {
+  height: 50px;
+  border-radius: 8px;
+}
+
