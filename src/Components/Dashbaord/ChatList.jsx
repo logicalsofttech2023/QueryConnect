@@ -34,6 +34,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import { MdOutlineMarkUnreadChatAlt, MdFavorite } from "react-icons/md";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { BiSolidCommentAdd } from "react-icons/bi";
 
 const ChatList = ({
   chats,
@@ -340,7 +341,7 @@ const ChatList = ({
               )}
             </ToggleButtonGroup>
           </div>
-          <div>
+          {/* <div>
             <button
               className="btn border-none outline-none background-none p-1"
               style={{ fontSize: "20px" }}
@@ -349,7 +350,7 @@ const ChatList = ({
             >
               <CiEdit style={{ color: "white" }} />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -393,13 +394,25 @@ const ChatList = ({
             {" "}
             <Button
               variant="contained"
-              sx={{ padding: "10px !important", fontSize: "10px !important" }}
+              sx={{
+                padding: "10px !important",
+                fontSize: "10px !important",
+                alignItems: "self-start",
+              }}
               onClick={() => setEditTime(true)}
             >
               Active 6:00AM to 8:00PM{" "}
               <MdModeEdit style={{ marginLeft: "4px", fontSize: "12px" }} />
             </Button>
           </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+          <button
+            className={`read-more-btn`}
+            onClick={handleClickOpen}
+            data-tooltip={"Add comment"}
+          >
+            <BiSolidCommentAdd />
+          </button>
           {query.description.length > 100 && (
             <button
               className={`read-more-btn`}
@@ -412,6 +425,7 @@ const ChatList = ({
               {queryView ? <FaEyeSlash /> : <FaEye />}
             </button>
           )}
+          </div>
         </div>
       </div>
 
@@ -830,7 +844,6 @@ const ChatList = ({
         open={snackbarBar}
         autoHideDuration={2000}
         onClose={() => setSnackbarBar(false)}
-        
         sx={{ width: "max-content" }}
       >
         <Alert

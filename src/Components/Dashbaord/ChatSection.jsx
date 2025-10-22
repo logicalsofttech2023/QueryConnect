@@ -152,6 +152,7 @@ const ChatHeader = ({
         <div
           className="avatarContainer"
           onClick={() => onShowUserDetails(true)}
+          style={{ cursor: "pointer" }}
         >
           <div className="avatar">
             <img src={currentChat.avatar} alt={currentChat.name} />
@@ -161,7 +162,11 @@ const ChatHeader = ({
           ></div>
         </div>
         <div className="userInfo">
-          <p className="GroupName">
+          <p
+            className="GroupName"
+            style={{ cursor: "pointer" }}
+            onClick={() => onShowUserDetails(true)}
+          >
             {currentChat.name}{" "}
             <FaStar style={{ color: "#f4b400", fontSize: "15px" }} />
             <span
@@ -173,25 +178,6 @@ const ChatHeader = ({
             >
               4.5
             </span>{" "}
-            <span
-              style={{
-                cursor: "pointer",
-                transition: "transform 0.2s ease",
-                position: "relative",
-                top: "3px",
-                left: "3px",
-              }}
-              onClick={() => {
-                setIsFavorite(!isFavorite);
-              }}
-              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
-            >
-              {isFavorite ? (
-                <RxHeartFilled style={{ color: "#ff4d4f", fontSize: "32px" }} />
-              ) : (
-                <RxHeart style={{ color: "#ff4d4f", fontSize: "32px" }} />
-              )}
-            </span>
           </p>
 
           <span className="userStatus">
@@ -200,6 +186,22 @@ const ChatHeader = ({
               : `Last seen ${currentChat.lastSeen}`}
           </span>
         </div>
+        <span
+          style={{
+            cursor: "pointer",
+            transition: "transform 0.2s ease",
+          }}
+          onClick={() => {
+            setIsFavorite(!isFavorite);
+          }}
+          title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+        >
+          {isFavorite ? (
+            <RxHeartFilled style={{ color: "#ff4d4f", fontSize: "32px" }} />
+          ) : (
+            <RxHeart style={{ color: "#ff4d4f", fontSize: "32px" }} />
+          )}
+        </span>
       </div>
 
       <div className="callGroup" ref={optionsRef}>
@@ -207,7 +209,6 @@ const ChatHeader = ({
           className={`iconBtn`}
           onClick={handleVoiceCall}
           title={"Voice Call"}
-          
         >
           <FaPhone />
         </button>
