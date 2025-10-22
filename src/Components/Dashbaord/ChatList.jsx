@@ -35,6 +35,109 @@ import { MdOutlineMarkUnreadChatAlt, MdFavorite } from "react-icons/md";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { BiSolidCommentAdd } from "react-icons/bi";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import { useMediaQuery, useTheme } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
+
+const itemData = [
+  {
+    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
+    title: "Breakfast",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
+    title: "Burger",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
+    title: "Camera",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
+    title: "Coffee",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
+    title: "Hats",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
+    title: "Honey",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
+    title: "Basketball",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
+    title: "Fern",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
+    title: "Mushrooms",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
+    title: "Tomato basil",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
+    title: "Sea star",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
+    title: "Bike",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
+    title: "Breakfast",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
+    title: "Burger",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
+    title: "Camera",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
+    title: "Coffee",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
+    title: "Hats",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
+    title: "Honey",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
+    title: "Basketball",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
+    title: "Fern",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
+    title: "Mushrooms",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
+    title: "Tomato basil",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
+    title: "Sea star",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
+    title: "Bike",
+  },
+];
 
 const ChatList = ({
   chats,
@@ -72,6 +175,11 @@ const ChatList = ({
   const [chatFilter, setChatFilter] = useState("1");
   const [snackbarBar, setSnackbarBar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [agentImagesModel, setAgentImagesModel] = useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMd = useMediaQuery(theme.breakpoints.between("sm", "md"));
 
   const handleChange = (event, newValue) => {
     setChatFilter(newValue);
@@ -201,28 +309,38 @@ const ChatList = ({
       </div>
 
       {/* ❤️ Favorite Button */}
-      <div
-        style={{
-          marginLeft: "10px",
-          cursor: "pointer",
-          transition: "transform 0.2s ease",
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleFavorite(chat.id);
-        }}
+      <Tooltip
         title={
           favorites.includes(chat.id)
             ? "Remove from favorites"
             : "Add to favorites"
         }
+        placement="top"
+        arrow
       >
-        {favorites.includes(chat.id) ? (
-          <RxHeartFilled style={{ color: "#ff4d4f", fontSize: "20px" }} />
-        ) : (
-          <RxHeart style={{ color: "#aaa", fontSize: "20px" }} />
-        )}
-      </div>
+        <div
+          style={{
+            marginLeft: "10px",
+            cursor: "pointer",
+            transition: "transform 0.2s ease",
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFavorite(chat.id);
+          }}
+          title={
+            favorites.includes(chat.id)
+              ? "Remove from favorites"
+              : "Add to favorites"
+          }
+        >
+          {favorites.includes(chat.id) ? (
+            <RxHeartFilled style={{ color: "#ff4d4f", fontSize: "20px" }} />
+          ) : (
+            <RxHeart style={{ color: "#aaa", fontSize: "20px" }} />
+          )}
+        </div>
+      </Tooltip>
     </div>
   );
 
@@ -341,16 +459,34 @@ const ChatList = ({
               )}
             </ToggleButtonGroup>
           </div>
-          {/* <div>
+          <div>
             <button
-              className="btn border-none outline-none background-none p-1"
-              style={{ fontSize: "20px" }}
-              onClick={handleClickOpen}
-              title="Edit Query"
+              onClick={() => setAgentImagesModel(true)}
+              title="All Agent Images"
+              style={{
+                fontSize: "10px",
+                fontWeight: "600",
+                padding: "3px 8px",
+                border: "none",
+                borderRadius: "25px",
+                background: "linear-gradient(90deg, #667eea 0%, #764ba2 100%)",
+                color: "#fff",
+                cursor: "pointer",
+                boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background =
+                  "linear-gradient(90deg, #5a67d8 0%, #6b46c1 100%)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background =
+                  "linear-gradient(90deg, #667eea 0%, #764ba2 100%)")
+              }
             >
-              <CiEdit style={{ color: "white" }} />
+              All Images
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
 
@@ -406,25 +542,29 @@ const ChatList = ({
             </Button>
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
-          <button
-            className={`read-more-btn`}
-            onClick={handleClickOpen}
-            data-tooltip={"Add comment"}
-          >
-            <BiSolidCommentAdd />
-          </button>
-          {query.description.length > 100 && (
-            <button
-              className={`read-more-btn`}
-              onClick={() => {
-                setQueryView(true);
-              }}
-              data-tooltip={queryView ? "Show less" : "Show more"}
-              aria-label={queryView ? "Collapse text" : "Expand text"}
-            >
-              {queryView ? <FaEyeSlash /> : <FaEye />}
-            </button>
-          )}
+            <Tooltip title="Add Comment" placement="top" arrow>
+              <button
+                className={`read-more-btn`}
+                onClick={handleClickOpen}
+                data-tooltip={"Add comment"}
+              >
+                <BiSolidCommentAdd />
+              </button>
+            </Tooltip>
+            {query.description.length > 100 && (
+              <Tooltip title="Show more" placement="top" arrow>
+                <button
+                  className={`read-more-btn`}
+                  onClick={() => {
+                    setQueryView(true);
+                  }}
+                  data-tooltip={queryView ? "Show less" : "Show more"}
+                  aria-label={queryView ? "Collapse text" : "Expand text"}
+                >
+                  {queryView ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </Tooltip>
+            )}
           </div>
         </div>
       </div>
@@ -838,6 +978,117 @@ const ChatList = ({
             Save
           </Button>
         </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={agentImagesModel}
+        onClose={() => setAgentImagesModel(false)}
+        className="beautiful-dialog"
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle sx={{ fontSize: "16px" }}>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item>All Agent Images</Grid>
+          </Grid>
+        </DialogTitle>
+
+        <IconButton
+          aria-label="close"
+          onClick={() => setAgentImagesModel(false)}
+          sx={(theme) => ({
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: theme.palette.grey[500],
+          })}
+        >
+          <CloseIcon />
+        </IconButton>
+
+        <DialogContent>
+          <ImageList
+            sx={{
+              width: "100%",
+              height: "auto",
+            }}
+            cols={fullScreen ? 2 : isMd ? 3 : 4}
+            rowHeight={fullScreen ? 120 : isMd ? 150 : 164}
+          >
+            {itemData.map((item) => (
+              <ImageListItem key={item.img}>
+                <img
+                  srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                  src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                  alt={item.title}
+                  loading="lazy"
+                  style={{
+                    objectFit: "cover",
+                    width: "100%",
+                    height: "100%",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setSelectedImage(item.img)}
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={Boolean(selectedImage)}
+        onClose={() => setSelectedImage(null)}
+        fullScreen
+        PaperProps={{
+          sx: {
+            backgroundColor: "rgba(0,0,0,0.9)",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        }}
+      >
+        <IconButton
+          aria-label="close"
+          onClick={() => setSelectedImage(null)}
+          sx={{
+            position: "absolute",
+            right: 25,
+            top: 25,
+            color: "#fff",
+            zIndex: 1,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            "&:hover": { backgroundColor: "rgba(0,0,0,0.7)" },
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+
+        <DialogContent
+          sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 0,
+            overflow: "hidden",
+          }}
+        >
+          {selectedImage && (
+            <img
+              src={selectedImage}
+              alt="Selected"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "100%",
+                objectFit: "contain",
+              }}
+            />
+          )}
+        </DialogContent>
       </Dialog>
 
       <Snackbar

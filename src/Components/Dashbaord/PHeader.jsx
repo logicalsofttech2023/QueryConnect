@@ -19,6 +19,24 @@ const PHeader = () => {
               </div>
             </div>
 
+            <nav id="dropdown" className="template-main-menu">
+                  <button
+                    type="button"
+                    className="mobile-menu-toggle mobile-toggle-close"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <i className="icofont-close" />
+                  </button>
+                  <ul className="menu-content">
+                    <li className="header-nav-item">
+                      <Link to="/dashboard" className="menu-link active">
+                        Dashbaord
+                      </Link>
+                    </li>
+                    
+                  </ul>
+                </nav>
+
             <div className="nav-item header-control">
               <div className="inline-item d-flex align-items-center">
                 {/* Messages Dropdown */}
@@ -162,18 +180,14 @@ const PHeader = () => {
                   </button>
                   <div className="dropdown-menu dropdown-menu-right">
                     <ul className="admin-options">
-                      <li>
-                        <Link to="/dashboard">Dashboard</Link>
-                      </li>
+                      
                       <li>
                         <Link to="/profile">Profile</Link>
                       </li>
                       <li>
                         <Link to="/support">Support</Link>
                       </li>
-                      <li>
-                        <Link to="/messages">Messages</Link>
-                      </li>
+                      
                       <li>
                         <Link to="/inactiveQueries">Inactive Queries</Link>
                       </li>

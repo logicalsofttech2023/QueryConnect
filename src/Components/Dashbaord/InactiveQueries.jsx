@@ -30,6 +30,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -115,6 +116,7 @@ const InactiveQueries = () => {
       time: "2023-10-01 12:00 PM",
     },
   ]);
+  const [newComment, setNewComment] = useState("");
 
   // Responsive breakpoints
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
@@ -260,12 +262,12 @@ const InactiveQueries = () => {
             gap: 3,
           }}
         >
-          <StatCardComponent
+          {/* <StatCardComponent
             title="Inactive Queries"
             value={stats.activeQueries}
             icon={<FiActivity size={isXs ? 24 : 32} />}
             color="primary"
-          />
+          /> */}
         </Box>
       </Box>
 
@@ -290,7 +292,7 @@ const InactiveQueries = () => {
               fontWeight="600"
               textAlign={isXs ? "center" : "left"}
             >
-              My Inactive Queries
+              My Inactive Queries ({recentQueries.length})
             </Typography>
           </Box>
 
@@ -499,7 +501,22 @@ const InactiveQueries = () => {
             <small style={{ color: "gray" }}>10/14/2025, 10:59:01 AM</small>
           </div>
 
-          <hr style={{ margin: "15px 0", borderColor: "#eee" }} />
+          <Divider sx={{ margin: "15px 0" }} />
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="comment"
+            label="Add comment here (Optional)"
+            type="text"
+            fullWidth
+            variant="outlined"
+            placeholder="Type your comment..."
+            multiline
+            rows={4}
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+          />
 
           {/* ===== Comments Section ===== */}
           <div>

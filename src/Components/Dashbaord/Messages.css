@@ -1846,9 +1846,7 @@ body.menu-open {
 
 /* Enhanced chat user clickable area */
 
-.chatUser:hover {
-  background-color: #f8f9fa;
-}
+
 
 /* Scrollbar styling for user details */
 .userDetailsContent::-webkit-scrollbar {

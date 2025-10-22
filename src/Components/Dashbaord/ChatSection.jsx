@@ -15,6 +15,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { FaStar } from "react-icons/fa";
 import { RxHeart } from "react-icons/rx";
 import { RxHeartFilled } from "react-icons/rx";
+import Tooltip from "@mui/material/Tooltip";
+
 
 const ChatSection = ({
   currentChat,
@@ -186,6 +188,15 @@ const ChatHeader = ({
               : `Last seen ${currentChat.lastSeen}`}
           </span>
         </div>
+        <Tooltip
+                title={
+                  isFavorite
+                    ? "Remove from favorites"
+                    : "Add to favorites"
+                }
+                placement="top"
+                arrow
+              >
         <span
           style={{
             cursor: "pointer",
@@ -202,6 +213,7 @@ const ChatHeader = ({
             <RxHeart style={{ color: "#ff4d4f", fontSize: "32px" }} />
           )}
         </span>
+        </Tooltip>
       </div>
 
       <div className="callGroup" ref={optionsRef}>

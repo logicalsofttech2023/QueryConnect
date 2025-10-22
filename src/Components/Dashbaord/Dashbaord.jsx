@@ -739,12 +739,12 @@ const Dashboard = () => {
             gap: 3,
           }}
         >
-          <StatCardComponent
+          {/* <StatCardComponent
             title="Active Queries"
             value={stats.activeQueries}
             icon={<FiActivity size={isXs ? 24 : 32} />}
             color="primary"
-          />
+          /> */}
         </Box>
       </Box>
 
@@ -761,7 +761,7 @@ const Dashboard = () => {
               justifyContent: "space-between",
               flexDirection: isXs ? "column" : "row",
               gap: isXs ? 2 : 0,
-              padding: isXs ? "20px 10px 10px 10px" : "25px 10px 10px 10px"
+              padding: isXs ? "20px 10px 10px 10px" : "25px 10px 10px 10px",
             }}
           >
             <Typography
@@ -769,7 +769,7 @@ const Dashboard = () => {
               fontWeight="600"
               textAlign={isXs ? "center" : "left"}
             >
-              My Active Queries
+              My Active Queries ({recentQueries.length})
             </Typography>
             {recentQueries.length > 0 && (
               <Button
@@ -828,8 +828,8 @@ const Dashboard = () => {
                 component={Paper}
                 elevation={0}
                 sx={{
-                  maxHeight: isXs ? 400 : 500, // controls scrollable height
-                  overflowY: "auto", // enables vertical scroll
+                  maxHeight: isXs ? 400 : 500,
+                  overflowY: "auto",
                   "&::-webkit-scrollbar": {
                     width: "8px",
                   },
@@ -840,24 +840,62 @@ const Dashboard = () => {
                 }}
               >
                 <Table
+                  stickyHeader
                   sx={{ minWidth: isXs ? 300 : 800, tableLayout: "fixed" }}
                 >
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ width: isXs ? "10%" : "10%" }}>
+                      <TableCell
+                        sx={{
+                          width: isXs ? "10%" : "10%",
+                          position: "sticky",
+                          top: 0,
+                          backgroundColor: "#fff",
+                          zIndex: 2,
+                          fontWeight: "600",
+                        }}
+                      >
                         ID
                       </TableCell>
-                      <TableCell sx={{ width: isXs ? "50%" : "60%" }}>
+                      <TableCell
+                        sx={{
+                          width: isXs ? "50%" : "60%",
+                          position: "sticky",
+                          top: 0,
+                          backgroundColor: "#fff",
+                          zIndex: 2,
+                          fontWeight: "600",
+                        }}
+                      >
                         Query
                       </TableCell>
-                      <TableCell sx={{ width: isXs ? "20%" : "15%" }}>
+                      <TableCell
+                        sx={{
+                          width: isXs ? "20%" : "15%",
+                          position: "sticky",
+                          top: 0,
+                          backgroundColor: "#fff",
+                          zIndex: 2,
+                          fontWeight: "600",
+                        }}
+                      >
                         Threads
                       </TableCell>
-                      <TableCell sx={{ width: isXs ? "20%" : "15%" }}>
+                      <TableCell
+                        sx={{
+                          width: isXs ? "20%" : "15%",
+                          position: "sticky",
+                          top: 0,
+                          backgroundColor: "#fff",
+                          zIndex: 2,
+                          fontWeight: "600",
+                        }}
+                      >
                         Unread
                       </TableCell>
                     </TableRow>
                   </TableHead>
+
                   <TableBody>
                     {recentQueries.map((query) => (
                       <QueryRow
