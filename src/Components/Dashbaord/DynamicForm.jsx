@@ -17,7 +17,13 @@ import {
   FaBook,
 } from "react-icons/fa";
 import { MdHealthAndSafety } from "react-icons/md";
-
+import {
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@mui/material";
 import "./DynamicForm.css";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -32,6 +38,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
+import Checkbox from "@mui/material/Checkbox";
+import dayjs from "dayjs";
 
 const data = {
   realEstate: {
@@ -127,6 +135,9 @@ const DynamicForm = () => {
   const [availableAreas, setAvailableAreas] = useState([]);
   const [areaSearch, setAreaSearch] = useState("");
   const [open, setOpen] = useState(false);
+  const [isScheduleVisible, setIsScheduleVisible] = useState(true);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
 
   useEffect(() => {
     if (sector) {
@@ -311,7 +322,22 @@ const DynamicForm = () => {
 
   const handleSubmit = () => {
     console.log("Form submitted!");
-    navigate("/login");
+    let data;
+    if (startTime && endTime) {
+      data = {
+        description,
+        industry:sector,
+        startTime: dayjs(startTime).format("hh:mm A"),
+        endTime: dayjs(endTime).format("hh:mm A"),
+      };
+    } else {
+      data = {
+        description,
+        industry:sector
+      };
+    }
+    navigate("/login", { state: data });
+
     handleClose();
   };
 
@@ -378,30 +404,39 @@ const DynamicForm = () => {
 
               {/* Mandatory Fields */}
               <div className="mandatory-fields">
-                <div className="radio-group">
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="transactionType"
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    row
+                    name="transactionType"
+                    value={transactionType}
+                    onChange={(e) => setTransactionType(e.target.value)}
+                  >
+                    <FormControlLabel
                       value="buy"
-                      checked={transactionType === "buy"}
-                      onChange={(e) => setTransactionType(e.target.value)}
+                      control={
+                        <Radio
+                          sx={{
+                            color: "#1976d2",
+                            "&.Mui-checked": { color: "#1976d2" },
+                          }}
+                        />
+                      }
+                      label="Buy"
                     />
-                    <span className="radio-custom"></span>
-                    Buy
-                  </label>
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="transactionType"
+                    <FormControlLabel
                       value="rent"
-                      checked={transactionType === "rent"}
-                      onChange={(e) => setTransactionType(e.target.value)}
+                      control={
+                        <Radio
+                          sx={{
+                            color: "#1976d2",
+                            "&.Mui-checked": { color: "#1976d2" },
+                          }}
+                        />
+                      }
+                      label="Rent"
                     />
-                    <span className="radio-custom"></span>
-                    Rent
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
 
                 <div className="dynamic-form-row">
                   <div className="form-group">
@@ -1088,26 +1123,38 @@ const DynamicForm = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["TimePicker"]}>
-                <TimePicker
-                  label="Start Time"
-                  viewRenderers={{
-                    hours: renderTimeViewClock,
-                    minutes: renderTimeViewClock,
-                    seconds: renderTimeViewClock,
-                  }}
-                />
-                <TimePicker
-                  label="End Time"
-                  viewRenderers={{
-                    hours: renderTimeViewClock,
-                    minutes: renderTimeViewClock,
-                    seconds: renderTimeViewClock,
-                  }}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
+            <FormControlLabel
+              onChange={() => setIsScheduleVisible(!isScheduleVisible)}
+              control={<Checkbox />}
+              label="Add query schedule"
+            />
+
+            {!isScheduleVisible && (
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["TimePicker"]}>
+                  <TimePicker
+                    label="Start Time"
+                    value={startTime}
+                    onChange={(newValue) => setStartTime(newValue)}
+                    viewRenderers={{
+                      hours: renderTimeViewClock,
+                      minutes: renderTimeViewClock,
+                      seconds: renderTimeViewClock,
+                    }}
+                  />
+                  <TimePicker
+                    label="End Time"
+                    value={endTime}
+                    onChange={(newValue) => setEndTime(newValue)}
+                    viewRenderers={{
+                      hours: renderTimeViewClock,
+                      minutes: renderTimeViewClock,
+                      seconds: renderTimeViewClock,
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

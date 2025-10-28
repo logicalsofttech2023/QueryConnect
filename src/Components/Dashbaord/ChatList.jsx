@@ -39,6 +39,8 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { useMediaQuery, useTheme } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const itemData = [
   {
@@ -176,10 +178,14 @@ const ChatList = ({
   const [snackbarBar, setSnackbarBar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [agentImagesModel, setAgentImagesModel] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMd = useMediaQuery(theme.breakpoints.between("sm", "md"));
+
+
+  
 
   const handleChange = (event, newValue) => {
     setChatFilter(newValue);
@@ -328,11 +334,7 @@ const ChatList = ({
             e.stopPropagation();
             toggleFavorite(chat.id);
           }}
-          title={
-            favorites.includes(chat.id)
-              ? "Remove from favorites"
-              : "Add to favorites"
-          }
+          
         >
           {favorites.includes(chat.id) ? (
             <RxHeartFilled style={{ color: "#ff4d4f", fontSize: "20px" }} />
@@ -343,6 +345,24 @@ const ChatList = ({
       </Tooltip>
     </div>
   );
+
+
+  const handleImageClick = (img, index) => {
+    setSelectedImage(img);
+    setCurrentIndex(index);
+  };
+
+  const handleNext = () => {
+    const nextIndex = (currentIndex + 1) % itemData.length;
+    setCurrentIndex(nextIndex);
+    setSelectedImage(itemData[nextIndex].img);
+  };
+
+  const handlePrev = () => {
+    const prevIndex = (currentIndex - 1 + itemData.length) % itemData.length;
+    setCurrentIndex(prevIndex);
+    setSelectedImage(itemData[prevIndex].img);
+  };
 
   return (
     <div className={`sideNav2 ${isMobileMenuOpen ? "mobileOpen" : ""}`}>
@@ -1015,7 +1035,7 @@ const ChatList = ({
             cols={fullScreen ? 2 : isMd ? 3 : 4}
             rowHeight={fullScreen ? 120 : isMd ? 150 : 164}
           >
-            {itemData.map((item) => (
+            {itemData.map((item , index) => (
               <ImageListItem key={item.img}>
                 <img
                   srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
@@ -1028,7 +1048,7 @@ const ChatList = ({
                     height: "100%",
                     cursor: "pointer",
                   }}
-                  onClick={() => setSelectedImage(item.img)}
+                  onClick={() => handleImageClick(item.img, index)}
                 />
               </ImageListItem>
             ))}
@@ -1050,6 +1070,7 @@ const ChatList = ({
           },
         }}
       >
+        {/* Close Button */}
         <IconButton
           aria-label="close"
           onClick={() => setSelectedImage(null)}
@@ -1058,12 +1079,42 @@ const ChatList = ({
             right: 25,
             top: 25,
             color: "#fff",
-            zIndex: 1,
+            zIndex: 2,
             backgroundColor: "rgba(0,0,0,0.5)",
             "&:hover": { backgroundColor: "rgba(0,0,0,0.7)" },
           }}
         >
           <CloseIcon />
+        </IconButton>
+
+        {/* Prev Button */}
+        <IconButton
+          onClick={handlePrev}
+          sx={{
+            position: "absolute",
+            left: 25,
+            color: "#fff",
+            zIndex: 2,
+            backgroundColor: "rgba(0,0,0,0.4)",
+            "&:hover": { backgroundColor: "rgba(0,0,0,0.7)" },
+          }}
+        >
+          <ArrowBackIosNewIcon fontSize="small" />
+        </IconButton>
+
+        {/* Next Button */}
+        <IconButton
+          onClick={handleNext}
+          sx={{
+            position: "absolute",
+            right: 25,
+            color: "#fff",
+            zIndex: 2,
+            backgroundColor: "rgba(0,0,0,0.4)",
+            "&:hover": { backgroundColor: "rgba(0,0,0,0.7)" },
+          }}
+        >
+          <ArrowForwardIosIcon fontSize="small" />
         </IconButton>
 
         <DialogContent

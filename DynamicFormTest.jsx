@@ -14,7 +14,10 @@ import {
   FaCheck,
   FaPlus,
   FaMinus,
+  FaBook,
 } from "react-icons/fa";
+import { MdHealthAndSafety } from "react-icons/md";
+import LocationSearch from "./LocationSearch";
 import "./DynamicForm.css";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -29,12 +32,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
-import { FormControlLabel } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import dayjs from "dayjs";
-import { FormControl, FormLabel, RadioGroup, Radio } from "@mui/material";
-import axios from "axios";
-import { Snackbar, Alert } from "@mui/material";
 
 const data = {
   realEstate: {
@@ -85,21 +82,19 @@ const data = {
   },
   education: {
     name: "Education",
-    icon: FaUser,
+    icon: FaBook,
     courses: ["Engineering", "Medical", "MBA", "Arts", "Science"],
     levels: ["School", "Undergraduate", "Postgraduate", "PhD"],
   },
   healthcare: {
     name: "Healthcare",
-    icon: FaUser,
+    icon: MdHealthAndSafety,
     services: ["Consultation", "Surgery", "Dental", "Emergency", "Checkup"],
     specialties: ["Cardiology", "Neurology", "Orthopedics", "Pediatrics"],
   },
 };
 
-const NewQueries = () => {
-  const Base_URL = import.meta.env.VITE_BASE_URL;
-
+const DynamicForm = () => {
   const [sector, setSector] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
@@ -132,10 +127,6 @@ const NewQueries = () => {
   const [availableAreas, setAvailableAreas] = useState([]);
   const [areaSearch, setAreaSearch] = useState("");
   const [open, setOpen] = useState(false);
-  const [isScheduleVisible, setIsScheduleVisible] = useState(true);
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
-  const [successAlert, setSuccessAlert] = useState(false);
 
   useEffect(() => {
     if (sector) {
@@ -144,15 +135,7 @@ const NewQueries = () => {
     }
   }, [sector]);
 
-  useEffect(() => {
-    if (city && data.realEstate.areas[city]) {
-      setAvailableAreas(data.realEstate.areas[city]);
-      setSelectedAreas([]);
-    } else {
-      setAvailableAreas([]);
-      setSelectedAreas([]);
-    }
-  }, [city]);
+  
 
   const filteredAreas = availableAreas.filter((area) =>
     area.toLowerCase().includes(areaSearch.toLowerCase())
@@ -182,14 +165,16 @@ const NewQueries = () => {
   }, []);
 
   useEffect(() => {
-    if (sector === "realEstate" && city && selectedAreas.length) {
+    console.log(hotelCity);
+    if (sector === "realEstate" && selectedAreas.length) {
       const desc = `I am looking to ${
         transactionType === "buy" ? "buy" : "rent"
-      } a ${propertyType || "property"} in ${selectedAreas.join(
-        ", "
-      )}, ${city}${budget ? ` within budget ${budget}` : ""}${
-        furnishing ? `, ${furnishing.toLowerCase()}` : ""
-      }.`;
+      } a ${
+        propertyType ? propertyType.toLowerCase() : "property"
+      } in ${selectedAreas.join(", ")}${
+        budget ? ` within a budget of ${budget}` : ""
+      }${furnishing ? `, which is ${furnishing.toLowerCase()}` : ""} property.`;
+
       setDescription(desc);
       setIsDescriptionVisible(true);
     } else if (sector === "finance" && serviceType) {
@@ -211,6 +196,7 @@ const NewQueries = () => {
       setDescription(desc);
       setIsDescriptionVisible(true);
     } else if (sector === "hotels" && hotelCity) {
+      
       const desc = `Looking for a hotel in ${hotelCity}${
         checkIn && checkOut ? ` from ${checkIn} to ${checkOut}` : ""
       }${guests ? ` for ${guests} guests` : ""}${
@@ -318,35 +304,38 @@ const NewQueries = () => {
     setOpen(false);
   };
 
-  const handleSubmit = async () => {
-    const queryData = {
-      description,
-      startTime,
-      endTime,
-      industry: sector,
-    };
+  const handleSubmit = () => {
+    console.log("Form submitted!");
+    navigate("/login");
+    handleClose();
+  };
 
-    try {
-      const response = await axios.post(`${Base_URL}createQuery`, queryData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      console.log("API Response:", response.data);
-      setSuccessAlert(true);
-      setTimeout(() => {
-        navigate("/dashboard");
-        handleClose();
-      }, 1500);
-    } catch (error) {
-      console.error("Error submitting form:", error);
+  const handleAreaSelect = (locationData) => {
+    if (locationData) {
+      const areaName = locationData.name || locationData.formatted_address;
+      if (!selectedAreas.includes(areaName)) {
+        setSelectedAreas((prev) => [...prev, areaName]);
+      }
+      setAreaSearch("");
+    }
+  };
+
+  const handleHotelCitySelect = (locationData) => {
+    if (locationData) {
+      setHotelCity(locationData.name || locationData.formatted_address);
+      setSelectedCityData(locationData);
+    } else {
+      setHotelCity("");
+      setSelectedCityData(null);
     }
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container" style={{ margin: "0px", padding: "0px" }}>
       <div className="form-header">
-        <h2 className="form-title">Create Your Query</h2>
+        <h2 className="form-title" style={{ color: "white" }}>
+          Create Your Query
+        </h2>
       </div>
 
       <form className="dynamic-form">
@@ -404,61 +393,32 @@ const NewQueries = () => {
 
               {/* Mandatory Fields */}
               <div className="mandatory-fields">
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    row
-                    name="transactionType"
-                    value={transactionType}
-                    onChange={(e) => setTransactionType(e.target.value)}
-                  >
-                    <FormControlLabel
+                <div className="radio-group">
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="transactionType"
                       value="buy"
-                      control={
-                        <Radio
-                          sx={{
-                            color: "#1976d2",
-                            "&.Mui-checked": { color: "#1976d2" },
-                          }}
-                        />
-                      }
-                      label="Buy"
+                      checked={transactionType === "buy"}
+                      onChange={(e) => setTransactionType(e.target.value)}
                     />
-                    <FormControlLabel
+                    <span className="radio-custom"></span>
+                    Buy
+                  </label>
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="transactionType"
                       value="rent"
-                      control={
-                        <Radio
-                          sx={{
-                            color: "#1976d2",
-                            "&.Mui-checked": { color: "#1976d2" },
-                          }}
-                        />
-                      }
-                      label="Rent"
+                      checked={transactionType === "rent"}
+                      onChange={(e) => setTransactionType(e.target.value)}
                     />
-                  </RadioGroup>
-                </FormControl>
-
-                <div className="dynamic-form-row">
-                  <div className="form-group">
-                    <label className="form-label">City *</label>
-                    <div className="select-wrapper">
-                      <select
-                        className="form-select"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        required
-                      >
-                        <option value="">Select City</option>
-                        {data.realEstate.cities.map((c) => (
-                          <option key={c} value={c}>
-                            {c}
-                          </option>
-                        ))}
-                      </select>
-                      <FaChevronDown className="select-arrow" />
-                    </div>
-                  </div>
+                    <span className="radio-custom"></span>
+                    Rent
+                  </label>
                 </div>
+
+                
 
                 <div className="form-group">
                   <label className="form-label">Preferred Areas *</label>
@@ -481,45 +441,55 @@ const NewQueries = () => {
                     </div>
                   )}
 
-                  {/* Area Search and Selection */}
-                  {city && (
-                    <div className="areas-selection">
-                      <input
-                        type="text"
-                        className="form-input area-search"
-                        placeholder="Search areas..."
-                        value={areaSearch}
-                        onChange={(e) => setAreaSearch(e.target.value)}
-                      />
+                  {/* LocationSearch for Areas */}
+                  <div className="areas-selection">
+                    <LocationSearch
+                      placeholder="Search for areas, localities..."
+                      onLocationSelect={handleAreaSelect}
+                      value={areaSearch}
+                      name="areas"
+                      className="location-search-field area-search"
+                    />
 
-                      <div className="areas-list">
-                        {filteredAreas.map((area) => (
-                          <div
-                            key={area}
-                            className={`area-option ${
-                              selectedAreas.includes(area) ? "selected" : ""
-                            }`}
-                            onClick={() => toggleArea(area)}
-                          >
-                            <span className="area-checkbox">
-                              {selectedAreas.includes(area) && <FaCheck />}
-                            </span>
-                            <span className="area-name">{area}</span>
+                    {/* Traditional Area Selection (as fallback) */}
+                    {availableAreas.length > 0 && (
+                      <div className="traditional-area-selection">
+                        <p className="area-selection-label">
+                          Or select from predefined areas:
+                        </p>
+                        <input
+                          type="text"
+                          className="form-input area-search"
+                          placeholder="Search predefined areas..."
+                          value={areaSearch}
+                          onChange={(e) => setAreaSearch(e.target.value)}
+                        />
+
+                        <div className="areas-list">
+                          {filteredAreas.map((area) => (
+                            <div
+                              key={area}
+                              className={`area-option ${
+                                selectedAreas.includes(area) ? "selected" : ""
+                              }`}
+                              onClick={() => toggleArea(area)}
+                            >
+                              <span className="area-checkbox">
+                                {selectedAreas.includes(area) && <FaCheck />}
+                              </span>
+                              <span className="area-name">{area}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {filteredAreas.length === 0 && areaSearch && (
+                          <div className="no-areas">
+                            No predefined areas found
                           </div>
-                        ))}
+                        )}
                       </div>
-
-                      {filteredAreas.length === 0 && areaSearch && (
-                        <div className="no-areas">No areas found</div>
-                      )}
-                    </div>
-                  )}
-
-                  {!city && (
-                    <div className="area-placeholder">
-                      Please select a city first to see available areas
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -842,15 +812,15 @@ const NewQueries = () => {
               {/* Mandatory Fields */}
               <div className="mandatory-fields">
                 <div className="form-group">
-                  <label className="form-label">City *</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    placeholder="Enter city"
-                    value={hotelCity}
-                    onChange={(e) => setHotelCity(e.target.value)}
-                    required
-                  />
+                  <label className="form-label">Address *</label>
+                  <LocationSearch
+                      placeholder="Search for a address..."
+                      onLocationSelect={handleHotelCitySelect}
+                      value={hotelCity}
+                      name="city"
+                      required={true}
+                      className="location-search-field"
+                    />
                 </div>
               </div>
 
@@ -1123,38 +1093,26 @@ const NewQueries = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <FormControlLabel
-              onChange={() => setIsScheduleVisible(!isScheduleVisible)}
-              control={<Checkbox />}
-              label="Add query schedule"
-            />
-
-            {!isScheduleVisible && (
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["TimePicker"]}>
-                  <TimePicker
-                    label="Start Time"
-                    value={startTime}
-                    onChange={(newValue) => setStartTime(newValue)}
-                    viewRenderers={{
-                      hours: renderTimeViewClock,
-                      minutes: renderTimeViewClock,
-                      seconds: renderTimeViewClock,
-                    }}
-                  />
-                  <TimePicker
-                    label="End Time"
-                    value={endTime}
-                    onChange={(newValue) => setEndTime(newValue)}
-                    viewRenderers={{
-                      hours: renderTimeViewClock,
-                      minutes: renderTimeViewClock,
-                      seconds: renderTimeViewClock,
-                    }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            )}
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["TimePicker"]}>
+                <TimePicker
+                  label="Start Time"
+                  viewRenderers={{
+                    hours: renderTimeViewClock,
+                    minutes: renderTimeViewClock,
+                    seconds: renderTimeViewClock,
+                  }}
+                />
+                <TimePicker
+                  label="End Time"
+                  viewRenderers={{
+                    hours: renderTimeViewClock,
+                    minutes: renderTimeViewClock,
+                    seconds: renderTimeViewClock,
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
@@ -1164,23 +1122,8 @@ const NewQueries = () => {
           </DialogActions>
         </Dialog>
       </form>
-
-      <Snackbar
-        open={successAlert}
-        autoHideDuration={2000}
-        onClose={() => setSuccessAlert(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert
-          onClose={() => setSuccessAlert(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Query created successfully!
-        </Alert>
-      </Snackbar>
     </div>
   );
 };
 
-export default NewQueries;
+export default DynamicForm;

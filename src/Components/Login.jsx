@@ -2,9 +2,24 @@ import React, { useState } from "react";
 import { FaArrowLeft, FaFacebook, FaGoogle } from "react-icons/fa";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+} from "firebase/auth";
+import { auth } from "./GoogleAuth";
+import axios from "axios";
+import { Snackbar, Alert } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const Login = () => {
+  const Base_URL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
+  const location = useLocation();
+  const data = location.state;
+  console.log(data);
+  
   const [activeTab, setActiveTab] = useState("registration");
   const [registrationStep, setRegistrationStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -19,6 +34,9 @@ const Login = () => {
     time: "",
     test: "",
   });
+  const [otp, setOtp] = useState("");
+  const [snackbarBar, setSnackbarBar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -28,45 +46,119 @@ const Login = () => {
     }));
   };
 
-  const handleSendOTP = (e) => {
+  const handleSendOTP = async (e) => {
     e.preventDefault();
-    if (formData.mobile.length === 10) {
-      console.log("OTP sent to:", formData.mobile);
-      setRegistrationStep(2);
+    try {
+      if (formData.mobile.length === 10) {
+        const response = await axios.post(`${Base_URL}generateOtp`, {
+          phone: formData.mobile,
+        });
+        console.log("OTP API Response:", response.data);
+        setOtp(response.data.otp || "");
+        setRegistrationStep(2);
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
     }
   };
 
-  const handleVerifyOTP = (e) => {
-    e.preventDefault();
-    if (formData.otp.length === 6) {
-      console.log("OTP verified");
-      navigate("/dashboard");
+  const handleResendOTP = async () => {
+    try {
+      if (formData.mobile.length === 10) {
+        const response = await axios.post(`${Base_URL}resendOtp`, {
+          phone: formData.mobile,
+        });
+        console.log("OTP API Response:", response.data);
+        setOtp(response.data.otp || "");
+        setSnackbarMessage("OTP Resent Successfully");
+        setSnackbarBar(true);
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
     }
   };
 
-  // Social login handlers
-  const handleFacebookLogin = () => {
-    console.log("Facebook login initiated");
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    try {
+      if (formData.otp.length === 6) {
+        const queryData = {
+          phone: formData.mobile,
+          otp: formData.otp,
+          description: data?.description || "",
+          industry: data?.industry || "",
+          startTime: data?.startTime || "",
+          endTime: data?.endTime || "",
+        };
+
+        const response = await axios.post(`${Base_URL}verifyOtp`, queryData);
+        console.log("Verify OTP API Response:", response.data);
+
+        // Save token and redirect
+        localStorage.setItem("token", response.data.token);
+        setSnackbarMessage(
+          response.data.message || "OTP Verified Successfully"
+        );
+        setSnackbarBar(true);
+        window.location.href = "/dashboard";
+      } else {
+        setSnackbarMessage("Please enter a valid 6-digit OTP");
+        setSnackbarBar(true);
+      }
+    } catch (error) {
+      setSnackbarMessage(
+        error?.response?.data?.message || "OTP Verification Failed"
+      );
+      setSnackbarBar(true);
+      console.error("Error verifying OTP:", error);
+    }
   };
 
-  const handleGoogleLogin = () => {
+  const handleFacebookLogin = async () => {
+    const provider = new FacebookAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+      const queryData = {
+        idToken: idToken,
+        description: data?.description || "",
+        industry: data?.industry || "",
+        startTime: data?.startTime || "",
+        endTime: data?.endTime || "",
+      };
+      const response = await axios.post(`${Base_URL}socialLogin`, {
+        queryData,
+      });
+      console.log("Google Login API Response:", response.data);
+      localStorage.setItem("token", response.data.token);
+      window.location.href = "/dashboard";
+    } catch (error) {
+      console.error("Facebook Sign-In Error:", error);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log(result);
+      
+      const idToken = await result.user.getIdToken();
+      const queryData = {
+        idToken: idToken,
+        description: data?.description || "",
+        industry: data?.industry || "",
+        startTime: data?.startTime || "",
+        endTime: data?.endTime || "",
+      };
+      const response = await axios.post(`${Base_URL}socialLogin`, queryData);
+      console.log("Google Login API Response:", response.data);
+      localStorage.setItem("token", response.data.token);
+      window.location.href = "/dashboard";
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+    }
     console.log("Google login initiated");
-  };
-
-  const resetRegistration = () => {
-    setRegistrationStep(1);
-    setFormData({
-      mobile: "",
-      otp: "",
-      name: "",
-      email: "",
-      password: "",
-      cpassword: "",
-      terms: false,
-      day: "",
-      time: "",
-      test: "",
-    });
   };
 
   return (
@@ -84,8 +176,6 @@ const Login = () => {
           </div>
 
           <div className="login-form-wrap">
-            
-
             <div className="tab-content">
               <div
                 className={`tab-pane registration-tab fade ${
@@ -190,10 +280,11 @@ const Login = () => {
                     <div className="step-content">
                       <div className="otp-info">
                         <p>OTP sent to +91 {formData.mobile}</p>
+                        <p>OTP: {otp}</p>
                         <button
                           type="button"
                           className="resend-otp"
-                          onClick={() => console.log("Resend OTP")}
+                          onClick={handleResendOTP}
                         >
                           Resend OTP
                         </button>
@@ -256,6 +347,22 @@ const Login = () => {
           </ul>
         </div>
       </div>
+
+      <Snackbar
+        open={snackbarBar}
+        autoHideDuration={2000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={() => setSnackbarBar(false)}
+        sx={{ width: "max-content" }}
+      >
+        <Alert
+          onClose={() => setSnackbarBar(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

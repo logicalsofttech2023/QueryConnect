@@ -130,7 +130,7 @@ const RatingReviewSection = ({ currentChat }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [hoverRating, setHoverRating] = useState(0);
   const theme = useTheme();
-  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // mobile
+  const isXs = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSubmitReview = () => {
     if (userRating === 0) {

@@ -1,7 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const PHeader = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/login";
+  };
+
   return (
     <div>
       <header className="fixed-header">
@@ -192,7 +199,7 @@ const PHeader = () => {
                         <Link to="/inactiveQueries">Inactive Queries</Link>
                       </li>
                       <li>
-                        <Link to="/login">Log Out</Link>
+                        <Link onClick={handleLogout} >Log Out</Link>
                       </li>
                     </ul>
                   </div>

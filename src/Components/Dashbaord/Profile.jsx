@@ -1,136 +1,95 @@
-import React, { useState } from "react";
-import { 
-  FaUser, 
-  FaEnvelope, 
-  FaPhone, 
-  FaCalendarAlt, 
-  FaClock, 
-  FaLock, 
-  FaEye, 
-  FaEyeSlash, 
+import React, { useEffect, useState } from "react";
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaCalendarAlt,
   FaCheckCircle,
   FaEdit,
   FaCamera,
   FaMapMarkerAlt,
-  FaShareAlt,
-  FaBell,
-  FaArrowLeft
 } from "react-icons/fa";
 import "./Profile.css";
+import axios from "axios";
 
 const Profile = () => {
+  const Base_URL = import.meta.env.VITE_BASE_URL;
+
   const [activeTab, setActiveTab] = useState("personal");
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [passwordResetMethod, setPasswordResetMethod] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
-
-  // Sample user data - in real app, this would come from props or context
-  const [userData, setUserData] = useState({
-    name: "Sneha Patel",
-    email: "rebeca.powel@example.com",
-    mobile: "+1 (555) 123-4567",
-    location: "Indore India",
-    joinDate: "2024-01-15",
-    dateOfBirth: "1990-05-15",
-    preferredTime: "14:30",
-    profileImage: "media/banner/user_1.jpg",
-    test: "eye-test"
+  const [userData, setUserData] = useState(null);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    userEmail: "",
+    gender: "",
+    location: "",
+    dateOfBirth: "",
+    profileImage: "",
   });
 
-  const [formData, setFormData] = useState({ 
-  ...userData,
-  test: userData.test || "" // Ensure test has a value
-});
-  const [passwordData, setPasswordData] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-    otp: "",
-    
-  });
+  // ✅ Fetch user data
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(`${Base_URL}getUserById`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      console.log("API Response:", response.data);
+
+      const { user, totalActiveQueries, totalInActiveQueries } = response.data.data;
+
+      const combinedData = {
+        ...user,
+        totalActiveQueries,
+        totalInActiveQueries,
+      };
+
+      console.log("Combined Data:", response);
+
+      setUserData(combinedData);
+      setFormData({
+        fullName: user.fullName || "",
+        userEmail: user.userEmail || "",
+        gender: user.gender || "",
+        location: user.location || "",
+        dateOfBirth: user.dateOfBirth || "",
+        profileImage: user.profileImage || "",
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }));
-  };
-
-  const handlePasswordChange = (e) => {
-    const { name, value } = e.target;
-    setPasswordData(prev => ({
-      ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSaveProfile = (e) => {
     e.preventDefault();
-    setUserData(formData);
+    setUserData((prev) => ({ ...prev, ...formData }));
     setIsEditing(false);
     console.log("Profile updated:", formData);
   };
 
-  const handlePasswordReset = (e) => {
-    e.preventDefault();
-    
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert("New passwords don't match!");
-      return;
-    }
-
-    if (passwordResetMethod === "currentPassword" && !passwordData.currentPassword) {
-      alert("Please enter your current password");
-      return;
-    }
-
-    if (passwordResetMethod === "forgotPassword" && !otpVerified) {
-      alert("Please verify OTP first");
-      return;
-    }
-
-    console.log("Password reset successful:", {
-      method: passwordResetMethod,
-      newPassword: passwordData.newPassword
-    });
-
-    // Reset all password states
-    setPasswordData({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-      otp: ""
-    });
-    setPasswordResetMethod(null);
-    setOtpSent(false);
-    setOtpVerified(false);
-    
-    alert("Password updated successfully!");
-  };
-
-  const handleSendOTP = () => {
-    // Simulate OTP sending
-    console.log("OTP sent to:", userData.mobile);
-    setOtpSent(true);
-    alert("OTP has been sent to your registered mobile number");
-  };
-
-  const handleVerifyOTP = () => {
-    if (passwordData.otp.length === 6) {
-      // Simulate OTP verification
-      setOtpVerified(true);
-      alert("OTP verified successfully!");
-    } else {
-      alert("Please enter a valid 6-digit OTP");
-    }
-  };
-
   const handleCancelEdit = () => {
-    setFormData(userData);
+    setFormData({
+      fullName: userData.fullName,
+      userEmail: userData.userEmail,
+      gender: userData.gender,
+      location: userData.location,
+      dateOfBirth: userData.dateOfBirth,
+      profileImage: userData.profileImage,
+    });
     setIsEditing(false);
   };
 
@@ -139,26 +98,18 @@ const Profile = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
-          profileImage: e.target.result
+          profileImage: e.target.result,
         }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const resetPasswordFlow = () => {
-    setPasswordResetMethod(null);
-    setOtpSent(false);
-    setOtpVerified(false);
-    setPasswordData({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-      otp: ""
-    });
-  };
+  if (!userData) return <p>Loading...</p>;
+  console.log(userData);
+  
 
   return (
     <div id="wrapper" className="wrapper">
@@ -169,7 +120,11 @@ const Profile = () => {
             <div className="banner-content">
               <div className="media">
                 <div className="item-img">
-                  <img src={formData.profileImage} alt="User"  style={{ width: "150px"}}/>
+                  <img
+                    src={formData.profileImage}
+                    alt="User"
+                    style={{ width: "150px", borderRadius: "50%" }}
+                  />
                   <div className="image-overlay">
                     <label htmlFor="profileImageUpload" className="camera-icon">
                       <FaCamera />
@@ -178,37 +133,37 @@ const Profile = () => {
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
-                        style={{ display: 'none' }}
+                        style={{ display: "none" }}
                       />
                     </label>
                   </div>
                 </div>
+
                 <div className="media-body">
                   <div className="header-top">
                     <div>
-                      <h3 className="item-title">{userData.name}</h3>
-                      <div className="item-subtitle">
-                        <FaMapMarkerAlt />
-                        {userData.location}
-                      </div>
+                      <h3 className="item-title" style={{ color: "#fff" }}>{userData.fullName}</h3>
                     </div>
-                    
-                  </div>
-                  
-                  <div className="user-stats">
-                    <div className="stat-item">
-                      <span className="stat-number" style={{ color: '#fff' }}>30</span>
-                      <span className="stat-label" style={{ color: '#fff' }}>Active Query</span>
-                    </div>
-                    <div className="stat-item">
-                      <span className="stat-number" style={{ color: '#fff' }}>12</span>
-                      <span className="stat-label" style={{ color: '#fff' }}>Inactive Query</span>
-                    </div>
-                    
-                    
                   </div>
 
-                  
+                  <div className="user-stats">
+                    <div className="stat-item">
+                      <span className="stat-number" style={{ color: "#fff" }}>
+                        {userData.totalActiveQueries}
+                      </span>
+                      <span className="stat-label" style={{ color: "#fff" }}>
+                        Active Query
+                      </span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-number" style={{ color: "#fff" }}>
+                        {userData.totalInActiveQueries}
+                      </span>
+                      <span className="stat-label" style={{ color: "#fff" }}>
+                        Inactive Query
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -217,28 +172,28 @@ const Profile = () => {
           {/* Profile Content */}
           <div className="profile-content">
             <div className="profile-tabs">
-              <button 
-                className={`tab-btn ${activeTab === 'personal' ? 'active' : ''}`}
-                onClick={() => setActiveTab('personal')}
+              <button
+                className={`tab-btn ${
+                  activeTab === "personal" ? "active" : ""
+                }`}
+                onClick={() => setActiveTab("personal")}
               >
                 <FaUser />
                 Personal Info
               </button>
-             
             </div>
 
             <div className="tab-content">
-              {/* Personal Information Tab */}
-              {activeTab === 'personal' && (
+              {activeTab === "personal" && (
                 <div className="tab-pane active">
                   <div className="section-header">
                     <h3>Personal Information</h3>
-                    <button 
+                    <button
                       className="btn btn-edit"
                       onClick={() => setIsEditing(!isEditing)}
                     >
-                      <FaEdit  />
-                      {isEditing ? 'Cancel' : 'Edit Profile'}
+                      <FaEdit />
+                      {isEditing ? "Cancel" : "Edit Profile"}
                     </button>
                   </div>
 
@@ -246,67 +201,48 @@ const Profile = () => {
                     <div className="form-grid">
                       <div className="form-group">
                         <label>
-                          <FaUser style={{ marginRight: '9px', marginBottom: '6px' }} />
-                          Full Name
+                          <FaUser /> Full Name
                         </label>
                         <input
                           type="text"
-                          name="name"
-                          value={formData.name}
+                          name="fullName"
+                          value={formData.fullName}
                           onChange={handleInputChange}
                           disabled={!isEditing}
-                          className={!isEditing ? 'disabled' : ''}
                         />
                       </div>
 
                       <div className="form-group">
                         <label>
-                          <FaEnvelope style={{ marginRight: '9px', marginBottom: '6px' }} />
-                          Email Address
+                          <FaEnvelope /> Email Address
                         </label>
                         <input
                           type="email"
-                          name="email"
-                          value={formData.email}
+                          name="userEmail"
+                          value={formData.userEmail}
                           onChange={handleInputChange}
                           disabled={!isEditing}
-                          className={!isEditing ? 'disabled' : ''}
                         />
                       </div>
 
                       <div className="form-group">
                         <label>
-                          <FaPhone style={{ marginRight: '9px', marginBottom: '6px' }} />
-                          Mobile Number
-                        </label>
-                        <input
-                          type="tel"
-                          value={userData.mobile}
-                          disabled
-                          className="disabled"
-                        />
-                        <div className="field-note">Mobile number cannot be changed</div>
-                      </div>
-
-                      <div className="form-group">
-                        <label>
-                          <FaMapMarkerAlt style={{ marginRight: '9px', marginBottom: '6px' }} />
-                          Location
+                          <FaUser /> Gender
                         </label>
                         <input
                           type="text"
-                          name="location"
-                          value={formData.location}
+                          name="gender"
+                          value={formData.gender}
                           onChange={handleInputChange}
                           disabled={!isEditing}
-                          className={!isEditing ? 'disabled' : ''}
                         />
                       </div>
 
+                      
+
                       <div className="form-group">
                         <label>
-                          <FaCalendarAlt style={{ marginRight: '9px', marginBottom: '6px' }} />
-                          Date of Birth
+                          <FaCalendarAlt /> Date of Birth
                         </label>
                         <input
                           type="date"
@@ -314,19 +250,21 @@ const Profile = () => {
                           value={formData.dateOfBirth}
                           onChange={handleInputChange}
                           disabled={!isEditing}
-                          className={!isEditing ? 'disabled' : ''}
                         />
                       </div>
                     </div>
 
                     {isEditing && (
                       <div className="form-actions">
-                        <button type="button" className="btn btn-cancel" onClick={handleCancelEdit}>
+                        <button
+                          type="button"
+                          className="btn btn-cancel"
+                          onClick={handleCancelEdit}
+                        >
                           Cancel
                         </button>
                         <button type="submit" className="btn btn-save">
-                          <FaCheckCircle />
-                          Save Changes
+                          <FaCheckCircle /> Save Changes
                         </button>
                       </div>
                     )}

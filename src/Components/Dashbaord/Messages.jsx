@@ -403,6 +403,7 @@ const Messages = () => {
           onToggleBlock={toggleBlock}
           callsEnabled={callsEnabled}
           onToggleCalls={handleToggleCalls}
+          query={query}
         />
       </main>
 

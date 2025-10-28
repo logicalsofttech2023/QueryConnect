@@ -42,6 +42,7 @@ const LocationSearch = ({ placeholder = "Search location...", onLocationSelect, 
         console.log("No details available for this place");
         return;
       }
+      console.log("Place changed:", place);
 
       const locationData = {
         formatted_address: place.formatted_address,

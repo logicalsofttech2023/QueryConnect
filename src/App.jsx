@@ -2,28 +2,19 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Components/Header";
 import Banner from "./Components/Banner";
-import Footer from "./Components/Footer";
-import WhyChooseUs from "./Components/WhyChooseUs";
-import Team from "./Components/Team";
-import WhyChooseFluid from "./Components/WhyChooseFluid";
-import BannerApps from "./Components/BannerApps";
+
+import Chat from "./Components/Chat";
 import Login from "./Components/Login";
 import Profile from "./Components/Dashbaord/Profile";
 import PHeader from "./Components/Dashbaord/PHeader";
-import Sidebar from "./Components/Dashbaord/Sidebar";
-import MyQueries from "./Components/Dashbaord/MyQueries";
-import NewQueries from "./Components/Dashbaord/NewQueries";
 import Dashboard from "./Components/Dashbaord/Dashbaord";
 import Messages from "./Components/Dashbaord/Messages";
 import Notifications from "./Components/Dashbaord/Notifications";
 import Support from "./Components/Dashbaord/Support";
-import MyQueryDetail from "./Components/Dashbaord/MyQueryDetail";
-import MyImageEditor from "./Components/Dashbaord/MyImageEditor";
-import CallHistory from "./Components/Dashbaord/CallHistory";
-import JitsiCall from "./Components/Dashbaord/JitsiCall";
-import UserProfile from "./Components/Dashbaord/UserProfile";
-import DynamicForm from "./Components/Dashbaord/DynamicForm";
 import InactiveQueries from "./Components/Dashbaord/InactiveQueries";
+import ChatAdmin from "./Components/ChatAdmin";
+import NewQueries from "./Components/Dashbaord/NewQueries";
+import { Navigate } from "react-router-dom";
 
 // Layout for pages where Header & Footer are shown
 function MainLayout({ children }) {
@@ -43,137 +34,149 @@ function ProfileLayout({ children }) {
   return (
     <>
       <PHeader />
-
       {children}
     </>
   );
 }
 
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // If token exists, allow access
+  return children;
+};
+
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Home Page with Layout */}
+        {/* Public Routes */}
         <Route
           path="/"
           element={
             <MainLayout>
-              <Banner />
+              {localStorage.getItem("token") ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <Banner />
+              )}
             </MainLayout>
           }
         />
-
-        {/* Team Page with Layout */}
         <Route
-          path="/team"
+          path="/login"
           element={
-            <MainLayout>
-              <Team />
-            </MainLayout>
+            localStorage.getItem("token") ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Login />
+            )
           }
         />
 
+        {/* Protected Routes */}
         <Route
           path="/dashboard"
           element={
-            <ProfileLayout>
-              <Dashboard />
-            </ProfileLayout>
-          }
-        />
-
-        <Route
-          path="/messages"
-          element={
-            <ProfileLayout>
-              <Messages />
-            </ProfileLayout>
-          }
-        />
-
-        <Route
-          path="/profile"
-          element={
-            <ProfileLayout>
-              <Profile />
-            </ProfileLayout>
-          }
-        />
-
-        <Route
-          path="/myQueries"
-          element={
-            <ProfileLayout>
-              <MyQueries />
-            </ProfileLayout>
+            <ProtectedRoute>
+              <ProfileLayout>
+                <Dashboard />
+              </ProfileLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/newQueries"
           element={
-            <ProfileLayout>
-              <NewQueries />
-            </ProfileLayout>
+            <ProtectedRoute>
+              <ProfileLayout>
+                <NewQueries />
+              </ProfileLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/messages"
+          element={
+            <ProtectedRoute>
+              <ProfileLayout>
+                <Messages />
+              </ProfileLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfileLayout>
+                <Profile />
+              </ProfileLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/notifications"
           element={
-            <ProfileLayout>
-              <Notifications />
-            </ProfileLayout>
+            <ProtectedRoute>
+              <ProfileLayout>
+                <Notifications />
+              </ProfileLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/support"
           element={
-            <ProfileLayout>
-              <Support />
-            </ProfileLayout>
+            <ProtectedRoute>
+              <ProfileLayout>
+                <Support />
+              </ProfileLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
-          path="/myQueryDetail"
+          path="/chat"
           element={
-            <ProfileLayout>
-              <MyQueryDetail />
-            </ProfileLayout>
+            <ProtectedRoute>
+              <ProfileLayout>
+                <Chat />
+              </ProfileLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
-          path="/userProfile"
+          path="/chatAdmin"
           element={
-            <ProfileLayout>
-              <UserProfile />
-            </ProfileLayout>
-          }
-        />
-
-        <Route
-          path="/dynamicForm"
-          element={
-            <ProfileLayout>
-              <DynamicForm />
-            </ProfileLayout>
+            <ProtectedRoute>
+              <ProfileLayout>
+                <ChatAdmin />
+              </ProfileLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/inactiveQueries"
           element={
-            <ProfileLayout>
-              <InactiveQueries />
-            </ProfileLayout>
+            <ProtectedRoute>
+              <ProfileLayout>
+                <InactiveQueries />
+              </ProfileLayout>
+            </ProtectedRoute>
           }
         />
-
-        {/* Login Page without Header & Footer */}
-        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

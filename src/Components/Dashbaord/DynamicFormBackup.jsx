@@ -17,7 +17,7 @@ import {
 } from "react-icons/fa";
 import "./DynamicForm.css";
 import { useNavigate } from "react-router-dom";
-import LocationSearch from "./LocationSearch"; // Make sure this path is correct
+import LocationSearch from "./LocationSearch";
 
 const data = {
   realEstate: {
@@ -184,7 +184,7 @@ const DynamicForm = () => {
         setSelectedAreas((prev) => [...prev, areaName]);
       }
       setSelectedAreaData(locationData);
-      setAreaSearch(""); // Clear search after selection
+      setAreaSearch("");
     }
   };
 
